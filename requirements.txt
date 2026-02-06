@@ -1,0 +1,24 @@
+# Core dependencies
+pandas>=2.0.0
+numpy>=1.24.0
+
+# HuggingFace integration
+datasets>=2.16.0
+evaluate>=0.4.0
+huggingface-hub>=0.20.0
+
+# Leaderboard UI
+gradio>=4.0.0
+
+# LLM APIs
+anthropic>=0.18.0
+openai>=1.12.0
+
+# Environment management
+python-dotenv>=1.0.0
+
+# Optional: Local inference with HuggingFace models
+# transformers>=4.36.0
+# torch>=2.1.0
+# accelerate>=0.25.0
+# bitsandbytes>=0.41.0

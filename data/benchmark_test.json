@@ -1,0 +1,4406 @@
+{
+  "name": "FinancialReasoningEval_test",
+  "description": "Test split",
+  "version": "1.2.0",
+  "created_at": "2026-02-06T02:42:55.887125",
+  "total_problems": 54,
+  "category_distribution": {
+    "accounting_red_flag": 10,
+    "financial_statement_analysis": 6,
+    "earnings_surprise": 13,
+    "catalyst_identification": 7,
+    "dcf_sanity_check": 9,
+    "formula_audit": 7,
+    "risk_assessment": 2
+  },
+  "difficulty_distribution": {
+    "medium": 15,
+    "easy": 14,
+    "expert": 6,
+    "hard": 19
+  },
+  "problems": [
+    {
+      "id": "37437d79826b",
+      "category": "accounting_red_flag",
+      "difficulty": "medium",
+      "question": "Quantum Solutions reported net income of $259.0M and cash from operations of $181.0M. The accrual ratio (NI - CFO)/NI is 30.1%. What does this indicate about earnings quality?",
+      "context": {
+        "company_name": "Quantum Solutions",
+        "ticker": "QUSO",
+        "sector": "Technology",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": {
+          "Current Year": 259.0
+        },
+        "eps": null,
+        "free_cash_flow": {
+          "CFO": 181.0
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Net Income": "$259.0M",
+          "Cash from Operations": "$181.0M",
+          "Accrual Ratio": "30.1%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Warning - 30% accrual ratio warrants working capital review",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Valid - matches peer companies",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Warning - 30% accrual ratio warrants working capital review",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "No concern - both numbers are positive",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Normal - accrual accounting is standard",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "High accrual ratios (>30%) often precede earnings disappointments. CFO-to-NI ratio of 0.70x indicates weak cash conversion.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "accounting",
+        "accruals",
+        "earnings-quality",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785720",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "c866c91265d4",
+      "category": "financial_statement_analysis",
+      "difficulty": "easy",
+      "question": "Calculate Xenon Lifestyle's cash conversion cycle:\nRevenue: $1834.0M, COGS: $1018.0M, Receivables: $152.0M, Inventory: $177.0M, Payables: $168.0M",
+      "context": {
+        "company_name": "Xenon Lifestyle",
+        "ticker": "XELI",
+        "sector": "Consumer Discretionary",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "2024": 1834.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Revenue": "$1834.0M",
+          "COGS": "$1018.0M",
+          "Receivables": "$152.0M",
+          "Inventory": "$177.0M",
+          "Payables": "$168.0M"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "DSO: 30 days, DIO: 63 days, DPO: 60 days, CCC: 33 days",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "DSO: 30 days, DIO: 63 days, DPO: 60 days, CCC: 33 days",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "DSO: 20 days",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "CCC: 53 days",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Negative cash conversion cycle",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "DSO = (AR/Rev) \u00d7 365 = (152.0/1834.0) \u00d7 365 = 30 days\nDIO = (Inv/COGS) \u00d7 365 = (177.0/1018.0) \u00d7 365 = 63 days\nDPO = (AP/COGS) \u00d7 365 = (168.0/1018.0) \u00d7 365 = 60 days\nCCC = DSO + DIO - DPO = 30 + 63 - 60 = 33 days",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "financial-statement",
+        "cash-conversion",
+        "working-capital"
+      ],
+      "created_at": "2026-02-06T02:42:55.787073",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "80235cf3d9d6",
+      "category": "earnings_surprise",
+      "difficulty": "easy",
+      "question": "Nova Digital reported revenue of $1253M (consensus: $1160M) with operating margin of 21.1% (consensus: 21.1%). EPS came in at $2.64 vs $2.45 consensus. What was the primary driver of the EPS variance?",
+      "context": {
+        "company_name": "Nova Digital",
+        "ticker": "NODI",
+        "sector": "Technology",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "Actual": 1253.0,
+          "Consensus": 1160.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Actual": 2.64,
+          "Consensus": 2.45
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Margin Consensus": "21.1%",
+          "Margin Actual": "21.1%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Revenue beat",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "One-time tax benefit",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Revenue miss offset by share buybacks",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Margin compression",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Revenue beat",
+          "is_correct": true
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Revenue variance: 8.0%, Margin variance: 0.0pp. The primary driver is: Revenue beat",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "earnings",
+        "drivers",
+        "variance-analysis"
+      ],
+      "created_at": "2026-02-06T02:42:55.784300",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "301cb0712f0d",
+      "category": "catalyst_identification",
+      "difficulty": "easy",
+      "question": "Nexus Resources has multiple potential catalysts: Production growth (80% prob, High impact, Q1); Cost reduction (30% prob, Medium impact, Q2); Asset sale (50% prob, Low impact, Q3). How should these be prioritized?",
+      "context": {
+        "company_name": "Nexus Resources",
+        "ticker": "NERE",
+        "sector": "Energy",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Catalyst Analysis": "[{'name': 'Production growth', 'probability': 0.8, 'impact': 'High', 'timing': 'Q1'}, {'name': 'Cost reduction', 'probability': 0.3, 'impact': 'Medium', 'timing': 'Q2'}, {'name': 'Asset sale', 'probability': 0.5, 'impact': 'Low', 'timing': 'Q3'}]"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "1. Production growth - highest probability \u00d7 impact combination",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "All equally weighted - cannot prioritize",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "1. Asset sale - highest probability most important",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "1. Cost reduction - should prioritize near-term catalysts",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "1. Production growth - highest probability \u00d7 impact combination",
+          "is_correct": true
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Catalyst prioritization uses expected value (probability \u00d7 impact) with timing as tiebreaker. highest probability \u00d7 impact combination",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "catalyst",
+        "prioritization",
+        "hierarchy"
+      ],
+      "created_at": "2026-02-06T02:42:55.786153",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "928ccd0c21c2",
+      "category": "dcf_sanity_check",
+      "difficulty": "easy",
+      "question": "A DCF model for Horizon Energy shows PV of explicit period FCF of $362.0M and PV of terminal value of $195.0M, for total EV of $557.0M. Terminal value represents 35% of total value. Is this reasonable?",
+      "context": {
+        "company_name": "Horizon Energy",
+        "ticker": "HOEN",
+        "sector": "Energy",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "PV of Explicit FCF": "$362.0M",
+          "PV of Terminal Value": "$195.0M",
+          "Total Enterprise Value": "$557.0M",
+          "TV as % of Total": "35%",
+          "Projection Period": "5 years"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Unusual - Terminal value only 35% suggests aggressive near-term FCF",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Valid - standard 35% allocation",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Unusual - Terminal value only 35% suggests aggressive near-term FCF",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Invalid - terminal value should be under 50%",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Valid - terminal value should be 100% of value",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Terminal value typically represents 60-80% of total DCF value. Values above 85% suggest over-reliance on terminal assumptions; values below 50% suggest aggressive near-term projections.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "dcf",
+        "terminal-value",
+        "sanity-check"
+      ],
+      "created_at": "2026-02-06T02:42:55.784586",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "4e36bba03516",
+      "category": "financial_statement_analysis",
+      "difficulty": "expert",
+      "question": "Perform DuPont analysis for Meridian Engineering:\nRevenue: $1961.0M, Net Income: $160.0M, Total Assets: $2450.0M, Equity: $941.0M",
+      "context": {
+        "company_name": "Meridian Engineering",
+        "ticker": "MEEN",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "2024": 1961.0
+        },
+        "ebitda": null,
+        "net_income": {
+          "2024": 160.0
+        },
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": {
+          "2024": 2450.0
+        },
+        "total_debt": null,
+        "cash": null,
+        "equity": {
+          "2024": 941.0
+        },
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Profit Margin": "8.2%",
+          "Asset Turnover": "0.80x",
+          "Equity Multiplier": "2.60x",
+          "ROE": "17.0%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "ROE of 17.0% exceeds peer 10.1% - higher margin",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "ROE of 17.0% exceeds peer 10.1% - higher margin",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "ROE: 14.0%",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Profit margin of 13.2%",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "ROE driven by high asset turnover",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "DuPont Identity: ROE = Margin \u00d7 Turnover \u00d7 Leverage\nProfit Margin = NI/Rev = 160.0/1961.0 = 8.2%\nAsset Turnover = Rev/Assets = 1961.0/2450.0 = 0.80x\nEquity Multiplier = Assets/Equity = 2450.0/941.0 = 2.60x\nROE = 8.2% \u00d7 0.80 \u00d7 2.60 = 17.0%",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "financial-statement",
+        "dupont",
+        "roe",
+        "decomposition"
+      ],
+      "created_at": "2026-02-06T02:42:55.786972",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "4db5824572ec",
+      "category": "formula_audit",
+      "difficulty": "hard",
+      "question": "Review the sign convention in this formula:\n\nCell: Ending Debt\nFormula: =BeginningDebt+NewIssuance+Repayments\n\nIs there a sign convention issue?",
+      "context": {
+        "company_name": "Prism Capital",
+        "ticker": "PRCA",
+        "sector": null,
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": "Cell: Ending Debt\nFormula: =BeginningDebt+NewIssuance+Repayments"
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Sign error - Repayments should be subtracted (if stored as positive)",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Circular reference detected",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Missing absolute reference",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Formula signs are correct",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Sign error - Repayments should be subtracted (if stored as positive)",
+          "is_correct": true
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Sign convention analysis: Sign error - Repayments should be subtracted (if stored as positive)",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "formula",
+        "audit",
+        "sign-convention"
+      ],
+      "created_at": "2026-02-06T02:42:55.786500",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "09e89de0edf1",
+      "category": "earnings_surprise",
+      "difficulty": "medium",
+      "question": "Omega Mining (OMMI) reported Q3 2024 EPS of $1.86. The consensus estimate was $2.02. Did the company beat or miss consensus, and by what percentage?",
+      "context": {
+        "company_name": "Omega Mining",
+        "ticker": "OMMI",
+        "sector": "Materials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Q3 2024 Actual": 1.86,
+          "Q3 2024 Consensus": 2.02
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": {
+          "EPS": 2.02
+        },
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Miss by 7.9%",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Miss by 7.9%",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Miss by 15.8%",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "In-line with consensus (within 1%)",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Beat by 7.9%",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "The earnings surprise is calculated as (Actual - Consensus) / Consensus. ($1.86 - $2.02) / $2.02 = -7.9%",
+      "reasoning_steps": [
+        "Identify actual EPS: $1.86",
+        "Identify consensus EPS: $2.02",
+        "Calculate difference: $1.86 - $2.02 = $-0.16",
+        "Calculate percentage: $-0.16 / $2.02 = -7.9%",
+        "Result: Miss by 7.9%"
+      ],
+      "common_mistakes": [
+        "Using consensus as denominator incorrectly",
+        "Confusing beat/miss direction",
+        "Rounding errors"
+      ],
+      "source": null,
+      "tags": [
+        "earnings",
+        "beat-miss",
+        "calculation",
+        "eps"
+      ],
+      "created_at": "2026-02-06T02:42:55.784111",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "42d6e68e8457",
+      "category": "accounting_red_flag",
+      "difficulty": "easy",
+      "question": "Titan Pharma's revenue grew 8.2% year-over-year while accounts receivable increased 38%. Days Sales Outstanding (DSO) went from 45 to 70 days. What does this pattern suggest?",
+      "context": {
+        "company_name": "Titan Pharma",
+        "ticker": "TIPH",
+        "sector": "Healthcare",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "Prior Year": 472.0,
+          "Current Year": 511.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Revenue Growth": "8.2%",
+          "AR Growth": "38%",
+          "Prior DSO": "45 days",
+          "Current DSO": "70 days",
+          "Prior AR": "$58.0M",
+          "Current AR": "$98.0M"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Red flag - AR growing 38% vs revenue 8.2%, DSO up 25 days",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Normal - AR should grow with revenue",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "No concern - DSO is within industry range",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Red flag - AR growing 38% vs revenue 8.2%, DSO up 25 days",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "Positive - indicates strong sales pipeline",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "AR growing faster than revenue typically signals collection problems, aggressive revenue recognition, or customer quality deterioration. DSO increase from 45 to 70 days warrants investigation.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "accounting",
+        "receivables",
+        "dso",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785575",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "adv_dcf_005",
+      "category": "dcf_sanity_check",
+      "difficulty": "expert",
+      "question": "Your DCF implies 25% upside, but adding the position increases portfolio volatility by 18%.\n\nHow do you translate valuation conviction into position size without violating risk constraints?",
+      "context": {
+        "company_name": "Risk Budget Corp",
+        "ticker": "RSKB",
+        "sector": "Technology",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "DCF upside": "25%",
+          "Portfolio vol before": "12%",
+          "Portfolio vol with full position": "14.16% (+18%)",
+          "Risk budget": "13% max volatility",
+          "Position correlation to portfolio": 0.7
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Size to risk contribution, not conviction. If full position adds 2.16% vol but budget allows 1% vol contribution, size at ~46% of desired weight. Alternatively, hedge correlated exposures to reduce marginal vol impact.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Take full position - conviction should override risk limits",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Size to risk contribution, not conviction. If full position adds 2.16% vol but budget allows 1% vol contribution, size at ~46% of desired weight. Alternatively, hedge correlated exposures to reduce marginal vol impact.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Skip the trade - risk constraints are absolute",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Wait for volatility to decline before entering",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Using marginal contribution to risk: Full position adds 2.16% vol (14.16% - 12%). Risk budget has 1% remaining (13% - 12%). Size position at 1%/2.16% = 46% of conviction weight. Alternatively, if position has 0.7 correlation to portfolio, hedge 30% of beta to reduce correlation to ~0.5, allowing larger position within risk budget.",
+      "reasoning_steps": [
+        "Calculate marginal contribution to portfolio volatility",
+        "Compare to available risk budget",
+        "Scale position size to fit risk budget",
+        "Consider hedging correlated exposures to increase capacity",
+        "Balance conviction with portfolio-level risk management"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "position-sizing",
+        "risk-budget",
+        "portfolio-construction",
+        "hedging",
+        "advanced-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858485",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "c8539a3ef54b",
+      "category": "catalyst_identification",
+      "difficulty": "hard",
+      "question": "Given the following context for Prism Consumer (Consumer Discretionary): 'Company pursuing multiple strategic initiatives simultaneously.' What is the most likely near-term catalyst?",
+      "context": {
+        "company_name": "Prism Consumer",
+        "ticker": "PRCO",
+        "sector": "Consumer Discretionary",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": [
+          "Company pursuing multiple strategic initiatives simultaneously."
+        ],
+        "model_assumptions": {
+          "Sector": "Consumer Discretionary",
+          "Potential Catalysts": "Same-store sales acceleration, E-commerce growth, New store openings, Brand partnership"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Same-store sales acceleration - highest probability based on timeline and execution history",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "New store openings - potential catalyst",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Same-store sales acceleration - highest probability based on timeline and execution history",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Brand partnership - potential catalyst",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "E-commerce growth - potential catalyst",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "In Consumer Discretionary, same-store sales acceleration is often the most impactful catalyst. The context clue 'Company pursuing multiple strategic initiatives simultaneously.' points to this as the primary focus.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "catalyst",
+        "identification",
+        "consumer discretionary"
+      ],
+      "created_at": "2026-02-06T02:42:55.785995",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "739b8cbc2a37",
+      "category": "catalyst_identification",
+      "difficulty": "expert",
+      "question": "Frontier Consumer has multiple potential catalysts: Same-store sales acceleration (60% prob, High impact, Q2); E-commerce growth (80% prob, Medium impact, Q1); New store openings (40% prob, Very High impact, Q3); Brand partnership (90% prob, Low impact, Q1). How should these be prioritized?",
+      "context": {
+        "company_name": "Frontier Consumer",
+        "ticker": "FRCO",
+        "sector": "Consumer Discretionary",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Catalyst Analysis": "[{'name': 'Same-store sales acceleration', 'probability': 0.6, 'impact': 'High', 'timing': 'Q2'}, {'name': 'E-commerce growth', 'probability': 0.8, 'impact': 'Medium', 'timing': 'Q1'}, {'name': 'New store openings', 'probability': 0.4, 'impact': 'Very High', 'timing': 'Q3'}, {'name': 'Brand partnership', 'probability': 0.9, 'impact': 'Low', 'timing': 'Q1'}]"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "1. New store openings - highest risk-adjusted return despite lower probability",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "1. E-commerce growth - should prioritize near-term catalysts",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "1. New store openings - highest risk-adjusted return despite lower probability",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "1. New store openings - highest probability most important",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "All equally weighted - cannot prioritize",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Catalyst prioritization uses expected value (probability \u00d7 impact) with timing as tiebreaker. highest risk-adjusted return despite lower probability",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "catalyst",
+        "prioritization",
+        "hierarchy"
+      ],
+      "created_at": "2026-02-06T02:42:55.786070",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "d1aaa4dc69f9",
+      "category": "earnings_surprise",
+      "difficulty": "medium",
+      "question": "Global Energy reported EPS of $2.49 versus consensus of $2.65. Using standard thresholds (>10% significant, 5-10% moderate, 2-5% minor, <2% normal), how would you classify this earnings surprise?",
+      "context": {
+        "company_name": "Global Energy",
+        "ticker": "GLEN",
+        "sector": "Energy",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Actual": 2.49,
+          "Consensus": 2.65
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Moderate",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Significant",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Within normal variance",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Moderate",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "Minor",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "The surprise is -6.1%, which falls into the 'Moderate' category.",
+      "reasoning_steps": [
+        "Calculate surprise: (2.49 - 2.65) / 2.65 = -6.1%",
+        "Apply classification thresholds",
+        "Result: Moderate"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "earnings",
+        "magnitude",
+        "classification"
+      ],
+      "created_at": "2026-02-06T02:42:55.784389",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "e1bbc7bfca22",
+      "category": "catalyst_identification",
+      "difficulty": "hard",
+      "question": "Jupiter Pharma is awaiting new product adoption. Key data points: Product launched; Early reviews positive; Competitive response unknown. What probability would you assign to a positive outcome?",
+      "context": {
+        "company_name": "Jupiter Pharma",
+        "ticker": "JUPH",
+        "sector": "Healthcare",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": [
+          "Product launched",
+          "Early reviews positive",
+          "Competitive response unknown"
+        ],
+        "model_assumptions": {
+          "Catalyst": "New product adoption",
+          "Key Data Points": "Product launched; Early reviews positive; Competitive response unknown"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Moderate probability (50-65%) - execution risk and competitive response uncertain",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Very high probability (>90%) - essentially certain",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Moderate probability (50-65%) - execution risk and competitive response uncertain",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Equal probability across all outcomes",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Low probability (<20%) - unlikely to occur",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Catalyst probability assessment requires weighing multiple factors. For New product adoption, the data points suggest moderate probability (50-65%).",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "catalyst",
+        "probability",
+        "assessment"
+      ],
+      "created_at": "2026-02-06T02:42:55.786161",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "qc_factor_003",
+      "category": "formula_audit",
+      "difficulty": "expert",
+      "question": "Many signals show positive expected returns but are highly correlated.\n\nWhy does this reduce portfolio-level alpha?",
+      "context": {
+        "company_name": "Signal Correlation Analysis",
+        "ticker": "N/A",
+        "sector": "Quantitative",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Number of signals": 10,
+          "Average signal alpha": "2%",
+          "Na\u00efve expectation": "20% combined",
+          "Signal correlation": "0.6 average",
+          "Realized portfolio alpha": "4%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Correlated signals are redundant - they're betting on the same underlying theme. 10 signals at 0.6 correlation \u2248 3-4 independent signals. Effective breadth = N / (1 + (N-1)*\u03c1) \u2248 2.5. Alpha doesn't scale linearly with signal count when signals overlap. Diversification across truly independent signals is required.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Signal alphas always add linearly regardless of correlation",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Correlated signals are redundant - they're betting on the same underlying theme. 10 signals at 0.6 correlation \u2248 3-4 independent signals. Effective breadth = N / (1 + (N-1)*\u03c1) \u2248 2.5. Alpha doesn't scale linearly with signal count when signals overlap. Diversification across truly independent signals is required.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Correlation only affects risk, not expected alpha",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "More signals always improve performance",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Fundamental law: IR \u2248 IC * \u221a(breadth). But 'breadth' is effective independent bets, not signal count. With 0.6 correlation: 10 signals effectively become ~2.5 independent bets. If each independent bet has 2% alpha, total \u2248 5%, not 20%. The signals likely capture the same underlying factor (momentum, value, quality) from different angles. True diversification requires orthogonal signals.",
+      "reasoning_steps": [
+        "Correlated signals capture similar information",
+        "Effective breadth = N / (1 + (N-1)*\u03c1)",
+        "With \u03c1=0.6, 10 signals \u2248 2.5 independent signals",
+        "Alpha scales with \u221a(effective breadth), not N",
+        "Need orthogonal signals for true diversification"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "signal-correlation",
+        "breadth",
+        "fundamental-law",
+        "quant-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858605",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "qc_port_005",
+      "category": "catalyst_identification",
+      "difficulty": "hard",
+      "question": "A strategy scales AUM aggressively and performance deteriorates.\n\nIdentify the limiting mechanism.",
+      "context": {
+        "company_name": "Capacity Analysis",
+        "ticker": "N/A",
+        "sector": "Quantitative",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Initial AUM": "$100M",
+          "Initial Sharpe": "2.0",
+          "Scaled AUM": "$2B",
+          "Scaled Sharpe": "0.5",
+          "Average daily volume (traded names)": "$50M"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Market impact increases with trade size. At $100M, trades are small vs. $50M daily volume. At $2B, trades move prices significantly, eroding alpha. The strategy's own trading becomes a cost. Additionally, larger positions are slower to build/exit, causing signal decay. Capacity is limited by liquidity of opportunity set.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "The strategy just stopped working coincidentally",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Market impact increases with trade size. At $100M, trades are small vs. $50M daily volume. At $2B, trades move prices significantly, eroding alpha. The strategy's own trading becomes a cost. Additionally, larger positions are slower to build/exit, causing signal decay. Capacity is limited by liquidity of opportunity set.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "All strategies can scale infinitely",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "The market became more efficient, unrelated to AUM",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "At $100M with 20% daily turnover: $20M daily trading vs. $50M volume = 40% of volume, manageable. At $2B: $400M daily trading vs. $50M = 8x daily volume, impossible without massive impact. Market impact \u221d \u221a(trade size / volume). The strategy is now paying its alpha to the market through impact. Solutions: trade slower (signal decay), expand universe (dilute alpha), or cap AUM.",
+      "reasoning_steps": [
+        "Market impact is function of trade size relative to volume",
+        "Small fund: trades are invisible to market",
+        "Large fund: trades move prices, eating into alpha",
+        "Signal decay: slower trading means holding past optimal exit",
+        "Capacity = f(alpha, liquidity, signal half-life)"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "capacity",
+        "market-impact",
+        "alpha-decay",
+        "quant-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858631",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "ca6d775a2aa2",
+      "category": "catalyst_identification",
+      "difficulty": "medium",
+      "question": "Given the following context for Summit Industries (Industrials): 'R&D spending increased 40% with focus on next-generation products.' What is the most likely near-term catalyst?",
+      "context": {
+        "company_name": "Summit Industries",
+        "ticker": "SUIN",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": [
+          "R&D spending increased 40% with focus on next-generation products."
+        ],
+        "model_assumptions": {
+          "Sector": "Industrials",
+          "Potential Catalysts": "Order book growth, Backlog conversion, Margin improvement, Restructuring completion"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Restructuring completion - implied by investment priorities",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Restructuring completion - implied by investment priorities",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Margin improvement - potential catalyst",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Order book growth - potential catalyst",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Backlog conversion - potential catalyst",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "In Industrials, restructuring completion is often the most impactful catalyst. The context clue 'R&D spending increased 40% with focus on next-generation products.' points to this as the primary focus.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "catalyst",
+        "identification",
+        "industrials"
+      ],
+      "created_at": "2026-02-06T02:42:55.785964",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "356cb41a8f4b",
+      "category": "accounting_red_flag",
+      "difficulty": "easy",
+      "question": "Lunar Industries reports debt of $374.0M and equity of $516.0M (debt/equity: 0.72x). Footnotes disclose $299.0M in operating lease obligations. How does this affect the true leverage picture?",
+      "context": {
+        "company_name": "Lunar Industries",
+        "ticker": "LUIN",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": {
+          "Reported": 374.0
+        },
+        "cash": null,
+        "equity": {
+          "Current": 516.0
+        },
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Reported Debt/Equity": "0.72x",
+          "Operating Lease Obligations": "$299.0M",
+          "Adjusted Debt/Equity": "1.30x"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Material understatement - adjusted leverage 1.3x vs reported 0.7x",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Positive - shows conservative accounting",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Invalid - off-balance sheet items don't matter",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Material understatement - adjusted leverage 1.3x vs reported 0.7x",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "No impact - leases are not debt",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Operating leases represent debt-like obligations that should be capitalized. Adjusted leverage of 1.3x vs reported 0.7x shows the true debt burden.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "accounting",
+        "off-balance-sheet",
+        "leverage",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785320",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "262a61852d35",
+      "category": "dcf_sanity_check",
+      "difficulty": "easy",
+      "question": "A DCF model for Apex AI projects revenue growing at 15% CAGR while FCF is projected to grow at 35% CAGR. Starting FCF margin is 15%. Is this internally consistent?",
+      "context": {
+        "company_name": "Apex AI",
+        "ticker": "APAI",
+        "sector": "Technology",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "2024E": 804.0,
+          "2025E": 925.0,
+          "2026E": 1063.0,
+          "2027E": 1223.0,
+          "2028E": 1406.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": {
+          "2024E": 121.0,
+          "2025E": 163.0,
+          "2026E": 220.0,
+          "2027E": 297.0,
+          "2028E": 401.0
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Revenue CAGR": "15%",
+          "FCF CAGR": "35%",
+          "Starting FCF Margin": "15%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Inconsistent - FCF growth (35%) far exceeds revenue growth (15%)",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Inconsistent - FCF growth (35%) far exceeds revenue growth (15%)",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Consistent - FCF should grow faster than revenue",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Valid - standard modeling practice",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Invalid - FCF must equal net income",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "FCF growth exceeding revenue growth must be explained by margin expansion, declining capex intensity, or working capital improvements. Unexplained divergence is a red flag.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "dcf",
+        "consistency",
+        "fcf",
+        "sanity-check"
+      ],
+      "created_at": "2026-02-06T02:42:55.784765",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "qc_market_001",
+      "category": "formula_audit",
+      "difficulty": "hard",
+      "question": "A return predictor has strong out-of-sample accuracy but trades in securities with large bid-ask spreads and low turnover.\n\nExplain how a signal can be statistically valid yet economically worthless.",
+      "context": {
+        "company_name": "Signal Analysis",
+        "ticker": "N/A",
+        "sector": "Quantitative",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Signal IC": "0.08 (strong)",
+          "Avg bid-ask spread": "2.5%",
+          "Daily turnover": "0.3% of float",
+          "Signal turnover": "40% monthly"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Transaction costs (spreads + market impact) can exceed expected returns. A signal predicting 1% monthly return is worthless if round-trip costs are 3%. Statistical validity measures prediction accuracy; economic validity requires net-of-cost profitability.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Statistical significance always implies economic significance",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Transaction costs (spreads + market impact) can exceed expected returns. A signal predicting 1% monthly return is worthless if round-trip costs are 3%. Statistical validity measures prediction accuracy; economic validity requires net-of-cost profitability.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Low turnover securities are always unprofitable to trade",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "The signal must be wrong if it doesn't make money",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Expected gross return from signal = IC * volatility * sqrt(breadth). But net return = gross return - transaction costs. With 2.5% spreads and 40% monthly turnover, costs \u2248 2% monthly (0.4 * 2.5% * 2 for round-trip). If signal generates 1.5% gross, net return is negative. The signal correctly predicts direction but can't overcome friction.",
+      "reasoning_steps": [
+        "Distinguish statistical validity (prediction accuracy) from economic validity (profitability)",
+        "Calculate transaction cost drag: spread * turnover * 2 (round-trip)",
+        "Compare gross expected return to transaction costs",
+        "Market impact in illiquid names adds additional costs beyond spread",
+        "A valid signal becomes worthless when implementation costs exceed alpha"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "transaction-costs",
+        "market-microstructure",
+        "signal-decay",
+        "quant-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858560",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "32fbbf849d47",
+      "category": "catalyst_identification",
+      "difficulty": "medium",
+      "question": "Kinetic Health is awaiting acquisition closing. Key data points: Deal announced; Regulatory review pending; Financing committed. What probability would you assign to a positive outcome?",
+      "context": {
+        "company_name": "Kinetic Health",
+        "ticker": "KIHE",
+        "sector": "Healthcare",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": [
+          "Deal announced",
+          "Regulatory review pending",
+          "Financing committed"
+        ],
+        "model_assumptions": {
+          "Catalyst": "Acquisition closing",
+          "Key Data Points": "Deal announced; Regulatory review pending; Financing committed"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "High probability (70-85%) - definitive agreement but regulatory risk remains",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "High probability (70-85%) - definitive agreement but regulatory risk remains",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Low probability (<20%) - unlikely to occur",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Equal probability across all outcomes",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Very high probability (>90%) - essentially certain",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Catalyst probability assessment requires weighing multiple factors. For Acquisition closing, the data points suggest high probability (70-85%).",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "catalyst",
+        "probability",
+        "assessment"
+      ],
+      "created_at": "2026-02-06T02:42:55.785979",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "qc_factor_006",
+      "category": "risk_assessment",
+      "difficulty": "hard",
+      "question": "Factor loadings shift in stressed markets.\n\nWhy is static hedging dangerous?",
+      "context": {
+        "company_name": "Dynamic Beta Analysis",
+        "ticker": "N/A",
+        "sector": "Risk Management",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Normal period beta": "1.2",
+          "Stress period beta": "1.8",
+          "Hedge ratio (static)": "1.2",
+          "Market selloff": "-20%",
+          "Expected hedged loss": "0%",
+          "Actual hedged loss": "-12%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Static hedging uses historical beta, but beta increases in stress (convexity, flight-to-quality). With 1.2 hedge and 1.8 actual beta during -20% selloff: hedged position = -20%*1.8 + 20%*1.2 = -12%. The hedge underperformed precisely when needed most. Dynamic hedging or hedge buffers are required.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Betas are constant - the hedge must have been wrong",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Static hedging uses historical beta, but beta increases in stress (convexity, flight-to-quality). With 1.2 hedge and 1.8 actual beta during -20% selloff: hedged position = -20%*1.8 + 20%*1.2 = -12%. The hedge underperformed precisely when needed most. Dynamic hedging or hedge buffers are required.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "A -12% loss on a hedged position is acceptable",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Hedges always fail in stress markets",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Beta asymmetry: betas are higher when markets fall than when they rise. This is due to: (1) Leverage effects - falling prices increase financial leverage, (2) Flight to quality - risky assets become more correlated, (3) Liquidity effects - selling pressure disproportionately hits risky assets. Static 1.2 hedge was short 12% (1.2 * -20%), but position lost 36% (1.8 * -20%), net -12%. Solutions: use stress betas, add hedge buffer, or use options for tail protection.",
+      "reasoning_steps": [
+        "Historical beta estimated from normal periods",
+        "Beta increases during stress (leverage, correlation spike)",
+        "Static hedge based on historical beta is insufficient",
+        "Hedge loss: -20% * (1.8 - 1.2) = -12%",
+        "Need dynamic hedging or stress-adjusted hedge ratios"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "time-varying-beta",
+        "hedging",
+        "stress-testing",
+        "quant-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858616",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "9e4320e29b9c",
+      "category": "dcf_sanity_check",
+      "difficulty": "hard",
+      "question": "A DCF model for Nexus Digital projects FCF growing from $148.0M in 2024 to $287.0M in 2028, implying a 18% CAGR. Is this projection reasonable?",
+      "context": {
+        "company_name": "Nexus Digital",
+        "ticker": "NEDI",
+        "sector": "Technology",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": {
+          "2024E": 148.0,
+          "2025E": 175.0,
+          "2026E": 206.0,
+          "2027E": 243.0,
+          "2028E": 287.0
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Implied FCF CAGR": "18%",
+          "Starting FCF (2024E)": "$148.0M",
+          "Ending FCF (2028E)": "$287.0M"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Plausible but aggressive - 18% growth for 5 years",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Conservative - 18% is below market growth",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Plausible but aggressive - 18% growth for 5 years",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Invalid - FCF should decline in projections",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Valid - standard projection assumption",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Sustainable FCF growth typically ranges from 5-15% for mature companies, up to 20-25% for high-growth companies. 18% is aggressive.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "dcf",
+        "projections",
+        "growth-rate",
+        "sanity-check"
+      ],
+      "created_at": "2026-02-06T02:42:55.784785",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "4f7d483e920b",
+      "category": "earnings_surprise",
+      "difficulty": "hard",
+      "question": "Eclipse Retail reported revenue of $868M (consensus: $895M) with operating margin of 27.9% (consensus: 23.9%). EPS came in at $2.42 vs $2.14 consensus. What was the primary driver of the EPS variance?",
+      "context": {
+        "company_name": "Eclipse Retail",
+        "ticker": "ECRE",
+        "sector": "Consumer Discretionary",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "Actual": 868.0,
+          "Consensus": 895.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Actual": 2.42,
+          "Consensus": 2.14
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Margin Consensus": "23.9%",
+          "Margin Actual": "27.9%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Margin expansion offset revenue shortfall",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "One-time tax benefit",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Revenue miss offset by share buybacks",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Currency tailwind",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Margin expansion offset revenue shortfall",
+          "is_correct": true
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Revenue variance: -3.0%, Margin variance: 4.0pp. The primary driver is: Margin expansion offset revenue shortfall",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "earnings",
+        "drivers",
+        "variance-analysis"
+      ],
+      "created_at": "2026-02-06T02:42:55.783875",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "3fc71d9a65d5",
+      "category": "accounting_red_flag",
+      "difficulty": "medium",
+      "question": "Nova Medical reported quarterly revenue (in $M): Q1: 220, Q2: 235, Q3: 245, Q4: 320. Q4 represents 31.4% of annual revenue. What is the appropriate assessment of this revenue pattern?",
+      "context": {
+        "company_name": "Nova Medical",
+        "ticker": "NOME",
+        "sector": "Healthcare",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "Q1": 220,
+          "Q2": 235,
+          "Q3": 245,
+          "Q4": 320,
+          "FY Total": 1020
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Q4 as % of Annual": "31.4%",
+          "Q4 vs Q3 Growth": "30.6%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Warning - Q4 represents 31% of annual revenue, requires scrutiny",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "No concern - revenue growth is positive",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Normal - Q4 is always strongest quarter",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Valid - matches industry pattern exactly",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Warning - Q4 represents 31% of annual revenue, requires scrutiny",
+          "is_correct": true
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Revenue concentration in Q4 (>30% of annual) can indicate aggressive recognition timing, channel stuffing, or side agreements. Q4 vs Q3 growth of 30.6% requires investigation.",
+      "reasoning_steps": [],
+      "common_mistakes": [
+        "Accepting seasonality without verification",
+        "Ignoring sequential acceleration",
+        "Not considering industry norms"
+      ],
+      "source": null,
+      "tags": [
+        "accounting",
+        "revenue-recognition",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785640",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "adv_es_002",
+      "category": "earnings_surprise",
+      "difficulty": "expert",
+      "question": "A company beats EPS by 5% but lowers full-year revenue guidance by 3%. The stock sells off 4%.\n\nUnder what conditions is the market reaction rational? Identify which component (short-term alpha vs. long-term cash flow expectations) dominates.",
+      "context": {
+        "company_name": "Guidance Dynamics Inc",
+        "ticker": "GDYN",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Q3 Actual": 1.05,
+          "Q3 Consensus": 1.0
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": "Full-year revenue guidance lowered from $4.2B to $4.07B (-3%)",
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Long-term cash flow expectations dominate - markets discount future earnings, so lowered guidance impacts terminal value more than a single quarter beat",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Irrational - a 5% beat should outweigh 3% guidance cut",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Long-term cash flow expectations dominate - markets discount future earnings, so lowered guidance impacts terminal value more than a single quarter beat",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Short-term alpha dominates - market overreacting to guidance",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "The reaction reflects increased beta exposure, not fundamentals",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "In a DCF framework, terminal value often comprises 60-80% of enterprise value. A 3% revenue guidance cut, if persistent, compounds into significantly lower terminal value. A single quarter's 5% EPS beat adds minimal incremental value. The market correctly prices the longer-duration negative signal.",
+      "reasoning_steps": [
+        "Compare one-time EPS beat impact vs. perpetual guidance reduction",
+        "Apply DCF logic: terminal value dominates intrinsic value",
+        "Recognize guidance as forward-looking vs. earnings as backward-looking",
+        "Market's -4% reaction is rational if guidance cut implies structural issues"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "guidance",
+        "dcf-logic",
+        "signal-conflict",
+        "advanced-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858456",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "b39e22b36c8d",
+      "category": "formula_audit",
+      "difficulty": "medium",
+      "question": "Review the following formula from a financial model:\nCell: C14 (2025E Revenue)\nFormula: =B14*1.15\n\nWhat issue, if any, is present?",
+      "context": {
+        "company_name": "Eclipse Industries",
+        "ticker": "ECIN",
+        "sector": null,
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": "Cell C14 (2025E Revenue)\nFormula: =B14*1.15"
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Hard-coded growth rate - 1.15 should reference assumptions",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Circular reference detected",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Formula is correct - no issues",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Hard-coded growth rate - 1.15 should reference assumptions",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "Missing absolute references - needs $ signs",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Growth rate assumptions should be in separate cells for auditability.",
+      "reasoning_steps": [
+        "Examine formula structure",
+        "Identify any literal numbers",
+        "Check if literals should be cell references",
+        "Finding: Hard-coded growth rate - 1.15 should reference assumptions"
+      ],
+      "common_mistakes": [
+        "Accepting hard-coded values as 'standard practice'",
+        "Not checking assumption linkage",
+        "Missing plugs disguised as adjustments"
+      ],
+      "source": null,
+      "tags": [
+        "formula",
+        "audit",
+        "hard-coded",
+        "plug"
+      ],
+      "created_at": "2026-02-06T02:42:55.786458",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "a3f9967cb089",
+      "category": "accounting_red_flag",
+      "difficulty": "hard",
+      "question": "Frontier Industries reported net income of $265.0M and cash from operations of $238.0M. The accrual ratio (NI - CFO)/NI is 10.2%. What does this indicate about earnings quality?",
+      "context": {
+        "company_name": "Frontier Industries",
+        "ticker": "FRIN",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": {
+          "Current Year": 265.0
+        },
+        "eps": null,
+        "free_cash_flow": {
+          "CFO": 238.0
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Net Income": "$265.0M",
+          "Cash from Operations": "$238.0M",
+          "Accrual Ratio": "10.2%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Acceptable - 10% accrual ratio within normal range",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "No concern - both numbers are positive",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Normal - accrual accounting is standard",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Acceptable - 10% accrual ratio within normal range",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "Valid - matches peer companies",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "High accrual ratios (>30%) often precede earnings disappointments. CFO-to-NI ratio of 0.90x indicates weak cash conversion.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "accounting",
+        "accruals",
+        "earnings-quality",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785342",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "d8d61e9f59f5",
+      "category": "formula_audit",
+      "difficulty": "easy",
+      "question": "Check for unit consistency in this formula:\n\nCell: Revenue Per Share\nFormula: =Revenue_M*SharesOutstanding_K\n\n\nIs there a unit mismatch?",
+      "context": {
+        "company_name": "Nexus REIT",
+        "ticker": "NERE",
+        "sector": null,
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": "Cell: Revenue Per Share\nFormula: =Revenue_M*SharesOutstanding_K\n"
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Unit mismatch - revenue in millions, shares in thousands needs conversion",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Unit mismatch - revenue in millions, shares in thousands needs conversion",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Units are consistent - no issue",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Formula syntax error",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Circular reference",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Unit analysis: Unit mismatch - revenue in millions, shares in thousands needs conversion",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "formula",
+        "audit",
+        "unit-mismatch"
+      ],
+      "created_at": "2026-02-06T02:42:55.786349",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "qc_port_003",
+      "category": "formula_audit",
+      "difficulty": "hard",
+      "question": "A manager controls volatility instead of tracking error.\n\nWhy does this misalign incentives?",
+      "context": {
+        "company_name": "Risk Target Analysis",
+        "ticker": "N/A",
+        "sector": "Asset Management",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": "Manager behavior:\n- Risk target: 12% total volatility\n- Benchmark volatility: 15%\n- Manager action: Holds 80% benchmark + 20% cash\n- Active return: 0%\n- Risk-adjusted return: \"Good\" by vol measure"
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Targeting total volatility incentivizes benchmark-hugging plus cash. Manager hits 12% vol target by diluting exposure (80% benchmark = 12% vol) without active management. Tracking error measures active risk; total vol doesn't distinguish active bets from benchmark exposure. Client pays for alpha but gets cash-diluted beta.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Total volatility and tracking error are equivalent measures",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Targeting total volatility incentivizes benchmark-hugging plus cash. Manager hits 12% vol target by diluting exposure (80% benchmark = 12% vol) without active management. Tracking error measures active risk; total vol doesn't distinguish active bets from benchmark exposure. Client pays for alpha but gets cash-diluted beta.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Cash allocation is always a valid active decision",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Lower total volatility is always better for clients",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Total vol = \u221a(benchmark_vol\u00b2 + active_vol\u00b2 + 2*corr*benchmark_vol*active_vol). At 80% benchmark weight with 0% active: vol = 0.8 * 15% = 12%. Tracking error = 0% (no active positions). Manager meets vol target without taking active risk. Client wanted active management but got leveraged beta with a fee. TE targeting forces manager to deviate from benchmark.",
+      "reasoning_steps": [
+        "Total vol includes benchmark exposure",
+        "Tracking error = vol of (portfolio - benchmark)",
+        "Manager can reduce total vol by holding cash without active management",
+        "This meets vol target while providing zero alpha",
+        "Tracking error targets force actual active management"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "tracking-error",
+        "total-risk",
+        "incentives",
+        "quant-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858625",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "qc_market_003",
+      "category": "risk_assessment",
+      "difficulty": "hard",
+      "question": "Two assets have identical volatility and expected returns, but one is harder to trade in stress.\n\nWhy should rational investors demand higher compensation for one over the other?",
+      "context": {
+        "company_name": "Liquidity Risk Analysis",
+        "ticker": "N/A",
+        "sector": "Multi-asset",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Asset A vol": "20%",
+          "Asset B vol": "20%",
+          "Asset A expected return": "8%",
+          "Asset B expected return": "8%",
+          "Asset A stress liquidity": "Normal",
+          "Asset B stress liquidity": "Severely impaired"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Illiquidity is worst when you most need to trade - during stress when portfolio rebalancing or redemptions force sales. Asset B's liquidity impairment correlates with bad states of the world, creating an additional risk factor beyond volatility. Rational investors demand a liquidity premium.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Volatility fully captures risk - liquidity doesn't matter",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Illiquidity is worst when you most need to trade - during stress when portfolio rebalancing or redemptions force sales. Asset B's liquidity impairment correlates with bad states of the world, creating an additional risk factor beyond volatility. Rational investors demand a liquidity premium.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Investors should avoid illiquid assets entirely",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Expected returns already account for liquidity differences",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Volatility measures price variation, not tradability. Asset B's liquidity dries up precisely when investors need to exit (margin calls, redemptions, risk reduction). This correlation with bad states makes it riskier than volatility alone suggests. The liquidity premium compensates for: (1) inability to exit at fair value, (2) forced holding during drawdowns, (3) potential fire-sale losses. Empirically, illiquid assets earn 2-4% annual premium.",
+      "reasoning_steps": [
+        "Volatility measures price risk, not transaction risk",
+        "Liquidity risk is state-dependent - worst in crises",
+        "Correlation of illiquidity with market stress creates systematic risk",
+        "Investors rationally demand compensation for this additional risk",
+        "Liquidity premium is compensation for holding hard-to-exit assets"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "liquidity-risk",
+        "risk-premium",
+        "market-stress",
+        "quant-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858567",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "8985d33b43a4",
+      "category": "dcf_sanity_check",
+      "difficulty": "hard",
+      "question": "A DCF model for Lunar Development (Real Estate sector) uses a WACC of 9.0%. The risk-free rate is 4.5% and the market risk premium is 5.5%. Is this WACC reasonable?",
+      "context": {
+        "company_name": "Lunar Development",
+        "ticker": "LUDE",
+        "sector": "Real Estate",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": 9.0,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "WACC": "9.0%",
+          "Risk-Free Rate": "4.5%",
+          "Market Risk Premium": "5.5%",
+          "Sector": "Real Estate",
+          "Typical Sector WACC": "7.0%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Borderline - 9.0% may be conservative",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Borderline - 9.0% may be conservative",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Invalid - should equal terminal growth",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Valid - matches company beta",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Valid - 9.0% is standard",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "WACC should reflect the company's weighted cost of capital, typically ranging from 6-12% for most companies. Real Estate typically has WACC around 7.0%.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "dcf",
+        "wacc",
+        "sanity-check",
+        "discount-rate"
+      ],
+      "created_at": "2026-02-06T02:42:55.785201",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "28a7ad12dcd6",
+      "category": "financial_statement_analysis",
+      "difficulty": "easy",
+      "question": "Evaluate Stellar Electric's debt coverage:\nEBIT: $181.0M, EBITDA: $224.0M, Interest: $77.0M, Principal: $88.0M, CapEx: $60.0M",
+      "context": {
+        "company_name": "Stellar Electric",
+        "ticker": "STEL",
+        "sector": "Utilities",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": {
+          "2024": 224.0
+        },
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "EBIT": "$181.0M",
+          "EBITDA": "$224.0M",
+          "Interest Expense": "$77.0M",
+          "Principal Payment": "$88.0M",
+          "Maintenance CapEx": "$60.0M"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Interest coverage: 2.4x (EBIT/Interest)",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Coverage ratios are concerning",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Interest coverage: 2.4x (EBIT/Interest)",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "DSCR: 1.49x",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Interest coverage: 3.4x",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Interest Coverage = EBIT/Interest = 181.0/77.0 = 2.4x\nFCCR = EBITDA/(Int+Prin) = 224.0/(77.0+88.0) = 1.36x\nDSCR = (EBITDA-CapEx)/(Int+Prin) = (224.0-60.0)/(77.0+88.0) = 0.99x",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "financial-statement",
+        "coverage",
+        "debt-service"
+      ],
+      "created_at": "2026-02-06T02:42:55.787137",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "01c43fdb8f61",
+      "category": "earnings_surprise",
+      "difficulty": "hard",
+      "question": "Global Tech reported EPS of $2.23 versus consensus of $2.18. Using standard thresholds (>10% significant, 5-10% moderate, 2-5% minor, <2% normal), how would you classify this earnings surprise?",
+      "context": {
+        "company_name": "Global Tech",
+        "ticker": "GLTE",
+        "sector": "Technology",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Actual": 2.23,
+          "Consensus": 2.18
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Minor",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Within normal variance",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Significant",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Moderate",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Minor",
+          "is_correct": true
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "The surprise is 2.1%, which falls into the 'Minor' category.",
+      "reasoning_steps": [
+        "Calculate surprise: (2.23 - 2.18) / 2.18 = 2.1%",
+        "Apply classification thresholds",
+        "Result: Minor"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "earnings",
+        "magnitude",
+        "classification"
+      ],
+      "created_at": "2026-02-06T02:42:55.784008",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "adv_dcf_004",
+      "category": "dcf_sanity_check",
+      "difficulty": "hard",
+      "question": "A company projects 12% FCF growth for 10 years in an industry growing at 3%.\n\nWhat assumptions must hold for this to be plausible, and how would you stress-test them?",
+      "context": {
+        "company_name": "Hypergrowth Industries",
+        "ticker": "HYPR",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Company FCF growth": "12% for 10 years",
+          "Industry growth": "3%",
+          "Current market share": "5%",
+          "Implied year-10 market share": "~25%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "The company must gain ~20% market share, implying either industry consolidation, disruptive competitive advantage, or international expansion. Stress test: model competitor response, pricing pressure as share grows, and capital intensity of share gains.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Such growth is impossible in a mature industry",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "The company must gain ~20% market share, implying either industry consolidation, disruptive competitive advantage, or international expansion. Stress test: model competitor response, pricing pressure as share grows, and capital intensity of share gains.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Industry growth rate doesn't constrain company growth",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Use lower growth rate automatically",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "At 12% growth vs. 3% industry: (1.12/1.03)^10 = 2.3x relative growth, implying 5% share grows to ~11.5% (or higher if industry grows slower). This requires: sustained competitive advantage, no competitive response, stable pricing, and consistent capital returns. Stress tests should model: margin compression from competitive pricing, capex needed for growth, and what happens when share gains slow.",
+      "reasoning_steps": [
+        "Calculate implied market share trajectory",
+        "Identify required competitive dynamics (consolidation, disruption, expansion)",
+        "Model competitive response and margin pressure",
+        "Assess capital intensity of growth strategy",
+        "Build scenarios for share gain deceleration"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "dcf",
+        "growth-assumptions",
+        "market-share",
+        "stress-testing",
+        "advanced-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858481",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "f11350fc9050",
+      "category": "financial_statement_analysis",
+      "difficulty": "medium",
+      "question": "Evaluate Omega AI's debt coverage:\nEBIT: $254.0M, EBITDA: $294.0M, Interest: $50.0M, Principal: $83.0M, CapEx: $71.0M",
+      "context": {
+        "company_name": "Omega AI",
+        "ticker": "OMAI",
+        "sector": "Technology",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": {
+          "2024": 294.0
+        },
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "EBIT": "$254.0M",
+          "EBITDA": "$294.0M",
+          "Interest Expense": "$50.0M",
+          "Principal Payment": "$83.0M",
+          "Maintenance CapEx": "$71.0M"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Comfortable coverage with 5.1x interest coverage",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "DSCR: 2.18x",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Interest coverage: 6.1x",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Comfortable coverage with 5.1x interest coverage",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "Coverage ratios are concerning",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Interest Coverage = EBIT/Interest = 254.0/50.0 = 5.1x\nFCCR = EBITDA/(Int+Prin) = 294.0/(50.0+83.0) = 2.21x\nDSCR = (EBITDA-CapEx)/(Int+Prin) = (294.0-71.0)/(50.0+83.0) = 1.68x",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "financial-statement",
+        "coverage",
+        "debt-service"
+      ],
+      "created_at": "2026-02-06T02:42:55.786754",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "2da2ad075def",
+      "category": "accounting_red_flag",
+      "difficulty": "easy",
+      "question": "Summit Retail's cost of goods sold grew 7.5% while inventory increased 42%. Days Inventory Outstanding (DIO) changed from 60 to 90 days. What does this signal about the business?",
+      "context": {
+        "company_name": "Summit Retail",
+        "ticker": "SURE",
+        "sector": "Consumer Discretionary",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "COGS Growth": "7.5%",
+          "Inventory Growth": "42%",
+          "Prior DIO": "60 days",
+          "Current DIO": "90 days"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Red flag - inventory growth (42%) vastly exceeds COGS (7.5%)",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Red flag - inventory growth (42%) vastly exceeds COGS (7.5%)",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "No concern - inventory is an asset",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Normal - follows industry trend",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Positive - company preparing for growth",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Inventory growing faster than COGS often precedes write-offs or indicates demand weakness. The 30 day DIO increase suggests potential obsolescence risk.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "accounting",
+        "inventory",
+        "dio",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785414",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "68d56de821f0",
+      "category": "accounting_red_flag",
+      "difficulty": "medium",
+      "question": "Radiant Systems reported net income of $105.0M and cash from operations of $74.0M. The accrual ratio (NI - CFO)/NI is 29.5%. What does this indicate about earnings quality?",
+      "context": {
+        "company_name": "Radiant Systems",
+        "ticker": "RASY",
+        "sector": "Technology",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": {
+          "Current Year": 105.0
+        },
+        "eps": null,
+        "free_cash_flow": {
+          "CFO": 74.0
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Net Income": "$105.0M",
+          "Cash from Operations": "$74.0M",
+          "Accrual Ratio": "29.5%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Warning - 30% accrual ratio warrants working capital review",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Valid - matches peer companies",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Normal - accrual accounting is standard",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Warning - 30% accrual ratio warrants working capital review",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "No concern - both numbers are positive",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "High accrual ratios (>30%) often precede earnings disappointments. CFO-to-NI ratio of 0.70x indicates weak cash conversion.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "accounting",
+        "accruals",
+        "earnings-quality",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785330",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "9ec7c39a9d4f",
+      "category": "earnings_surprise",
+      "difficulty": "medium",
+      "question": "Jupiter BioSciences (JUBI) reported Q3 2024 EPS of $1.32. The consensus estimate was $1.26. Did the company beat or miss consensus, and by what percentage?",
+      "context": {
+        "company_name": "Jupiter BioSciences",
+        "ticker": "JUBI",
+        "sector": "Healthcare",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Q3 2024 Actual": 1.32,
+          "Q3 2024 Consensus": 1.26
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": {
+          "EPS": 1.26
+        },
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Beat by 4.8%",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Beat by 9.6%",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "In-line with consensus (within 1%)",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Beat by 4.8%",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "Miss by 4.8%",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "The earnings surprise is calculated as (Actual - Consensus) / Consensus. ($1.32 - $1.26) / $1.26 = 4.8%",
+      "reasoning_steps": [
+        "Identify actual EPS: $1.32",
+        "Identify consensus EPS: $1.26",
+        "Calculate difference: $1.32 - $1.26 = $0.06",
+        "Calculate percentage: $0.06 / $1.26 = 4.8%",
+        "Result: Beat by 4.8%"
+      ],
+      "common_mistakes": [
+        "Using consensus as denominator incorrectly",
+        "Confusing beat/miss direction",
+        "Rounding errors"
+      ],
+      "source": null,
+      "tags": [
+        "earnings",
+        "beat-miss",
+        "calculation",
+        "eps"
+      ],
+      "created_at": "2026-02-06T02:42:55.784371",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "0a7c4e441cd7",
+      "category": "earnings_surprise",
+      "difficulty": "medium",
+      "question": "Nexus Brands reported revenue of $994M (consensus: $965M) with operating margin of 22.5% (consensus: 20.5%). EPS came in at $2.24 vs $1.98 consensus. What was the primary driver of the EPS variance?",
+      "context": {
+        "company_name": "Nexus Brands",
+        "ticker": "NEBR",
+        "sector": "Consumer Discretionary",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "Actual": 994.0,
+          "Consensus": 965.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Actual": 2.24,
+          "Consensus": 1.98
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Margin Consensus": "20.5%",
+          "Margin Actual": "22.5%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Margin expansion",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Margin expansion",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Revenue miss offset by share buybacks",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Currency tailwind",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "One-time tax benefit",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Revenue variance: 3.0%, Margin variance: 2.0pp. The primary driver is: Margin expansion",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "earnings",
+        "drivers",
+        "variance-analysis"
+      ],
+      "created_at": "2026-02-06T02:42:55.784031",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "c906c7d66fee",
+      "category": "earnings_surprise",
+      "difficulty": "medium",
+      "question": "Summit Development (SUDE) reported Q3 2024 EPS of $3.90. The consensus estimate was $3.61. Did the company beat or miss consensus, and by what percentage?",
+      "context": {
+        "company_name": "Summit Development",
+        "ticker": "SUDE",
+        "sector": "Real Estate",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Q3 2024 Actual": 3.9,
+          "Q3 2024 Consensus": 3.61
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": {
+          "EPS": 3.61
+        },
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Beat by 8.0%",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Beat by 16.0%",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "In-line with consensus (within 1%)",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Miss by 8.0%",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Beat by 8.0%",
+          "is_correct": true
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "The earnings surprise is calculated as (Actual - Consensus) / Consensus. ($3.90 - $3.61) / $3.61 = 8.0%",
+      "reasoning_steps": [
+        "Identify actual EPS: $3.90",
+        "Identify consensus EPS: $3.61",
+        "Calculate difference: $3.90 - $3.61 = $0.29",
+        "Calculate percentage: $0.29 / $3.61 = 8.0%",
+        "Result: Beat by 8.0%"
+      ],
+      "common_mistakes": [
+        "Using consensus as denominator incorrectly",
+        "Confusing beat/miss direction",
+        "Rounding errors"
+      ],
+      "source": null,
+      "tags": [
+        "earnings",
+        "beat-miss",
+        "calculation",
+        "eps"
+      ],
+      "created_at": "2026-02-06T02:42:55.784043",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "43c023ffb3f3",
+      "category": "formula_audit",
+      "difficulty": "medium",
+      "question": "Review the date/period references:\n\nCell: Projection formula\nFormula: =B10*B$5\nNote: Copied across columns but growth rate in B5 is 2024 specific\n\nIs there a date reference issue?",
+      "context": {
+        "company_name": "Kinetic Lifestyle",
+        "ticker": "KILI",
+        "sector": null,
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": "Cell: Projection formula\nFormula: =B10*B$5\nNote: Copied across columns but growth rate in B5 is 2024 specific"
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Year-specific assumption - growth rate should vary by year or be clearly labeled",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Hard-coded value issue",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Year-specific assumption - growth rate should vary by year or be clearly labeled",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Sign convention error",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Date references are correct",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Date/period analysis: Year-specific assumption - growth rate should vary by year or be clearly labeled",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "formula",
+        "audit",
+        "date-reference",
+        "period"
+      ],
+      "created_at": "2026-02-06T02:42:55.786364",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "adv_es_003",
+      "category": "earnings_surprise",
+      "difficulty": "hard",
+      "question": "Two companies both beat earnings by 10%. Company A has beta 0.6; Company B has beta 1.8. During the earnings window, the market rallies 3%.\n\nHow should you adjust the observed returns to assess which company delivered more idiosyncratic alpha?",
+      "context": {
+        "company_name": "Comparison Analysis",
+        "ticker": "N/A",
+        "sector": "Multiple",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Company A beta": 0.6,
+          "Company B beta": 1.8,
+          "Market return": "3%",
+          "EPS beat (both)": "10%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Subtract beta-adjusted market contribution: A's expected beta return = 1.8% (0.6 x 3%), B's = 5.4% (1.8 x 3%). Alpha = actual return minus these amounts.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "No adjustment needed - both beat by 10% so both generated equal alpha",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Subtract beta-adjusted market contribution: A's expected beta return = 1.8% (0.6 x 3%), B's = 5.4% (1.8 x 3%). Alpha = actual return minus these amounts.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Divide returns by beta to normalize",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "High-beta names always generate more alpha during rallies",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Using CAPM: Expected return = beta x market return. Company A's beta contribution = 0.6 x 3% = 1.8%. Company B's = 1.8 x 3% = 5.4%. If both stocks rose 12% on earnings, A generated 10.2% alpha (12% - 1.8%) while B generated only 6.6% alpha (12% - 5.4%). The earnings beat's alpha component differs significantly.",
+      "reasoning_steps": [
+        "Calculate expected return from market exposure: beta x market return",
+        "Subtract market contribution from total return to isolate alpha",
+        "Compare idiosyncratic returns between the two companies",
+        "Lower-beta stocks with same total return delivered more alpha"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "beta-adjustment",
+        "capm",
+        "alpha-isolation",
+        "advanced-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858461",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "c3b2cb8cfc77",
+      "category": "earnings_surprise",
+      "difficulty": "medium",
+      "question": "Vertex Pharma reported revenue of $1222M (consensus: $1186M) with operating margin of 24.3% (consensus: 22.3%). EPS came in at $2.97 vs $2.64 consensus. What was the primary driver of the EPS variance?",
+      "context": {
+        "company_name": "Vertex Pharma",
+        "ticker": "VEPH",
+        "sector": "Healthcare",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "Actual": 1222.0,
+          "Consensus": 1186.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Actual": 2.97,
+          "Consensus": 2.64
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Margin Consensus": "22.3%",
+          "Margin Actual": "24.3%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Margin expansion",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Margin expansion",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Revenue miss offset by share buybacks",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Currency tailwind",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "One-time tax benefit",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Revenue variance: 3.0%, Margin variance: 2.0pp. The primary driver is: Margin expansion",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "earnings",
+        "drivers",
+        "variance-analysis"
+      ],
+      "created_at": "2026-02-06T02:42:55.784341",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "abcb1e0639e1",
+      "category": "financial_statement_analysis",
+      "difficulty": "expert",
+      "question": "Analyze Kinetic Real Estate's liquidity position:\nCurrent Assets: $670.0M (Cash: $236.0M, Receivables: $240.0M, Inventory: $194.0M)\nCurrent Liabilities: $408.0M",
+      "context": {
+        "company_name": "Kinetic Real Estate",
+        "ticker": "KIRE",
+        "sector": "Real Estate",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Current Assets": "$670.0M",
+          "- Cash": "$236.0M",
+          "- Receivables": "$240.0M",
+          "- Inventory": "$194.0M",
+          "Current Liabilities": "$408.0M"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Working capital intensity of 25.7% of revenue",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Company has excess liquidity",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Quick ratio indicates concern",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Current ratio: 1.34x",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Working capital intensity of 25.7% of revenue",
+          "is_correct": true
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Current Ratio = 670.0/408.0 = 1.64x\nQuick Ratio = (670.0-194.0)/408.0 = 1.17x\nCash Ratio = 236.0/408.0 = 0.58x",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "financial-statement",
+        "liquidity",
+        "working-capital"
+      ],
+      "created_at": "2026-02-06T02:42:55.787034",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "qc_factor_005",
+      "category": "dcf_sanity_check",
+      "difficulty": "hard",
+      "question": "Removing factor exposure lowers expected returns.\n\nWhen is this trade-off justified?",
+      "context": {
+        "company_name": "Orthogonalization Analysis",
+        "ticker": "N/A",
+        "sector": "Quantitative",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Raw signal alpha": "4%",
+          "Factor-neutral alpha": "2%",
+          "Raw signal volatility": "15%",
+          "Factor-neutral volatility": "8%",
+          "Raw Sharpe": "0.27",
+          "Factor-neutral Sharpe": "0.25"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Orthogonalization removes factor exposure, reducing both return and risk. Justified when: (1) Factor exposure is unintentional and unrewarded, (2) Client mandate requires factor neutrality, (3) Risk-adjusted return (Sharpe) improves, or (4) Regulatory/risk constraints limit factor exposure. Here Sharpe is similar, so decision depends on constraints.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Factor orthogonalization always destroys value",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Orthogonalization removes factor exposure, reducing both return and risk. Justified when: (1) Factor exposure is unintentional and unrewarded, (2) Client mandate requires factor neutrality, (3) Risk-adjusted return (Sharpe) improves, or (4) Regulatory/risk constraints limit factor exposure. Here Sharpe is similar, so decision depends on constraints.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Always maximize expected return regardless of factor exposure",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Factor exposure is always undesirable",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Raw signal: 4% return, 15% vol, Sharpe 0.27. Factor-neutral: 2% return, 8% vol, Sharpe 0.25. The factor exposure contributed 2% return and 7% vol - was this intentional? If not, removing it clarifies the true alpha. Decision framework: (1) Is factor exposure compensated? (2) Does mandate allow it? (3) Does orthogonalization improve Sharpe? Here Sharpe is similar, so it's a constraint-driven decision.",
+      "reasoning_steps": [
+        "Orthogonalization removes factor exposure from signal",
+        "This reduces both expected return and risk",
+        "Trade-off depends on whether factor exposure is desired",
+        "Sharpe ratio comparison: 0.27 vs 0.25 - similar risk-adjusted",
+        "Decision depends on mandate constraints and factor exposure intent"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "orthogonalization",
+        "factor-neutrality",
+        "sharpe-ratio",
+        "quant-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858612",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "91f7484ae009",
+      "category": "earnings_surprise",
+      "difficulty": "easy",
+      "question": "Horizon Engineering provided full-year EPS guidance of $2.72 - $3.06. The company reported actual EPS of $2.62. How does the result compare to the guidance range?",
+      "context": {
+        "company_name": "Horizon Engineering",
+        "ticker": "HOEN",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Actual": 2.62
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": "Full-year EPS guidance: $2.72 - $3.06",
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Below guidance range",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Above guidance range",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Below guidance range",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Within guidance range",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "At midpoint of guidance",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Guidance range: $2.72 - $3.06, Midpoint: $2.89, Actual: $2.62. Result: Below guidance range",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "earnings",
+        "guidance",
+        "range-analysis"
+      ],
+      "created_at": "2026-02-06T02:42:55.784419",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "700b92500e63",
+      "category": "dcf_sanity_check",
+      "difficulty": "hard",
+      "question": "A DCF model for Catalyst Energy shows PV of explicit period FCF of $388.0M and PV of terminal value of $1164.0M, for total EV of $1552.0M. Terminal value represents 75% of total value. Is this reasonable?",
+      "context": {
+        "company_name": "Catalyst Energy",
+        "ticker": "CAEN",
+        "sector": "Energy",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "PV of Explicit FCF": "$388.0M",
+          "PV of Terminal Value": "$1164.0M",
+          "Total Enterprise Value": "$1552.0M",
+          "TV as % of Total": "75%",
+          "Projection Period": "5 years"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Reasonable - 75% terminal value is typical",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Valid - terminal value should be 100% of value",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Reasonable - 75% terminal value is typical",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Valid - standard 75% allocation",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Invalid - terminal value should be under 50%",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Terminal value typically represents 60-80% of total DCF value. Values above 85% suggest over-reliance on terminal assumptions; values below 50% suggest aggressive near-term projections.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "dcf",
+        "terminal-value",
+        "sanity-check"
+      ],
+      "created_at": "2026-02-06T02:42:55.784671",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "0601979b9224",
+      "category": "accounting_red_flag",
+      "difficulty": "medium",
+      "question": "Atlas Manufacturing's revenue grew 9.3% year-over-year while accounts receivable increased 24%. Days Sales Outstanding (DSO) went from 45 to 57 days. What does this pattern suggest?",
+      "context": {
+        "company_name": "Atlas Manufacturing",
+        "ticker": "ATMA",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "Prior Year": 401.0,
+          "Current Year": 438.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Revenue Growth": "9.3%",
+          "AR Growth": "24%",
+          "Prior DSO": "45 days",
+          "Current DSO": "57 days",
+          "Prior AR": "$49.0M",
+          "Current AR": "$68.0M"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Warning - AR growth (24%) exceeds revenue (9.3%)",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Normal - AR should grow with revenue",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Warning - AR growth (24%) exceeds revenue (9.3%)",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "No concern - DSO is within industry range",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Positive - indicates strong sales pipeline",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "AR growing faster than revenue typically signals collection problems, aggressive revenue recognition, or customer quality deterioration. DSO increase from 45 to 57 days warrants investigation.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "accounting",
+        "receivables",
+        "dso",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785363",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "5ed73c9bdf28",
+      "category": "accounting_red_flag",
+      "difficulty": "easy",
+      "question": "Wavelength Retail's cost of goods sold grew 10.6% while inventory increased 46%. Days Inventory Outstanding (DIO) changed from 60 to 90 days. What does this signal about the business?",
+      "context": {
+        "company_name": "Wavelength Retail",
+        "ticker": "WARE",
+        "sector": "Consumer Discretionary",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "COGS Growth": "10.6%",
+          "Inventory Growth": "46%",
+          "Prior DIO": "60 days",
+          "Current DIO": "90 days"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Red flag - inventory growth (46%) vastly exceeds COGS (10.6%)",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Red flag - inventory growth (46%) vastly exceeds COGS (10.6%)",
+          "is_correct": true
+        },
+        {
+          "id": "B",
+          "text": "Normal - follows industry trend",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "No concern - inventory is an asset",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Positive - company preparing for growth",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Inventory growing faster than COGS often precedes write-offs or indicates demand weakness. The 30 day DIO increase suggests potential obsolescence risk.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "accounting",
+        "inventory",
+        "dio",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785472",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "d92f1d234f33",
+      "category": "accounting_red_flag",
+      "difficulty": "hard",
+      "question": "Radiant Health reported quarterly revenue (in $M): Q1: 240, Q2: 255, Q3: 268, Q4: 295. Q4 represents 27.9% of annual revenue. What is the appropriate assessment of this revenue pattern?",
+      "context": {
+        "company_name": "Radiant Health",
+        "ticker": "RAHE",
+        "sector": "Healthcare",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "Q1": 240,
+          "Q2": 255,
+          "Q3": 268,
+          "Q4": 295,
+          "FY Total": 1058
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Q4 as % of Annual": "27.9%",
+          "Q4 vs Q3 Growth": "10.1%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Minor concern - sequential acceleration warrants review of deal terms",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Normal - Q4 is always strongest quarter",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Minor concern - sequential acceleration warrants review of deal terms",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Valid - matches industry pattern exactly",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "No concern - revenue growth is positive",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Revenue concentration in Q4 (>30% of annual) can indicate aggressive recognition timing, channel stuffing, or side agreements. Q4 vs Q3 growth of 10.1% requires investigation.",
+      "reasoning_steps": [],
+      "common_mistakes": [
+        "Accepting seasonality without verification",
+        "Ignoring sequential acceleration",
+        "Not considering industry norms"
+      ],
+      "source": null,
+      "tags": [
+        "accounting",
+        "revenue-recognition",
+        "red-flag"
+      ],
+      "created_at": "2026-02-06T02:42:55.785623",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "2468163ae40e",
+      "category": "earnings_surprise",
+      "difficulty": "easy",
+      "question": "Ionic Properties provided full-year EPS guidance of $2.70 - $2.94. The company reported actual EPS of $2.60. How does the result compare to the guidance range?",
+      "context": {
+        "company_name": "Ionic Properties",
+        "ticker": "IOPR",
+        "sector": "Real Estate",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": {
+          "Actual": 2.6
+        },
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": "Full-year EPS guidance: $2.70 - $2.94",
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": null,
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Below guidance range",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Within guidance range",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Below guidance range",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "At midpoint of guidance",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Above guidance range",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Guidance range: $2.70 - $2.94, Midpoint: $2.82, Actual: $2.60. Result: Below guidance range",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "earnings",
+        "guidance",
+        "range-analysis"
+      ],
+      "created_at": "2026-02-06T02:42:55.783996",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "f1b395f2c761",
+      "category": "dcf_sanity_check",
+      "difficulty": "easy",
+      "question": "A DCF model for Lunar Engineering projects revenue growing at 15% CAGR while FCF is projected to grow at 35% CAGR. Starting FCF margin is 15%. Is this internally consistent?",
+      "context": {
+        "company_name": "Lunar Engineering",
+        "ticker": "LUEN",
+        "sector": "Industrials",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": {
+          "2024E": 912.0,
+          "2025E": 1049.0,
+          "2026E": 1206.0,
+          "2027E": 1387.0,
+          "2028E": 1595.0
+        },
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": {
+          "2024E": 137.0,
+          "2025E": 185.0,
+          "2026E": 249.0,
+          "2027E": 337.0,
+          "2028E": 454.0
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Revenue CAGR": "15%",
+          "FCF CAGR": "35%",
+          "Starting FCF Margin": "15%"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Inconsistent - FCF growth (35%) far exceeds revenue growth (15%)",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Valid - standard modeling practice",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Invalid - FCF must equal net income",
+          "is_correct": false
+        },
+        {
+          "id": "C",
+          "text": "Inconsistent - FCF growth (35%) far exceeds revenue growth (15%)",
+          "is_correct": true
+        },
+        {
+          "id": "D",
+          "text": "Consistent - FCF should grow faster than revenue",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "FCF growth exceeding revenue growth must be explained by margin expansion, declining capex intensity, or working capital improvements. Unexplained divergence is a red flag.",
+      "reasoning_steps": [],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "dcf",
+        "consistency",
+        "fcf",
+        "sanity-check"
+      ],
+      "created_at": "2026-02-06T02:42:55.784517",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    },
+    {
+      "id": "adv_fsp_003",
+      "category": "financial_statement_analysis",
+      "difficulty": "hard",
+      "question": "A portfolio underperforms during a market rally despite positive alpha names.\n\nHow do you determine whether this is stock selection failure or factor drag?",
+      "context": {
+        "company_name": "Attribution Analysis",
+        "ticker": "N/A",
+        "sector": "Multi-sector",
+        "market_cap": null,
+        "fiscal_year": null,
+        "revenue": null,
+        "ebitda": null,
+        "net_income": null,
+        "eps": null,
+        "free_cash_flow": null,
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": null,
+        "terminal_growth": null,
+        "discount_rate": null,
+        "guidance": null,
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "Portfolio return": "+5%",
+          "Benchmark return": "+12%",
+          "Market rally": "+10%",
+          "Portfolio beta": 0.7,
+          "Stock selection alpha (bottom-up)": "+3%",
+          "Factor exposure": "Long quality, short momentum"
+        },
+        "formula_context": null
+      },
+      "answer_type": "multiple_choice",
+      "correct_answer": "Decompose: Expected return = beta*market + factor exposures + stock alpha. With beta 0.7 and +10% market: expected beta contribution = +7%. Quality underperformed, momentum rallied = factor drag ~-5%. True alpha = +3%. Total: 7% - 5% + 3% = 5%. Underperformance is factor drag, not stock selection.",
+      "answer_options": [
+        {
+          "id": "A",
+          "text": "Any underperformance means stock selection failed",
+          "is_correct": false
+        },
+        {
+          "id": "B",
+          "text": "Decompose: Expected return = beta*market + factor exposures + stock alpha. With beta 0.7 and +10% market: expected beta contribution = +7%. Quality underperformed, momentum rallied = factor drag ~-5%. True alpha = +3%. Total: 7% - 5% + 3% = 5%. Underperformance is factor drag, not stock selection.",
+          "is_correct": true
+        },
+        {
+          "id": "C",
+          "text": "Factor exposures don't affect portfolio returns",
+          "is_correct": false
+        },
+        {
+          "id": "D",
+          "text": "Compare only to benchmark - factors are irrelevant",
+          "is_correct": false
+        }
+      ],
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Multi-factor attribution: R = alpha + beta*MKT + exposures*factors. Portfolio: beta contribution = 0.7 * 10% = 7%, factor contribution = (long quality * quality_return) + (short momentum * -momentum_return) \u2248 -5%, stock selection alpha = +3%. Sum = 5%. Benchmark earned 12% with beta ~1.0 (10%) + 2% factor tailwinds. Underperformance (7%) is entirely explained by lower beta (-3%) and factor drag (-5%), not stock picking.",
+      "reasoning_steps": [
+        "Decompose returns into beta, factor, and alpha components",
+        "Calculate beta contribution: portfolio_beta * market_return",
+        "Identify factor exposures and their period returns",
+        "Residual after beta and factors = true stock selection",
+        "Diagnose source of underperformance for correct response"
+      ],
+      "common_mistakes": [],
+      "source": null,
+      "tags": [
+        "factor-attribution",
+        "performance-analysis",
+        "stock-selection",
+        "factor-rotation",
+        "advanced-concepts"
+      ],
+      "created_at": "2026-02-06T02:42:55.858543",
+      "version": "1.0",
+      "max_points": 1,
+      "partial_credit": false
+    }
+  ]
+}

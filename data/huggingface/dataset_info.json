@@ -1,0 +1,42 @@
+{
+  "dataset_name": "financial-reasoning-eval",
+  "description": "A benchmark for evaluating LLM financial reasoning capabilities. Covers earnings analysis, DCF valuation, accounting quality, catalyst identification, formula auditing, and financial statement analysis.",
+  "version": "1.1.0",
+  "created_at": "2026-02-06T02:42:55.818130",
+  "total_examples": 300,
+  "splits": {
+    "train": 251,
+    "validation": 55,
+    "test": 54
+  },
+  "features": {
+    "id": "string",
+    "category": "string",
+    "difficulty": "string",
+    "question": "string",
+    "context": "string",
+    "answer_type": "string",
+    "correct_answer": "string",
+    "options": "list",
+    "explanation": "string",
+    "reasoning_steps": "list",
+    "tags": "list"
+  },
+  "categories": [
+    "earnings_surprise",
+    "dcf_sanity_check",
+    "accounting_red_flag",
+    "catalyst_identification",
+    "formula_audit",
+    "financial_statement_analysis"
+  ],
+  "difficulties": [
+    "medium",
+    "expert",
+    "easy",
+    "hard"
+  ],
+  "license": "MIT",
+  "citation": "@misc{financial-reasoning-eval,\n  title={Financial Reasoning Eval Benchmark},\n  year={2024},\n  publisher={HuggingFace}\n}",
+  "dataset_size": 360
+}
