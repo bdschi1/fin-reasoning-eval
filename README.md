@@ -315,6 +315,16 @@ Contributions welcome! Areas for improvement:
 - Integration with additional LLM providers
 - Expanded coverage of financial domains
 
+## Related Work
+
+This benchmark is informed by and aligned with recent advances in financial NLP evaluation:
+
+- **PRBench** (Akyurek et al., 2025) — Large-scale expert rubrics for professional reasoning evaluation with 19,356 binary criteria across 7 finance categories. Directly informs our `evaluation/rubric_scoring.py` weighted binary criteria methodology. [arXiv:2511.11562](https://arxiv.org/abs/2511.11562)
+- **FLaME** (Matlin et al., 2025) — Holistic financial NLP benchmarking suite defining 6 core task categories across 20 datasets. Our `evaluation/flame_alignment.py` maps problem categories to the FLaME taxonomy for cross-benchmark comparability. [arXiv:2506.15846](https://arxiv.org/abs/2506.15846)
+- **Fin-RATE** (Jiang et al., 2026) — Real-world financial analytics benchmark with three QA pathway types (DR-QA, EC-QA, LT-QA). Motivates the `cross_entity_qa` and `longitudinal_qa` problem categories. [Under review]
+- **FinanceQA** (Mateega et al., 2025) — Benchmark showing frontier LLMs fail ~60% of realistic analyst tasks. Validates the need for rigorous financial reasoning evaluation with emphasis on accounting conventions and assumption handling. [arXiv:2501.18062](https://arxiv.org/abs/2501.18062)
+- **Fin-o1** (Qian et al., 2025) — First open-source financial reasoning models with FinReason benchmark covering structured financial reasoning. Demonstrates that domain-specific training data quality matters more than model scale. [arXiv:2502.08127](https://arxiv.org/abs/2502.08127)
+
 ---
 
 ![Python](https://img.shields.io/badge/python-3.11+-3776AB?style=flat&logo=python&logoColor=white)
