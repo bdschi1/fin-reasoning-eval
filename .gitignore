@@ -41,6 +41,12 @@ env/
 .env
 .env.*
 !.env.example
+secrets.toml
+secrets.yaml
+secrets.json
+*credentials*
+**/*.pem
+**/*.key
 
 # ============================================================
 # IDE / Editor
