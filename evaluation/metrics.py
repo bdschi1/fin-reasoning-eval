@@ -268,6 +268,12 @@ class FinancialReasoningMetrics:
         # Remove punctuation at start/end
         answer = answer.strip('.,!?:;')
 
+        # Normalize financial format variants:
+        # +$38M / $+38M / $38M → canonical form $+38M
+        # -$38M / $-38M → canonical form $-38M
+        answer = re.sub(r'\+\$(\d)', r'$+\1', answer)
+        answer = re.sub(r'-\$(\d)', r'$-\1', answer)
+
         return answer
 
     def _extract_option_letter(self, text: str) -> Optional[str]:
@@ -335,15 +341,87 @@ class FinancialReasoningMetrics:
         if any(p.confidence is not None for p in self._predictions):
             calibration_error = self._compute_calibration_error()
 
+        # Reasoning quality from rubric scoring
+        reasoning_quality = self._compute_reasoning_quality()
+
         return EvaluationResults(
             total_examples=total,
             overall_accuracy=overall_accuracy,
             category_accuracy=category_accuracy,
             difficulty_accuracy=difficulty_accuracy,
+            reasoning_quality=reasoning_quality,
             calibration_error=calibration_error,
             correct_count=correct,
             predictions=self._predictions,
         )
+
+    def _compute_reasoning_quality(self) -> Optional[float]:
+        """
+        Compute reasoning quality using heuristic rubric scoring.
+
+        Evaluates model reasoning against key criteria from the PRBench-aligned
+        rubric without requiring an LLM-as-judge. Returns a 0-5 scale score.
+        """
+        predictions_with_reasoning = [
+            p for p in self._predictions if p.reasoning and len(p.reasoning) > 20
+        ]
+        if not predictions_with_reasoning:
+            return None
+
+        total_score = 0.0
+
+        for pred in predictions_with_reasoning:
+            reasoning = pred.reasoning.lower()
+            score = 0.0
+            checks = 0
+
+            # Numerical Accuracy: shows intermediate calculations
+            if any(op in reasoning for op in ['=', '×', '÷', '/', '*', 'calculate']):
+                score += 1.0
+            checks += 1
+
+            # Conceptual Understanding: identifies the core concept
+            financial_concepts = [
+                'margin', 'ratio', 'growth', 'dcf', 'ebitda', 'eps', 'revenue',
+                'cash flow', 'working capital', 'leverage', 'coverage', 'valuation',
+                'discount', 'terminal', 'wacc', 'roe', 'roic', 'dupont',
+                'accrual', 'red flag', 'related party', 'earnings',
+            ]
+            if sum(1 for c in financial_concepts if c in reasoning) >= 2:
+                score += 1.0
+            checks += 1
+
+            # Reasoning Chain: steps follow logical sequence
+            step_markers = [
+                'step 1', 'step 2', 'first', 'second', 'next', 'then',
+                'therefore', 'thus', 'because', 'since', 'given that',
+                '1.', '2.', '3.',
+            ]
+            if sum(1 for m in step_markers if m in reasoning) >= 2:
+                score += 1.0
+            checks += 1
+
+            # Completeness: addresses the question with adequate detail
+            if len(reasoning) > 100:
+                score += 0.5
+            if len(reasoning) > 300:
+                score += 0.5
+            checks += 1
+
+            # Risk/Assumption Awareness: considers alternatives or caveats
+            awareness_markers = [
+                'however', 'although', 'risk', 'assumption', 'caveat',
+                'note that', 'important', 'consider', 'alternatively',
+                'potential', 'concern', 'limitation', 'may not', 'could',
+            ]
+            if any(m in reasoning for m in awareness_markers):
+                score += 1.0
+            checks += 1
+
+            # Scale to 5.0
+            total_score += (score / checks) * 5.0
+
+        return round(total_score / len(predictions_with_reasoning), 2)
 
     def _compute_calibration_error(self, n_bins: int = 10) -> float:
         """

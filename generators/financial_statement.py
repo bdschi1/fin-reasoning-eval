@@ -477,7 +477,9 @@ class FinancialStatementGenerator(BaseGenerator):
         nwc_cy_pct = nwc_cy / revenue_cy * 100
 
         if difficulty == Difficulty.EASY:
-            correct = f"Net Working Capital changed by ${change_nwc:+.0f}M"
+            # Use consistent sign-then-currency format: +$38M not $+38M
+            sign = "+" if change_nwc >= 0 else "-"
+            correct = f"Net Working Capital changed by {sign}${abs(change_nwc):.0f}M"
         elif difficulty == Difficulty.MEDIUM:
             if change_nwc > 0:
                 correct = f"Working capital build of ${change_nwc:.0f}M - cash use"
@@ -511,8 +513,9 @@ class FinancialStatementGenerator(BaseGenerator):
             }
         )
 
+        inv_sign = "-" if change_nwc >= 0 else "+"
         distractors = [
-            f"WC change: ${change_nwc * -1:+.0f}M",
+            f"WC change: {inv_sign}${abs(change_nwc):.0f}M",
             "Working capital is adequate",
             "No significant change in working capital"
         ]

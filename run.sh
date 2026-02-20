@@ -7,7 +7,7 @@
 #   ./run.sh setup        Install dependencies only
 #   ./run.sh test         Run test suite only
 #   ./run.sh generate     Regenerate benchmark dataset
-#   ./run.sh eval MODEL   Evaluate a specific model (default: claude-sonnet-4)
+#   ./run.sh eval [MODEL] Evaluate a model (auto-detects provider if omitted)
 #   ./run.sh leaderboard  Launch the Gradio leaderboard UI
 #   ./run.sh help         Show this help message
 # ============================================================
@@ -42,6 +42,118 @@ error()   { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 header()  { echo -e "\n${BOLD}${CYAN}═══════════════════════════════════════════════${NC}"; \
             echo -e "${BOLD}${CYAN}  $*${NC}"; \
             echo -e "${BOLD}${CYAN}═══════════════════════════════════════════════${NC}\n"; }
+
+# ── Read a key value from .env ────────────────────────────
+read_env_key() {
+    local var_name="$1"
+    if [[ -f "${REPO_DIR}/.env" ]]; then
+        grep "^${var_name}=" "${REPO_DIR}/.env" 2>/dev/null | cut -d'=' -f2- | tr -d '"' | tr -d "'" | xargs
+    fi
+}
+
+# ── Check if a key is real (not empty / not a placeholder) ─
+is_real_key() {
+    local value="$1"
+    [[ -n "${value}" && "${value}" != *"your-key-here"* && "${value}" != *"your_key_here"* ]]
+}
+
+# ── Check the API key required for a given model ─────────
+check_api_key() {
+    local model_lower
+    model_lower=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+
+    # Ollama needs no API key
+    if [[ "${model_lower}" == ollama:* ]]; then
+        return 0
+    fi
+
+    local required_var=""
+    if [[ "${model_lower}" == gpt* || "${model_lower}" == o1* || "${model_lower}" == o3* || "${model_lower}" == o4* ]]; then
+        required_var="OPENAI_API_KEY"
+    elif [[ "${model_lower}" == claude* ]]; then
+        required_var="ANTHROPIC_API_KEY"
+    else
+        required_var="HF_API_KEY"
+    fi
+
+    local key_value
+    key_value=$(read_env_key "${required_var}")
+
+    if ! is_real_key "${key_value}"; then
+        error "${required_var} is not configured. Edit .env before running eval with ${1}."
+        exit 1
+    fi
+}
+
+# ── Auto-detect available providers and select model ──────
+select_model() {
+    local providers=()
+    local defaults=()
+
+    # Check each provider's key in .env
+    local anthropic_key openai_key hf_key
+    anthropic_key=$(read_env_key "ANTHROPIC_API_KEY")
+    openai_key=$(read_env_key "OPENAI_API_KEY")
+    hf_key=$(read_env_key "HF_API_KEY")
+
+    if is_real_key "${anthropic_key}"; then
+        providers+=("Anthropic")
+        defaults+=("claude-sonnet-4")
+    fi
+    if is_real_key "${openai_key}"; then
+        providers+=("OpenAI")
+        defaults+=("gpt-4.1")
+    fi
+    if is_real_key "${hf_key}"; then
+        providers+=("HuggingFace")
+        defaults+=("llama-3.3-70b")
+    fi
+
+    # Check for Ollama
+    if curl -s --connect-timeout 2 http://localhost:11434/api/tags >/dev/null 2>&1; then
+        local first_ollama
+        first_ollama=$(curl -s http://localhost:11434/api/tags 2>/dev/null | "${PYTHON}" -c "
+import sys, json
+data = json.load(sys.stdin)
+models = data.get('models', [])
+if models:
+    print(models[0]['name'])
+" 2>/dev/null || true)
+        if [[ -n "${first_ollama}" ]]; then
+            providers+=("Ollama (local)")
+            defaults+=("ollama:${first_ollama}")
+        fi
+    fi
+
+    # Decision logic
+    if [[ ${#providers[@]} -eq 0 ]]; then
+        error "No API keys configured and Ollama is not running."
+        error "Edit .env to add API keys, or start Ollama locally."
+        exit 1
+    elif [[ ${#providers[@]} -eq 1 ]]; then
+        info "Auto-selected ${providers[0]} (only available provider)"
+        echo "${defaults[0]}"
+        return 0
+    else
+        echo "" >&2
+        info "Multiple providers available:" >&2
+        echo "" >&2
+        for i in "${!providers[@]}"; do
+            echo -e "  ${BOLD}$((i + 1)))${NC} ${providers[$i]}  →  ${defaults[$i]}" >&2
+        done
+        echo "" >&2
+
+        local choice
+        while true; do
+            read -rp "$(echo -e "${BLUE}[?]${NC}  Select provider (1-${#providers[@]}): ")" choice
+            if [[ "${choice}" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#providers[@]} )); then
+                echo "${defaults[$((choice - 1))]}"
+                return 0
+            fi
+            warn "Invalid choice. Enter a number between 1 and ${#providers[@]}." >&2
+        done
+    fi
+}
 
 # ── Find best available Python ─────────────────────────────
 find_python() {
@@ -207,9 +319,15 @@ evaluate() {
         exit 1
     fi
 
-    local model="${1:-${DEFAULT_MODEL}}"
+    local model="${1:-}"
     local split="${2:-${DEFAULT_SPLIT}}"
     local limit="${3:-${DEFAULT_LIMIT}}"
+
+    # If no model specified, auto-detect or prompt
+    if [[ -z "${model}" ]]; then
+        model=$(select_model)
+        info "Selected model: ${model}"
+    fi
 
     # Check that benchmark data exists
     if [[ ! -f "${DATA_DIR}/benchmark_${split}.json" ]]; then
@@ -217,11 +335,8 @@ evaluate() {
         generate
     fi
 
-    # Check API keys
-    if [[ -f "${REPO_DIR}/.env" ]] && grep -q "your-key-here" "${REPO_DIR}/.env" 2>/dev/null; then
-        error "API keys in .env still contain placeholders. Edit .env before running eval."
-        exit 1
-    fi
+    # Only check the API key needed for the selected model
+    check_api_key "${model}"
 
     info "Model:  ${model}"
     info "Split:  ${split}"
@@ -266,6 +381,59 @@ leaderboard() {
     "${PYTHON}" "${REPO_DIR}/spaces/app.py"
 }
 
+# ── Compare models ─────────────────────────────────────────
+compare() {
+    header "Comparing models"
+
+    if [[ ! -f "${PYTHON}" ]]; then
+        error "Virtual environment not found. Run './run.sh setup' first."
+        exit 1
+    fi
+
+    # Collect models from args (all args after "compare")
+    local models=("$@")
+
+    if [[ ${#models[@]} -lt 2 ]]; then
+        error "Usage: ./run.sh compare MODEL1 MODEL2 [MODEL3 ...] [--limit N]"
+        error "Example: ./run.sh compare claude-sonnet-4 ollama:llama3.2 --limit 20"
+        exit 1
+    fi
+
+    # Parse out --limit if present
+    local limit=""
+    local clean_models=()
+    local i=0
+    while [[ $i -lt ${#models[@]} ]]; do
+        if [[ "${models[$i]}" == "--limit" ]] && [[ $((i + 1)) -lt ${#models[@]} ]]; then
+            limit="${models[$((i + 1))]}"
+            i=$((i + 2))
+        else
+            clean_models+=("${models[$i]}")
+            i=$((i + 1))
+        fi
+    done
+
+    # Check API keys for each model
+    for m in "${clean_models[@]}"; do
+        check_api_key "${m}"
+    done
+
+    # Build command
+    local cmd=("${PYTHON}" "${REPO_DIR}/scripts/compare_models.py"
+        --models "${clean_models[@]}"
+        --output-dir "${RESULTS_DIR}"
+    )
+
+    if [[ -n "${limit}" ]]; then
+        cmd+=(--limit "${limit}")
+    fi
+
+    "${cmd[@]}"
+
+    echo ""
+    success "Comparison complete! Results saved to ${RESULTS_DIR}/"
+}
+
 # ── Run everything ─────────────────────────────────────────
 run_all() {
     header "Financial Reasoning Eval Benchmark"
@@ -297,11 +465,13 @@ COMMANDS
     setup               Create venv and install dependencies
     test                Run the test suite
     generate [N]        Regenerate benchmark dataset (default: 300 problems)
-    eval MODEL [SPLIT] [LIMIT]
+    eval [MODEL] [SPLIT] [LIMIT]
                         Evaluate a model on the benchmark
-                          MODEL  — model name (default: claude-sonnet-4)
+                          MODEL  — model name or ollama:model (auto-detects if omitted)
                           SPLIT  — test | validation (default: test)
                           LIMIT  — max problems to evaluate (default: all)
+    compare MODEL1 MODEL2 [... --limit N]
+                        Compare multiple models side-by-side on the same problem set
     leaderboard         Launch the Gradio leaderboard UI
     help                Show this help message
 
@@ -309,11 +479,16 @@ EXAMPLES
     ./run.sh                                  # Full pipeline with defaults
     ./run.sh setup                            # Install deps only
     ./run.sh test                             # Run tests only
+    ./run.sh eval                             # Auto-detect provider or choose interactively
     ./run.sh eval claude-sonnet-4             # Eval Claude Sonnet 4 on full test set
     ./run.sh eval gpt-4.1 test 50            # Eval GPT-4.1 on 50 test problems
     ./run.sh eval o3 test 20                  # Eval OpenAI o3 on 20 test problems
     ./run.sh eval claude-opus-4 validation    # Eval Claude Opus 4 on validation set
     ./run.sh eval llama-3.3-70b test 100      # Eval Llama 3.3 70B on 100 problems
+    ./run.sh eval ollama:llama3.2 test 20     # Eval local Ollama model on 20 problems
+    ./run.sh eval ollama:mistral test 10      # Eval local Mistral via Ollama
+    ./run.sh compare claude-sonnet-4 ollama:llama3.2 --limit 20
+                                              # Compare two models side-by-side
     ./run.sh generate 500                     # Generate 500 problems
     ./run.sh leaderboard                      # Launch Gradio UI
 
@@ -321,11 +496,16 @@ SUPPORTED MODELS
     Anthropic:    claude-opus-4, claude-sonnet-4, claude-haiku-3.5
     OpenAI:       gpt-4.1, gpt-4.1-mini, o3, o4-mini
     HuggingFace:  llama-4-scout, llama-3.3-70b, deepseek-r1, qwen2.5-72b
+    Ollama:       ollama:llama3.2, ollama:mistral, ollama:phi3, ollama:deepseek-r1, ...
     Legacy:       claude-3.5-sonnet, gpt-4o, llama-3.1-70b, ...
 
 ENVIRONMENT
     API keys are read from .env (copy .env.example to get started).
     Set ANTHROPIC_API_KEY, OPENAI_API_KEY, or HF_API_KEY as needed.
+    Only the key for your selected provider needs to be configured.
+
+    Ollama models require no API key — just a running Ollama instance.
+    Override the default Ollama URL with: OLLAMA_HOST=http://your-host:11434
 
 HELP
 }
@@ -345,7 +525,11 @@ main() {
             generate "${2:-300}"
             ;;
         eval|evaluate)
-            evaluate "${2:-${DEFAULT_MODEL}}" "${3:-${DEFAULT_SPLIT}}" "${4:-${DEFAULT_LIMIT}}"
+            evaluate "${2:-}" "${3:-${DEFAULT_SPLIT}}" "${4:-${DEFAULT_LIMIT}}"
+            ;;
+        compare)
+            shift  # remove "compare" from args
+            compare "$@"
             ;;
         leaderboard|ui)
             leaderboard

@@ -2,7 +2,7 @@
   "dataset_name": "financial-reasoning-eval",
   "description": "A benchmark for evaluating LLM financial reasoning capabilities. Covers earnings analysis, DCF valuation, accounting quality, catalyst identification, formula auditing, and financial statement analysis.",
   "version": "1.1.0",
-  "created_at": "2026-02-06T02:42:55.818130",
+  "created_at": "2026-02-20T01:18:55.701070",
   "total_examples": 300,
   "splits": {
     "train": 251,

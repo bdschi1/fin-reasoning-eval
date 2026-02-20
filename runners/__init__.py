@@ -4,6 +4,7 @@ from .base import BaseRunner, RunnerConfig, ModelResponse
 from .openai_runner import OpenAIRunner
 from .anthropic_runner import AnthropicRunner
 from .huggingface_runner import HuggingFaceRunner
+from .ollama_runner import OllamaRunner
 from .run_evaluation import run_benchmark, evaluate_model
 
 __all__ = [
@@ -13,6 +14,7 @@ __all__ = [
     'OpenAIRunner',
     'AnthropicRunner',
     'HuggingFaceRunner',
+    'OllamaRunner',
     'run_benchmark',
     'evaluate_model',
 ]

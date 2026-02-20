@@ -391,9 +391,22 @@ class DCFSanityGenerator(BaseGenerator):
             correct = f"Within range - {implied_multiple}x is close to sector average of {base_multiple}x"
         else:
             implied_multiple = base_multiple
-            correct = f"Reasonable - {implied_multiple}x aligns with peer range of {base_multiple-2}x to {base_multiple+3}x"
+            peer_low = base_multiple - 2
+            peer_high = base_multiple + 3
+            correct = f"Reasonable - {implied_multiple}x aligns with peer range of {peer_low}x to {peer_high}x"
 
         ev = round(ebitda * implied_multiple, 0)
+
+        # Include peer range in context for expert problems so the answer
+        # only references information available in the question
+        assumptions = {
+            "DCF-Implied EV": f"${ev}M",
+            "2024E EBITDA": f"${ebitda}M",
+            "Implied EV/EBITDA": f"{implied_multiple}x",
+            "Sector Average EV/EBITDA": f"{base_multiple}x",
+        }
+        if difficulty == Difficulty.EXPERT:
+            assumptions["Peer Range EV/EBITDA"] = f"{peer_low}x to {peer_high}x"
 
         context = FinancialContext(
             company_name=company,
@@ -401,27 +414,35 @@ class DCFSanityGenerator(BaseGenerator):
             sector=sector,
             ev_ebitda=implied_multiple,
             ebitda={"2024E": ebitda},
-            model_assumptions={
-                "DCF-Implied EV": f"${ev}M",
-                "2024E EBITDA": f"${ebitda}M",
-                "Implied EV/EBITDA": f"{implied_multiple}x",
-                "Sector Average EV/EBITDA": f"{base_multiple}x"
-            }
+            model_assumptions=assumptions,
         )
 
         distractors = [
             f"Valid - DCF should not match multiples",
             f"Invalid - should match P/E ratio instead",
-            f"Valid - {implied_multiple}x is industry standard"
+            f"Too low - {implied_multiple}x suggests conservative assumptions"
         ]
+
+        # Expert question includes peer range; others just use sector average
+        if difficulty == Difficulty.EXPERT:
+            question_text = (
+                f"A DCF model for {company} yields an enterprise value of ${ev}M. "
+                f"With 2024E EBITDA of ${ebitda}M, this implies an EV/EBITDA multiple of {implied_multiple}x. "
+                f"The {sector} sector average is {base_multiple}x with a peer range of {peer_low}x to {peer_high}x. "
+                f"Is this reasonable?"
+            )
+        else:
+            question_text = (
+                f"A DCF model for {company} yields an enterprise value of ${ev}M. "
+                f"With 2024E EBITDA of ${ebitda}M, this implies an EV/EBITDA multiple of {implied_multiple}x. "
+                f"The {sector} sector average is {base_multiple}x. Is this reasonable?"
+            )
 
         return Problem(
             id="",
             category=self.category,
             difficulty=difficulty,
-            question=f"A DCF model for {company} yields an enterprise value of ${ev}M. "
-                     f"With 2024E EBITDA of ${ebitda}M, this implies an EV/EBITDA multiple of {implied_multiple}x. "
-                     f"The {sector} sector average is {base_multiple}x. Is this reasonable?",
+            question=question_text,
             context=context,
             answer_type=AnswerType.MULTIPLE_CHOICE,
             correct_answer=correct,

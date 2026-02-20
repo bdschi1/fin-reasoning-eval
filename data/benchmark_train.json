@@ -2,7 +2,7 @@
   "name": "FinancialReasoningEval_train",
   "description": "Training split",
   "version": "1.2.0",
-  "created_at": "2026-02-06T02:42:55.874381",
+  "created_at": "2026-02-20T01:18:55.765367",
   "total_problems": 251,
   "category_distribution": {
     "catalyst_identification": 37,
@@ -92,7 +92,7 @@
         "identification",
         "financials"
       ],
-      "created_at": "2026-02-06T02:42:55.785955",
+      "created_at": "2026-02-20T01:18:55.659607",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -169,7 +169,7 @@
         "timing",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786007",
+      "created_at": "2026-02-20T01:18:55.659653",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -258,7 +258,7 @@
         "fcf",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784879",
+      "created_at": "2026-02-20T01:18:55.658491",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -335,7 +335,7 @@
         "timing",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786111",
+      "created_at": "2026-02-20T01:18:55.659754",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -408,7 +408,7 @@
         "broken-link",
         "external-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786523",
+      "created_at": "2026-02-20T01:18:55.660174",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -494,7 +494,7 @@
         "roe",
         "roic"
       ],
-      "created_at": "2026-02-06T02:42:55.786687",
+      "created_at": "2026-02-20T01:18:55.660326",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -582,7 +582,7 @@
         "earnings-quality",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858498",
+      "created_at": "2026-02-20T01:18:55.743446",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -656,7 +656,7 @@
         "guidance",
         "range-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784433",
+      "created_at": "2026-02-20T01:18:55.658076",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -743,7 +743,7 @@
         "expected-shortfall",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858546",
+      "created_at": "2026-02-20T01:18:55.743496",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -823,7 +823,7 @@
         "governance",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785309",
+      "created_at": "2026-02-20T01:18:55.658969",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -902,7 +902,7 @@
         "sanity-check",
         "discount-rate"
       ],
-      "created_at": "2026-02-06T02:42:55.784867",
+      "created_at": "2026-02-20T01:18:55.658480",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -982,7 +982,7 @@
         "governance",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785774",
+      "created_at": "2026-02-20T01:18:55.659450",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1071,7 +1071,7 @@
         "fcf",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.785179",
+      "created_at": "2026-02-20T01:18:55.658842",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1149,7 +1149,7 @@
         "terminal-value",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784619",
+      "created_at": "2026-02-20T01:18:55.658245",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1222,7 +1222,7 @@
         "broken-link",
         "external-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786443",
+      "created_at": "2026-02-20T01:18:55.660091",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1299,7 +1299,7 @@
         "identification",
         "energy"
       ],
-      "created_at": "2026-02-06T02:42:55.786103",
+      "created_at": "2026-02-20T01:18:55.659744",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1371,7 +1371,7 @@
         "audit",
         "sign-convention"
       ],
-      "created_at": "2026-02-06T02:42:55.786407",
+      "created_at": "2026-02-20T01:18:55.660054",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1460,7 +1460,7 @@
         "fcf",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.785222",
+      "created_at": "2026-02-20T01:18:55.658889",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1540,7 +1540,7 @@
         "formula-error",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858526",
+      "created_at": "2026-02-20T01:18:55.743476",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1627,7 +1627,7 @@
         "terminal-growth",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.785190",
+      "created_at": "2026-02-20T01:18:55.658855",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1706,7 +1706,7 @@
         "sanity-check",
         "discount-rate"
       ],
-      "created_at": "2026-02-06T02:42:55.784739",
+      "created_at": "2026-02-20T01:18:55.658358",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1785,7 +1785,7 @@
         "probability",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786202",
+      "created_at": "2026-02-20T01:18:55.659854",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1864,7 +1864,7 @@
         "probability",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786125",
+      "created_at": "2026-02-20T01:18:55.659771",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -1936,7 +1936,7 @@
         "audit",
         "circular-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786332",
+      "created_at": "2026-02-20T01:18:55.659977",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2014,7 +2014,7 @@
         "sensitivity",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784942",
+      "created_at": "2026-02-20T01:18:55.658552",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2086,7 +2086,7 @@
         "audit",
         "sign-convention"
       ],
-      "created_at": "2026-02-06T02:42:55.786515",
+      "created_at": "2026-02-20T01:18:55.660166",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2163,7 +2163,7 @@
         "identification",
         "industrials"
       ],
-      "created_at": "2026-02-06T02:42:55.786237",
+      "created_at": "2026-02-20T01:18:55.659892",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2249,7 +2249,7 @@
         "leverage",
         "debt"
       ],
-      "created_at": "2026-02-06T02:42:55.787197",
+      "created_at": "2026-02-20T01:18:55.660848",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2322,7 +2322,7 @@
         "date-reference",
         "period"
       ],
-      "created_at": "2026-02-06T02:42:55.786372",
+      "created_at": "2026-02-20T01:18:55.660017",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2402,7 +2402,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.787221",
+      "created_at": "2026-02-20T01:18:55.660876",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2486,7 +2486,7 @@
         "regularization",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858622",
+      "created_at": "2026-02-20T01:18:55.743564",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2565,7 +2565,7 @@
         "magnitude",
         "classification"
       ],
-      "created_at": "2026-02-06T02:42:55.784241",
+      "created_at": "2026-02-20T01:18:55.657901",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2644,7 +2644,7 @@
         "probability",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.785913",
+      "created_at": "2026-02-20T01:18:55.659567",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2725,7 +2725,7 @@
         "leverage",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785757",
+      "created_at": "2026-02-20T01:18:55.659433",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2805,7 +2805,7 @@
         "coverage",
         "debt-service"
       ],
-      "created_at": "2026-02-06T02:42:55.787160",
+      "created_at": "2026-02-20T01:18:55.660809",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2891,7 +2891,7 @@
         "roe",
         "roic"
       ],
-      "created_at": "2026-02-06T02:42:55.786887",
+      "created_at": "2026-02-20T01:18:55.660524",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -2971,7 +2971,7 @@
         "stress-testing",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858520",
+      "created_at": "2026-02-20T01:18:55.743469",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3048,7 +3048,7 @@
         "sequential",
         "trend-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784156",
+      "created_at": "2026-02-20T01:18:55.657820",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3135,7 +3135,7 @@
         "terminal-growth",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784829",
+      "created_at": "2026-02-20T01:18:55.658443",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3207,7 +3207,7 @@
         "audit",
         "sign-convention"
       ],
-      "created_at": "2026-02-06T02:42:55.786465",
+      "created_at": "2026-02-20T01:18:55.660114",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3293,7 +3293,7 @@
         "roe",
         "decomposition"
       ],
-      "created_at": "2026-02-06T02:42:55.786741",
+      "created_at": "2026-02-20T01:18:55.660377",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3372,7 +3372,7 @@
         "probability",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.785894",
+      "created_at": "2026-02-20T01:18:55.659551",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3460,7 +3460,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.784361",
+      "created_at": "2026-02-20T01:18:55.658013",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3546,7 +3546,7 @@
         "roe",
         "roic"
       ],
-      "created_at": "2026-02-06T02:42:55.786820",
+      "created_at": "2026-02-20T01:18:55.660449",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3619,7 +3619,7 @@
         "broken-link",
         "external-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786486",
+      "created_at": "2026-02-20T01:18:55.660137",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3696,7 +3696,7 @@
         "sequential",
         "trend-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784145",
+      "created_at": "2026-02-20T01:18:55.657808",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3770,7 +3770,7 @@
         "prioritization",
         "hierarchy"
       ],
-      "created_at": "2026-02-06T02:42:55.786056",
+      "created_at": "2026-02-20T01:18:55.659700",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3848,7 +3848,7 @@
         "dio",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785423",
+      "created_at": "2026-02-20T01:18:55.659091",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -3922,7 +3922,7 @@
         "prioritization",
         "hierarchy"
       ],
-      "created_at": "2026-02-06T02:42:55.786212",
+      "created_at": "2026-02-20T01:18:55.659865",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4001,7 +4001,7 @@
         "magnitude",
         "classification"
       ],
-      "created_at": "2026-02-06T02:42:55.784281",
+      "created_at": "2026-02-20T01:18:55.657939",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4081,7 +4081,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.787173",
+      "created_at": "2026-02-20T01:18:55.660822",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4159,7 +4159,7 @@
         "terminal-value",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784858",
+      "created_at": "2026-02-20T01:18:55.658470",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4239,7 +4239,7 @@
         "coverage",
         "debt-service"
       ],
-      "created_at": "2026-02-06T02:42:55.787061",
+      "created_at": "2026-02-20T01:18:55.660702",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4288,7 +4288,7 @@
       "answer_options": [
         {
           "id": "A",
-          "text": "Valid - 10.5x is industry standard",
+          "text": "Too low - 10.5x suggests conservative assumptions",
           "is_correct": false
         },
         {
@@ -4319,7 +4319,7 @@
         "sanity-check",
         "valuation"
       ],
-      "created_at": "2026-02-06T02:42:55.784706",
+      "created_at": "2026-02-20T01:18:55.658327",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4378,7 +4378,7 @@
         },
         {
           "id": "C",
-          "text": "Valid - 9.6x is industry standard",
+          "text": "Too low - 9.6x suggests conservative assumptions",
           "is_correct": false
         },
         {
@@ -4399,7 +4399,7 @@
         "sanity-check",
         "valuation"
       ],
-      "created_at": "2026-02-06T02:42:55.784890",
+      "created_at": "2026-02-20T01:18:55.658501",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4473,7 +4473,7 @@
         "guidance",
         "range-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.783974",
+      "created_at": "2026-02-20T01:18:55.657629",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4546,7 +4546,7 @@
         "date-reference",
         "period"
       ],
-      "created_at": "2026-02-06T02:42:55.786379",
+      "created_at": "2026-02-20T01:18:55.660024",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4629,7 +4629,7 @@
         "growth-rate",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784683",
+      "created_at": "2026-02-20T01:18:55.658306",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4706,7 +4706,7 @@
         "identification",
         "financials"
       ],
-      "created_at": "2026-02-06T02:42:55.785987",
+      "created_at": "2026-02-20T01:18:55.659638",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4778,7 +4778,7 @@
         "audit",
         "circular-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786472",
+      "created_at": "2026-02-20T01:18:55.660121",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4856,7 +4856,7 @@
         "magnitude",
         "materiality"
       ],
-      "created_at": "2026-02-06T02:42:55.785946",
+      "created_at": "2026-02-20T01:18:55.659599",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -4945,7 +4945,7 @@
         "fcf",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784922",
+      "created_at": "2026-02-20T01:18:55.658532",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5032,7 +5032,7 @@
         "factor-decomposition",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858549",
+      "created_at": "2026-02-20T01:18:55.743499",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5116,7 +5116,7 @@
         "attribution",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858652",
+      "created_at": "2026-02-20T01:18:55.743594",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5125,7 +5125,7 @@
       "id": "63873ab85092",
       "category": "dcf_sanity_check",
       "difficulty": "expert",
-      "question": "A DCF model for Lunar Lifestyle yields an enterprise value of $3920.0M. With 2024E EBITDA of $392.0M, this implies an EV/EBITDA multiple of 10.0x. The Consumer Discretionary sector average is 10.0x. Is this reasonable?",
+      "question": "A DCF model for Lunar Lifestyle yields an enterprise value of $3920.0M. With 2024E EBITDA of $392.0M, this implies an EV/EBITDA multiple of 10.0x. The Consumer Discretionary sector average is 10.0x with a peer range of 8.0x to 13.0x. Is this reasonable?",
       "context": {
         "company_name": "Lunar Lifestyle",
         "ticker": "LULI",
@@ -5156,7 +5156,8 @@
           "DCF-Implied EV": "$3920.0M",
           "2024E EBITDA": "$392.0M",
           "Implied EV/EBITDA": "10.0x",
-          "Sector Average EV/EBITDA": "10.0x"
+          "Sector Average EV/EBITDA": "10.0x",
+          "Peer Range EV/EBITDA": "8.0x to 13.0x"
         },
         "formula_context": null
       },
@@ -5165,7 +5166,7 @@
       "answer_options": [
         {
           "id": "A",
-          "text": "Valid - 10.0x is industry standard",
+          "text": "Too low - 10.0x suggests conservative assumptions",
           "is_correct": false
         },
         {
@@ -5196,7 +5197,7 @@
         "sanity-check",
         "valuation"
       ],
-      "created_at": "2026-02-06T02:42:55.784609",
+      "created_at": "2026-02-20T01:18:55.658236",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5274,7 +5275,7 @@
         "terminal-value",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784774",
+      "created_at": "2026-02-20T01:18:55.658391",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5355,7 +5356,7 @@
         "earnings-management",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785794",
+      "created_at": "2026-02-20T01:18:55.659468",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5436,7 +5437,7 @@
         "drivers",
         "variance-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784271",
+      "created_at": "2026-02-20T01:18:55.657930",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5517,7 +5518,7 @@
         "leverage",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785257",
+      "created_at": "2026-02-20T01:18:55.658920",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5598,7 +5599,7 @@
         "drivers",
         "variance-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784076",
+      "created_at": "2026-02-20T01:18:55.657740",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5676,7 +5677,7 @@
         "liquidity",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.786671",
+      "created_at": "2026-02-20T01:18:55.660312",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5749,7 +5750,7 @@
         "date-reference",
         "period"
       ],
-      "created_at": "2026-02-06T02:42:55.786428",
+      "created_at": "2026-02-20T01:18:55.660076",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5828,7 +5829,7 @@
         "bid-ask-bounce",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858583",
+      "created_at": "2026-02-20T01:18:55.743526",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5914,7 +5915,7 @@
         "roe",
         "decomposition"
       ],
-      "created_at": "2026-02-06T02:42:55.787124",
+      "created_at": "2026-02-20T01:18:55.660771",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -5996,7 +5997,7 @@
         "divergence",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785660",
+      "created_at": "2026-02-20T01:18:55.659338",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6082,7 +6083,7 @@
         "roe",
         "decomposition"
       ],
-      "created_at": "2026-02-06T02:42:55.786767",
+      "created_at": "2026-02-20T01:18:55.660402",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6167,7 +6168,7 @@
         "information-value",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858514",
+      "created_at": "2026-02-20T01:18:55.743462",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6229,7 +6230,7 @@
         },
         {
           "id": "C",
-          "text": "WC change: $+100M",
+          "text": "WC change: +$100M",
           "is_correct": false
         },
         {
@@ -6249,7 +6250,7 @@
         "working-capital",
         "cash-flow"
       ],
-      "created_at": "2026-02-06T02:42:55.786642",
+      "created_at": "2026-02-20T01:18:55.660285",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6321,7 +6322,7 @@
         "audit",
         "logic-error"
       ],
-      "created_at": "2026-02-06T02:42:55.786558",
+      "created_at": "2026-02-20T01:18:55.660210",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6401,7 +6402,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.786984",
+      "created_at": "2026-02-20T01:18:55.660622",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6482,7 +6483,7 @@
         "earnings-quality",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785352",
+      "created_at": "2026-02-20T01:18:55.659017",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6568,7 +6569,7 @@
         "leverage",
         "debt"
       ],
-      "created_at": "2026-02-06T02:42:55.786941",
+      "created_at": "2026-02-20T01:18:55.660582",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6640,7 +6641,7 @@
         "audit",
         "logic-error"
       ],
-      "created_at": "2026-02-06T02:42:55.786280",
+      "created_at": "2026-02-20T01:18:55.659928",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6726,7 +6727,7 @@
         "hedging",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858511",
+      "created_at": "2026-02-20T01:18:55.743459",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6803,7 +6804,7 @@
         "timing",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.785818",
+      "created_at": "2026-02-20T01:18:55.659484",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6884,7 +6885,7 @@
         "leverage",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785444",
+      "created_at": "2026-02-20T01:18:55.659113",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -6958,7 +6959,7 @@
         "prioritization",
         "hierarchy"
       ],
-      "created_at": "2026-02-06T02:42:55.786037",
+      "created_at": "2026-02-20T01:18:55.659682",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7039,7 +7040,7 @@
         "earnings-management",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785785",
+      "created_at": "2026-02-20T01:18:55.659459",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7113,7 +7114,7 @@
         "guidance",
         "range-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.783986",
+      "created_at": "2026-02-20T01:18:55.657640",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7194,7 +7195,7 @@
         "leverage",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785687",
+      "created_at": "2026-02-20T01:18:55.659370",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7281,7 +7282,7 @@
         "terminal-growth",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784650",
+      "created_at": "2026-02-20T01:18:55.658274",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7353,7 +7354,7 @@
         "audit",
         "sign-convention"
       ],
-      "created_at": "2026-02-06T02:42:55.786357",
+      "created_at": "2026-02-20T01:18:55.660002",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7431,7 +7432,7 @@
         "dio",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785404",
+      "created_at": "2026-02-20T01:18:55.659070",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7514,7 +7515,7 @@
         "process-review",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858637",
+      "created_at": "2026-02-20T01:18:55.743579",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7573,7 +7574,7 @@
         },
         {
           "id": "C",
-          "text": "Valid - 8.5x is industry standard",
+          "text": "Too low - 8.5x suggests conservative assumptions",
           "is_correct": false
         },
         {
@@ -7594,7 +7595,7 @@
         "sanity-check",
         "valuation"
       ],
-      "created_at": "2026-02-06T02:42:55.784661",
+      "created_at": "2026-02-20T01:18:55.658285",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7674,7 +7675,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.787282",
+      "created_at": "2026-02-20T01:18:55.660940",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7762,7 +7763,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.783962",
+      "created_at": "2026-02-20T01:18:55.657616",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7848,7 +7849,7 @@
         "roe",
         "decomposition"
       ],
-      "created_at": "2026-02-06T02:42:55.787149",
+      "created_at": "2026-02-20T01:18:55.660797",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -7933,7 +7934,7 @@
         "revenue-recognition",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785614",
+      "created_at": "2026-02-20T01:18:55.659288",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8019,7 +8020,7 @@
         "roe",
         "roic"
       ],
-      "created_at": "2026-02-06T02:42:55.786700",
+      "created_at": "2026-02-20T01:18:55.660339",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8105,7 +8106,7 @@
         "roe",
         "roic"
       ],
-      "created_at": "2026-02-06T02:42:55.786659",
+      "created_at": "2026-02-20T01:18:55.660299",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8186,7 +8187,7 @@
         "leverage",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785453",
+      "created_at": "2026-02-20T01:18:55.659123",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8267,7 +8268,7 @@
         "leverage",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785650",
+      "created_at": "2026-02-20T01:18:55.659327",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8339,7 +8340,7 @@
         "audit",
         "unit-mismatch"
       ],
-      "created_at": "2026-02-06T02:42:55.786435",
+      "created_at": "2026-02-20T01:18:55.660083",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8411,7 +8412,7 @@
         "audit",
         "circular-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786414",
+      "created_at": "2026-02-20T01:18:55.660061",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8493,7 +8494,7 @@
         "divergence",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785275",
+      "created_at": "2026-02-20T01:18:55.658935",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8578,7 +8579,7 @@
         "revenue-recognition",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785490",
+      "created_at": "2026-02-20T01:18:55.659163",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8657,7 +8658,7 @@
         "magnitude",
         "classification"
       ],
-      "created_at": "2026-02-06T02:42:55.784208",
+      "created_at": "2026-02-20T01:18:55.657871",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8742,7 +8743,7 @@
         "risk-estimation",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858589",
+      "created_at": "2026-02-20T01:18:55.743532",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8819,7 +8820,7 @@
         "identification",
         "healthcare"
       ],
-      "created_at": "2026-02-06T02:42:55.785865",
+      "created_at": "2026-02-20T01:18:55.659523",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8907,7 +8908,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.784331",
+      "created_at": "2026-02-20T01:18:55.657986",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -8993,7 +8994,7 @@
         "accounting-policy",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858494",
+      "created_at": "2026-02-20T01:18:55.743442",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9065,7 +9066,7 @@
         "audit",
         "sign-convention"
       ],
-      "created_at": "2026-02-06T02:42:55.786400",
+      "created_at": "2026-02-20T01:18:55.660046",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9144,7 +9145,7 @@
         "variance-analysis",
         "eps-impact"
       ],
-      "created_at": "2026-02-06T02:42:55.783937",
+      "created_at": "2026-02-20T01:18:55.657589",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9225,7 +9226,7 @@
         "margin",
         "profitability"
       ],
-      "created_at": "2026-02-06T02:42:55.786622",
+      "created_at": "2026-02-20T01:18:55.660270",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9302,7 +9303,7 @@
         "timing",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786133",
+      "created_at": "2026-02-20T01:18:55.659779",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9387,7 +9388,7 @@
         "volatility-factor",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858478",
+      "created_at": "2026-02-20T01:18:55.743426",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9459,7 +9460,7 @@
         "audit",
         "logic-error"
       ],
-      "created_at": "2026-02-06T02:42:55.786421",
+      "created_at": "2026-02-20T01:18:55.660069",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9536,7 +9537,7 @@
         "sequential",
         "trend-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.783924",
+      "created_at": "2026-02-20T01:18:55.657576",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9619,7 +9620,7 @@
         "growth-rate",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784910",
+      "created_at": "2026-02-20T01:18:55.658522",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9699,7 +9700,7 @@
         "benchmark-relative",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858529",
+      "created_at": "2026-02-20T01:18:55.743479",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9786,7 +9787,7 @@
         "terminal-growth",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784542",
+      "created_at": "2026-02-20T01:18:55.658173",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9866,7 +9867,7 @@
         "momentum",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858523",
+      "created_at": "2026-02-20T01:18:55.743473",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -9943,7 +9944,7 @@
         "timing",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.785935",
+      "created_at": "2026-02-20T01:18:55.659589",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10015,7 +10016,7 @@
         "audit",
         "circular-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786300",
+      "created_at": "2026-02-20T01:18:55.659945",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10098,7 +10099,7 @@
         "growth-rate",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784486",
+      "created_at": "2026-02-20T01:18:55.658111",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10176,7 +10177,7 @@
         "dio",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785729",
+      "created_at": "2026-02-20T01:18:55.659407",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10248,7 +10249,7 @@
         "audit",
         "circular-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786317",
+      "created_at": "2026-02-20T01:18:55.659962",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10329,7 +10330,7 @@
         "drivers",
         "variance-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784135",
+      "created_at": "2026-02-20T01:18:55.657797",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10408,7 +10409,7 @@
         "magnitude",
         "classification"
       ],
-      "created_at": "2026-02-06T02:42:55.784380",
+      "created_at": "2026-02-20T01:18:55.658031",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10495,7 +10496,7 @@
         "terminal-growth",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.785233",
+      "created_at": "2026-02-20T01:18:55.658899",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10576,7 +10577,7 @@
         "leverage",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785555",
+      "created_at": "2026-02-20T01:18:55.659229",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10654,7 +10655,7 @@
         "terminal-value",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784577",
+      "created_at": "2026-02-20T01:18:55.658204",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10733,13 +10734,13 @@
         "probability",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.785972",
+      "created_at": "2026-02-20T01:18:55.659622",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
     },
     {
-      "id": "d3c13a865ebb",
+      "id": "4cfbad852406",
       "category": "financial_statement_analysis",
       "difficulty": "easy",
       "question": "Analyze working capital changes for Global Essentials:\nPrior Year: CA $197.0M, CL $103.0M, Revenue $795.0M\nCurrent Year: CA $229.0M, CL $152.0M, Revenue $903.0M",
@@ -10781,7 +10782,7 @@
         "formula_context": null
       },
       "answer_type": "multiple_choice",
-      "correct_answer": "Net Working Capital changed by $-17M",
+      "correct_answer": "Net Working Capital changed by -$17M",
       "answer_options": [
         {
           "id": "A",
@@ -10790,12 +10791,12 @@
         },
         {
           "id": "B",
-          "text": "Net Working Capital changed by $-17M",
+          "text": "Net Working Capital changed by -$17M",
           "is_correct": true
         },
         {
           "id": "C",
-          "text": "WC change: $+17M",
+          "text": "WC change: +$17M",
           "is_correct": false
         },
         {
@@ -10815,7 +10816,7 @@
         "working-capital",
         "cash-flow"
       ],
-      "created_at": "2026-02-06T02:42:55.786912",
+      "created_at": "2026-02-20T01:18:55.660551",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10895,7 +10896,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.787009",
+      "created_at": "2026-02-20T01:18:55.660648",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -10972,7 +10973,7 @@
         "identification",
         "energy"
       ],
-      "created_at": "2026-02-06T02:42:55.786024",
+      "created_at": "2026-02-20T01:18:55.659668",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11058,7 +11059,7 @@
         "roe",
         "roic"
       ],
-      "created_at": "2026-02-06T02:42:55.786794",
+      "created_at": "2026-02-20T01:18:55.660426",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11136,7 +11137,7 @@
         "terminal-value",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784552",
+      "created_at": "2026-02-20T01:18:55.658183",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11217,7 +11218,7 @@
         "earnings-quality",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785534",
+      "created_at": "2026-02-20T01:18:55.659207",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11302,7 +11303,7 @@
         "revenue-recognition",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785678",
+      "created_at": "2026-02-20T01:18:55.659360",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11381,7 +11382,7 @@
         "sanity-check",
         "discount-rate"
       ],
-      "created_at": "2026-02-06T02:42:55.784818",
+      "created_at": "2026-02-20T01:18:55.658433",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11458,7 +11459,7 @@
         "sequential",
         "trend-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.783948",
+      "created_at": "2026-02-20T01:18:55.657601",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11535,7 +11536,7 @@
         "identification",
         "energy"
       ],
-      "created_at": "2026-02-06T02:42:55.786016",
+      "created_at": "2026-02-20T01:18:55.659661",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11616,7 +11617,7 @@
         "earnings-quality",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785712",
+      "created_at": "2026-02-20T01:18:55.659388",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11695,7 +11696,7 @@
         "momentum",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858608",
+      "created_at": "2026-02-20T01:18:55.743550",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11783,7 +11784,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.784066",
+      "created_at": "2026-02-20T01:18:55.657728",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11871,7 +11872,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.783834",
+      "created_at": "2026-02-20T01:18:55.657482",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -11935,7 +11936,7 @@
         },
         {
           "id": "D",
-          "text": "Valid - 45x is industry standard",
+          "text": "Too low - 45x suggests conservative assumptions",
           "is_correct": false
         }
       ],
@@ -11951,7 +11952,7 @@
         "sanity-check",
         "valuation"
       ],
-      "created_at": "2026-02-06T02:42:55.784500",
+      "created_at": "2026-02-20T01:18:55.658125",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12029,7 +12030,7 @@
         "terminal-value",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784529",
+      "created_at": "2026-02-20T01:18:55.658160",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12110,7 +12111,7 @@
         "margin",
         "profitability"
       ],
-      "created_at": "2026-02-06T02:42:55.787209",
+      "created_at": "2026-02-20T01:18:55.660861",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12195,7 +12196,7 @@
         "credit-risk",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858475",
+      "created_at": "2026-02-20T01:18:55.743422",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12274,7 +12275,7 @@
         "variance-analysis",
         "eps-impact"
       ],
-      "created_at": "2026-02-06T02:42:55.783912",
+      "created_at": "2026-02-20T01:18:55.657563",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12361,7 +12362,7 @@
         "terminal-growth",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784839",
+      "created_at": "2026-02-20T01:18:55.658452",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12433,7 +12434,7 @@
         "audit",
         "sign-convention"
       ],
-      "created_at": "2026-02-06T02:42:55.786530",
+      "created_at": "2026-02-20T01:18:55.660181",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12518,7 +12519,7 @@
         "crowding",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858649",
+      "created_at": "2026-02-20T01:18:55.743591",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12606,7 +12607,7 @@
         "red-flag",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858488",
+      "created_at": "2026-02-20T01:18:55.743436",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12685,7 +12686,7 @@
         "magnitude",
         "classification"
       ],
-      "created_at": "2026-02-06T02:42:55.784198",
+      "created_at": "2026-02-20T01:18:55.657861",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12767,7 +12768,7 @@
         "divergence",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785373",
+      "created_at": "2026-02-20T01:18:55.659040",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12848,7 +12849,7 @@
         "earnings-management",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785545",
+      "created_at": "2026-02-20T01:18:55.659218",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -12934,7 +12935,7 @@
         "roe",
         "decomposition"
       ],
-      "created_at": "2026-02-06T02:42:55.786860",
+      "created_at": "2026-02-20T01:18:55.660494",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13008,7 +13009,7 @@
         "prioritization",
         "hierarchy"
       ],
-      "created_at": "2026-02-06T02:42:55.786194",
+      "created_at": "2026-02-20T01:18:55.659846",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13086,7 +13087,7 @@
         "terminal-value",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.785210",
+      "created_at": "2026-02-20T01:18:55.658877",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13166,7 +13167,7 @@
         "diversification",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858533",
+      "created_at": "2026-02-20T01:18:55.743483",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13252,7 +13253,7 @@
         "roe",
         "roic"
       ],
-      "created_at": "2026-02-06T02:42:55.787247",
+      "created_at": "2026-02-20T01:18:55.660902",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13329,7 +13330,7 @@
         "timing",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786184",
+      "created_at": "2026-02-20T01:18:55.659835",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13412,7 +13413,7 @@
         "growth-rate",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784468",
+      "created_at": "2026-02-20T01:18:55.658098",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13485,7 +13486,7 @@
         "broken-link",
         "external-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786544",
+      "created_at": "2026-02-20T01:18:55.660195",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13562,7 +13563,7 @@
         "timing",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786219",
+      "created_at": "2026-02-20T01:18:55.659873",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13648,7 +13649,7 @@
         "roe",
         "roic"
       ],
-      "created_at": "2026-02-06T02:42:55.787047",
+      "created_at": "2026-02-20T01:18:55.660686",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13720,7 +13721,7 @@
         "audit",
         "sign-convention"
       ],
-      "created_at": "2026-02-06T02:42:55.786324",
+      "created_at": "2026-02-20T01:18:55.659970",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13808,7 +13809,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.784321",
+      "created_at": "2026-02-20T01:18:55.657977",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13892,7 +13893,7 @@
         "statistical-significance",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858643",
+      "created_at": "2026-02-20T01:18:55.743585",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -13977,7 +13978,7 @@
         "revenue-recognition",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785433",
+      "created_at": "2026-02-20T01:18:55.659102",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14051,7 +14052,7 @@
         "prioritization",
         "hierarchy"
       ],
-      "created_at": "2026-02-06T02:42:55.785927",
+      "created_at": "2026-02-20T01:18:55.659579",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14136,7 +14137,7 @@
         "position-sizing",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858507",
+      "created_at": "2026-02-20T01:18:55.743456",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14224,7 +14225,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.784219",
+      "created_at": "2026-02-20T01:18:55.657883",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14307,7 +14308,7 @@
         "volatility-clustering",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858586",
+      "created_at": "2026-02-20T01:18:55.743529",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14388,7 +14389,7 @@
         "drivers",
         "variance-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784054",
+      "created_at": "2026-02-20T01:18:55.657713",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14469,7 +14470,7 @@
         "earnings-quality",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785462",
+      "created_at": "2026-02-20T01:18:55.659133",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14550,7 +14551,7 @@
         "drivers",
         "variance-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784100",
+      "created_at": "2026-02-20T01:18:55.657762",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14624,7 +14625,7 @@
         "guidance",
         "range-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784089",
+      "created_at": "2026-02-20T01:18:55.657751",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14705,7 +14706,7 @@
         "earnings-quality",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785669",
+      "created_at": "2026-02-20T01:18:55.659351",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14785,7 +14786,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.786728",
+      "created_at": "2026-02-20T01:18:55.660364",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14864,7 +14865,7 @@
         "variance-analysis",
         "eps-impact"
       ],
-      "created_at": "2026-02-06T02:42:55.784019",
+      "created_at": "2026-02-20T01:18:55.657676",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -14953,7 +14954,7 @@
         "fcf",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784567",
+      "created_at": "2026-02-20T01:18:55.658195",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15042,7 +15043,7 @@
         "fcf",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784753",
+      "created_at": "2026-02-20T01:18:55.658369",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15091,7 +15092,7 @@
       "answer_options": [
         {
           "id": "A",
-          "text": "Valid - 9.6x is industry standard",
+          "text": "Too low - 9.6x suggests conservative assumptions",
           "is_correct": false
         },
         {
@@ -15122,7 +15123,7 @@
         "sanity-check",
         "valuation"
       ],
-      "created_at": "2026-02-06T02:42:55.784899",
+      "created_at": "2026-02-20T01:18:55.658511",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15206,7 +15207,7 @@
         "risk-management",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858595",
+      "created_at": "2026-02-20T01:18:55.743538",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15283,7 +15284,7 @@
         "sequential",
         "trend-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.783891",
+      "created_at": "2026-02-20T01:18:55.657548",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15363,7 +15364,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.787085",
+      "created_at": "2026-02-20T01:18:55.660731",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15441,7 +15442,7 @@
         "sensitivity",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784795",
+      "created_at": "2026-02-20T01:18:55.658412",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15526,7 +15527,7 @@
         "revenue-recognition",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785747",
+      "created_at": "2026-02-20T01:18:55.659424",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15609,7 +15610,7 @@
         "behavioral-finance",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858574",
+      "created_at": "2026-02-20T01:18:55.743517",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15690,7 +15691,7 @@
         "margin",
         "profitability"
       ],
-      "created_at": "2026-02-06T02:42:55.786833",
+      "created_at": "2026-02-20T01:18:55.660463",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15773,7 +15774,7 @@
         "liquidity",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858577",
+      "created_at": "2026-02-20T01:18:55.743520",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15861,7 +15862,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.784311",
+      "created_at": "2026-02-20T01:18:55.657967",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -15933,7 +15934,7 @@
         "audit",
         "circular-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786309",
+      "created_at": "2026-02-20T01:18:55.659954",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16011,7 +16012,7 @@
         "sensitivity",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784932",
+      "created_at": "2026-02-20T01:18:55.658542",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16083,7 +16084,7 @@
         "audit",
         "unit-mismatch"
       ],
-      "created_at": "2026-02-06T02:42:55.786579",
+      "created_at": "2026-02-20T01:18:55.660233",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16171,7 +16172,7 @@
         "calculation",
         "eps"
       ],
-      "created_at": "2026-02-06T02:42:55.784400",
+      "created_at": "2026-02-20T01:18:55.658049",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16252,7 +16253,7 @@
         "earnings-quality",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785766",
+      "created_at": "2026-02-20T01:18:55.659441",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16324,7 +16325,7 @@
         "audit",
         "unit-mismatch"
       ],
-      "created_at": "2026-02-06T02:42:55.786291",
+      "created_at": "2026-02-20T01:18:55.659936",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16401,7 +16402,7 @@
         "timing",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.785874",
+      "created_at": "2026-02-20T01:18:55.659531",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16488,7 +16489,7 @@
         "terminal-growth",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784728",
+      "created_at": "2026-02-20T01:18:55.658348",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16561,7 +16562,7 @@
         "broken-link",
         "external-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786572",
+      "created_at": "2026-02-20T01:18:55.660224",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16640,7 +16641,7 @@
         "magnitude",
         "classification"
       ],
-      "created_at": "2026-02-06T02:42:55.784166",
+      "created_at": "2026-02-20T01:18:55.657831",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16723,7 +16724,7 @@
         "dso",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785510",
+      "created_at": "2026-02-20T01:18:55.659184",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16797,7 +16798,7 @@
         "guidance",
         "range-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784351",
+      "created_at": "2026-02-20T01:18:55.658004",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16876,7 +16877,7 @@
         "probability",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786168",
+      "created_at": "2026-02-20T01:18:55.659816",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -16961,7 +16962,7 @@
         "revenue-recognition",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785499",
+      "created_at": "2026-02-20T01:18:55.659172",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17039,7 +17040,7 @@
         "sensitivity",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784630",
+      "created_at": "2026-02-20T01:18:55.658254",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17111,7 +17112,7 @@
         "audit",
         "unit-mismatch"
       ],
-      "created_at": "2026-02-06T02:42:55.786342",
+      "created_at": "2026-02-20T01:18:55.659986",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17193,7 +17194,7 @@
         "hard-coded",
         "plug"
       ],
-      "created_at": "2026-02-06T02:42:55.786450",
+      "created_at": "2026-02-20T01:18:55.660099",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17267,7 +17268,7 @@
         "guidance",
         "range-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.783584",
+      "created_at": "2026-02-20T01:18:55.657219",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17348,7 +17349,7 @@
         "factor-separation",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858288",
+      "created_at": "2026-02-20T01:18:55.743216",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17420,7 +17421,7 @@
         "audit",
         "unit-mismatch"
       ],
-      "created_at": "2026-02-06T02:42:55.786565",
+      "created_at": "2026-02-20T01:18:55.660217",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17499,7 +17500,7 @@
         "stress-testing",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858602",
+      "created_at": "2026-02-20T01:18:55.743544",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17588,7 +17589,7 @@
         "fcf",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784718",
+      "created_at": "2026-02-20T01:18:55.658338",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17661,7 +17662,7 @@
         "date-reference",
         "period"
       ],
-      "created_at": "2026-02-06T02:42:55.786588",
+      "created_at": "2026-02-20T01:18:55.660241",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17741,7 +17742,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.787111",
+      "created_at": "2026-02-20T01:18:55.660758",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17819,7 +17820,7 @@
         "magnitude",
         "materiality"
       ],
-      "created_at": "2026-02-06T02:42:55.785886",
+      "created_at": "2026-02-20T01:18:55.659543",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17896,7 +17897,7 @@
         "identification",
         "energy"
       ],
-      "created_at": "2026-02-06T02:42:55.786176",
+      "created_at": "2026-02-20T01:18:55.659826",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -17974,7 +17975,7 @@
         "sensitivity",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784640",
+      "created_at": "2026-02-20T01:18:55.658264",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18052,13 +18053,13 @@
         "downside",
         "negative"
       ],
-      "created_at": "2026-02-06T02:42:55.786142",
+      "created_at": "2026-02-20T01:18:55.659789",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
     },
     {
-      "id": "64f73d162492",
+      "id": "8a2c6e429ffc",
       "category": "financial_statement_analysis",
       "difficulty": "easy",
       "question": "Analyze working capital changes for Wavelength Investments:\nPrior Year: CA $312.0M, CL $270.0M, Revenue $1729.0M\nCurrent Year: CA $437.0M, CL $357.0M, Revenue $1851.0M",
@@ -18100,11 +18101,11 @@
         "formula_context": null
       },
       "answer_type": "multiple_choice",
-      "correct_answer": "Net Working Capital changed by $+38M",
+      "correct_answer": "Net Working Capital changed by +$38M",
       "answer_options": [
         {
           "id": "A",
-          "text": "WC change: $-38M",
+          "text": "WC change: -$38M",
           "is_correct": false
         },
         {
@@ -18114,7 +18115,7 @@
         },
         {
           "id": "C",
-          "text": "Net Working Capital changed by $+38M",
+          "text": "Net Working Capital changed by +$38M",
           "is_correct": true
         },
         {
@@ -18134,7 +18135,7 @@
         "working-capital",
         "cash-flow"
       ],
-      "created_at": "2026-02-06T02:42:55.786929",
+      "created_at": "2026-02-20T01:18:55.660568",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18213,7 +18214,7 @@
         "leverage",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858580",
+      "created_at": "2026-02-20T01:18:55.743523",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18287,7 +18288,7 @@
         "guidance",
         "range-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784187",
+      "created_at": "2026-02-20T01:18:55.657851",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18366,7 +18367,7 @@
         "probability",
         "assessment"
       ],
-      "created_at": "2026-02-06T02:42:55.786077",
+      "created_at": "2026-02-20T01:18:55.659718",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18448,7 +18449,7 @@
         "hard-coded",
         "plug"
       ],
-      "created_at": "2026-02-06T02:42:55.786551",
+      "created_at": "2026-02-20T01:18:55.660203",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18525,7 +18526,7 @@
         "sequential",
         "trend-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.783857",
+      "created_at": "2026-02-20T01:18:55.657506",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18597,7 +18598,7 @@
         "audit",
         "circular-reference"
       ],
-      "created_at": "2026-02-06T02:42:55.786596",
+      "created_at": "2026-02-20T01:18:55.660250",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18675,7 +18676,7 @@
         "dio",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785632",
+      "created_at": "2026-02-20T01:18:55.659308",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18753,7 +18754,7 @@
         "sensitivity",
         "sanity-check"
       ],
-      "created_at": "2026-02-06T02:42:55.784598",
+      "created_at": "2026-02-20T01:18:55.658224",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18839,7 +18840,7 @@
         "roe",
         "decomposition"
       ],
-      "created_at": "2026-02-06T02:42:55.786807",
+      "created_at": "2026-02-20T01:18:55.660437",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -18919,7 +18920,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.787259",
+      "created_at": "2026-02-20T01:18:55.660915",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19001,7 +19002,7 @@
         "hard-coded",
         "plug"
       ],
-      "created_at": "2026-02-06T02:42:55.786537",
+      "created_at": "2026-02-20T01:18:55.660188",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19055,7 +19056,7 @@
         },
         {
           "id": "B",
-          "text": "Valid - 2.5x is industry standard",
+          "text": "Too low - 2.5x suggests conservative assumptions",
           "is_correct": false
         },
         {
@@ -19081,7 +19082,7 @@
         "sanity-check",
         "valuation"
       ],
-      "created_at": "2026-02-06T02:42:55.784952",
+      "created_at": "2026-02-20T01:18:55.658561",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19165,7 +19166,7 @@
         "regression",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858465",
+      "created_at": "2026-02-20T01:18:55.743412",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19250,7 +19251,7 @@
         "market-signals",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858491",
+      "created_at": "2026-02-20T01:18:55.743439",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19332,7 +19333,7 @@
         "divergence",
         "red-flag"
       ],
-      "created_at": "2026-02-06T02:42:55.785739",
+      "created_at": "2026-02-20T01:18:55.659417",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19394,7 +19395,7 @@
         },
         {
           "id": "C",
-          "text": "WC change: $-22M",
+          "text": "WC change: -$22M",
           "is_correct": false
         },
         {
@@ -19414,7 +19415,7 @@
         "working-capital",
         "cash-flow"
       ],
-      "created_at": "2026-02-06T02:42:55.786874",
+      "created_at": "2026-02-20T01:18:55.660510",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19500,7 +19501,7 @@
         "risk-management",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858540",
+      "created_at": "2026-02-20T01:18:55.743489",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19586,7 +19587,7 @@
         "leverage",
         "debt"
       ],
-      "created_at": "2026-02-06T02:42:55.786847",
+      "created_at": "2026-02-20T01:18:55.660479",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19666,7 +19667,7 @@
         "cash-conversion",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.787271",
+      "created_at": "2026-02-20T01:18:55.660928",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19744,7 +19745,7 @@
         "downside",
         "negative"
       ],
-      "created_at": "2026-02-06T02:42:55.785833",
+      "created_at": "2026-02-20T01:18:55.659496",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19821,7 +19822,7 @@
         "sequential",
         "trend-analysis"
       ],
-      "created_at": "2026-02-06T02:42:55.784290",
+      "created_at": "2026-02-20T01:18:55.657948",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19899,7 +19900,7 @@
         "liquidity",
         "working-capital"
       ],
-      "created_at": "2026-02-06T02:42:55.786996",
+      "created_at": "2026-02-20T01:18:55.660635",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -19971,7 +19972,7 @@
         "audit",
         "unit-mismatch"
       ],
-      "created_at": "2026-02-06T02:42:55.786393",
+      "created_at": "2026-02-20T01:18:55.660039",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -20056,7 +20057,7 @@
         "leverage",
         "quant-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858646",
+      "created_at": "2026-02-20T01:18:55.743588",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false
@@ -20142,7 +20143,7 @@
         "binary-events",
         "advanced-concepts"
       ],
-      "created_at": "2026-02-06T02:42:55.858504",
+      "created_at": "2026-02-20T01:18:55.743453",
       "version": "1.0",
       "max_points": 1,
       "partial_credit": false

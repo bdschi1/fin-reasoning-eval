@@ -83,8 +83,12 @@ def generate_benchmark_dataset(
 
     all_problems = []
 
+    # Enforce a minimum of 5 problems per category so category-level
+    # accuracy stats are meaningful even with small total counts.
+    min_per_category = 5
+
     for category, weight in category_distribution.items():
-        count = int(num_problems * weight)
+        count = max(min_per_category, int(num_problems * weight))
         print(f"  Generating {count} {category} problems...")
 
         generator = generators[category]

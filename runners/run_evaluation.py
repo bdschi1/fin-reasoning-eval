@@ -76,6 +76,11 @@ def get_runner(
     )
 
     # Determine which runner to use
+    if model_lower.startswith("ollama:"):
+        from runners.ollama_runner import OllamaRunner
+        config.model_name = model[len("ollama:"):]
+        return OllamaRunner(config)
+
     if any(prefix in model_lower for prefix in ("gpt", "o1", "o3", "o4")):
         from runners.openai_runner import OpenAIRunner
         return OpenAIRunner(config)
