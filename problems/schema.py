@@ -26,6 +26,8 @@ class ProblemCategory(str, Enum):
     FINANCIAL_STATEMENT = "financial_statement_analysis"
     VALUATION = "valuation_analysis"
     RISK_ASSESSMENT = "risk_assessment"
+    CROSS_ENTITY_QA = "cross_entity_qa"
+    LONGITUDINAL_QA = "longitudinal_qa"
 
 
 class Difficulty(str, Enum):
