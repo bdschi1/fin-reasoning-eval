@@ -1,0 +1,77 @@
+version: "1.0.0"
+description: "Rubric definitions for AI vendor assessment dimensions"
+
+dimensions:
+  accuracy:
+    weight: 0.30
+    description: "Overall correctness of model outputs on financial reasoning tasks"
+    scoring_levels:
+      excellent: "90-100% accuracy across all financial categories"
+      strong: "75-89% accuracy with consistent performance"
+      adequate: "60-74% accuracy, some category weaknesses"
+      below_expectations: "40-59% accuracy, significant gaps"
+      poor: "Below 40% accuracy"
+
+  latency:
+    weight: 0.10
+    description: "Response time for typical financial analysis queries"
+    scoring_levels:
+      excellent: "Under 500ms average response time"
+      strong: "500ms-1500ms average"
+      adequate: "1500ms-3000ms average"
+      below_expectations: "3000ms-5000ms average"
+      poor: "Over 5000ms average"
+
+  cost_efficiency:
+    weight: 0.10
+    description: "Cost per unit of useful output"
+    scoring_levels:
+      excellent: "Under $0.25 per 1K tokens"
+      strong: "$0.25-$2.00 per 1K tokens"
+      adequate: "$2.00-$10.00 per 1K tokens"
+      below_expectations: "$10.00-$30.00 per 1K tokens"
+      poor: "Over $30.00 per 1K tokens"
+
+  safety_robustness:
+    weight: 0.15
+    description: "Resistance to adversarial inputs, hallucination control"
+    scoring_levels:
+      excellent: "Under 2% hallucination rate, robust to adversarial prompts"
+      strong: "2-5% hallucination rate"
+      adequate: "5-10% hallucination rate"
+      below_expectations: "10-20% hallucination rate"
+      poor: "Over 20% hallucination rate"
+
+  domain_expertise:
+    weight: 0.25
+    description: "Performance on hard/expert financial reasoning questions"
+    scoring_levels:
+      excellent: "90%+ on expert-level financial questions"
+      strong: "75-89% on expert-level questions"
+      adequate: "60-74% on expert-level questions"
+      below_expectations: "40-59% on expert-level questions"
+      poor: "Below 40% on expert-level questions"
+
+  consistency:
+    weight: 0.10
+    description: "Reproducibility of results across multiple runs"
+    scoring_levels:
+      excellent: "Score variance under 0.01 across runs"
+      strong: "Score variance 0.01-0.03"
+      adequate: "Score variance 0.03-0.05"
+      below_expectations: "Score variance 0.05-0.10"
+      poor: "Score variance over 0.10"
+
+use_cases:
+  financial_analysis:
+    primary_dimensions: [accuracy, domain_expertise]
+    description: "Investment research, earnings analysis, SEC filing review"
+  real_time_trading:
+    primary_dimensions: [latency, consistency]
+    description: "Signal generation, real-time market analysis"
+  document_processing:
+    primary_dimensions: [accuracy, cost_efficiency]
+    description: "Bulk document parsing, data extraction from filings"
+  compliance_risk:
+    primary_dimensions: [safety_robustness, accuracy]
+    description: "Regulatory compliance checking, risk assessment"
