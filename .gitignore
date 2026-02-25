@@ -104,3 +104,13 @@ b-notes.md
 # Claude Code
 # ============================================================
 .claude/
+
+# Hardening additions
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+*.whl
+*.tar.gz
