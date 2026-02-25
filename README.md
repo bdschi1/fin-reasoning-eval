@@ -1,6 +1,8 @@
 # Financial Reasoning Eval Benchmark
 
-A comprehensive benchmark for evaluating LLM performance on financial reasoning tasks. Designed to test domain expertise in finance, accounting, investment analysis, and quantitative concepts.
+A test suite for evaluating how well AI models handle finance reasoning problems — valuation, risk, portfolio math, and accounting. You give it a model, it runs 306 graded problems, and returns accuracy scores by category and difficulty level.
+
+A benchmark for evaluating LLM performance on financial reasoning tasks. Designed to test domain expertise in finance, accounting, investment analysis, and quantitative concepts.
 
 ## Overview
 
