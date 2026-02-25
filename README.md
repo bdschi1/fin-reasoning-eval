@@ -147,7 +147,7 @@ dataset = load_dataset(
 )
 
 # Or load from Hub (after publishing)
-dataset = load_dataset('your-org/financial-reasoning-eval')
+dataset = load_dataset('bdschi1/financial-reasoning-eval')
 ```
 
 ## Evaluation Metrics
@@ -166,7 +166,7 @@ dataset = load_dataset('your-org/financial-reasoning-eval')
 
 ## Sample Results
 
-### Claude 3 Haiku (50 problems)
+### Baseline: Claude 3 Haiku (50 problems)
 
 | Metric | Score |
 |--------|-------|
@@ -299,7 +299,7 @@ for model in ["claude-sonnet-4", "gpt-4.1", "o3"]:
   author=bdschi1,
   year={2026},
   publisher={HuggingFace},
-  url={https://huggingface.co/datasets/your-org/financial-reasoning-eval}
+  url={https://huggingface.co/datasets/bdschi1/financial-reasoning-eval}
 }
 ```
 
