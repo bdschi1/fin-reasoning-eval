@@ -1,8 +1,16 @@
 # Financial Reasoning Eval Benchmark
 
+![Python](https://img.shields.io/badge/python-3.11+-3776AB?style=flat&logo=python&logoColor=white)
+![Gradio](https://img.shields.io/badge/Gradio-F97316?style=flat&logo=gradio&logoColor=white)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
+![Anthropic](https://img.shields.io/badge/Anthropic-191919?style=flat&logo=anthropic&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)
+
 A test suite for evaluating how well AI models handle finance reasoning problems — valuation, risk, portfolio math, and accounting. You give it a model, it runs 306 graded problems, and returns accuracy scores by category and difficulty level.
 
 A benchmark for evaluating LLM performance on financial reasoning tasks. Designed to test domain expertise in finance, accounting, investment analysis, and quantitative concepts.
+
+This is a continually developed project. Problem categories, evaluation methods, and model coverage expand over time as new financial reasoning challenges are identified.
 
 ## Overview
 
@@ -317,6 +325,10 @@ Contributions welcome! Areas for improvement:
 - Integration with additional LLM providers
 - Expanded coverage of financial domains
 
+## Status
+
+This project is under active, ongoing development. Core benchmark problems, evaluation framework, and multi-provider runners are stable. New problem categories, scoring methods, and model integrations are added as evaluation needs evolve.
+
 ## Related Work
 
 This benchmark is informed by and aligned with recent advances in financial NLP evaluation:
@@ -327,11 +339,3 @@ This benchmark is informed by and aligned with recent advances in financial NLP 
 - **FinanceQA** (Mateega et al., 2025) — Benchmark showing frontier LLMs fail ~60% of realistic analyst tasks. Validates the need for rigorous financial reasoning evaluation with emphasis on accounting conventions and assumption handling. [arXiv:2501.18062](https://arxiv.org/abs/2501.18062)
 - **Fin-o1** (Qian et al., 2025) — First open-source financial reasoning models with FinReason benchmark covering structured financial reasoning. Demonstrates that domain-specific training data quality matters more than model scale. [arXiv:2502.08127](https://arxiv.org/abs/2502.08127)
 
----
-
-![Python](https://img.shields.io/badge/python-3.11+-3776AB?style=flat&logo=python&logoColor=white)
-
-![Gradio](https://img.shields.io/badge/Gradio-F97316?style=flat&logo=gradio&logoColor=white)
-![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
-![Anthropic](https://img.shields.io/badge/Anthropic-191919?style=flat&logo=anthropic&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)
