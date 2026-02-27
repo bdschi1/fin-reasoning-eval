@@ -12,6 +12,10 @@ A benchmark for evaluating LLM performance on financial reasoning tasks. Designe
 
 This is a continually developed project. Problem categories, evaluation methods, and model coverage expand over time as new financial reasoning challenges are identified.
 
+**Key questions this project answers:**
+- *How well does this AI model handle finance reasoning problems?*
+- *Which financial concepts are hardest for LLMs, and at what difficulty level do they break down?*
+
 ## Overview
 
 This benchmark contains **306 curated finance reasoning problems** across seven categories, emphasizing challenging problems that require deep financial knowledge and analytical reasoning.
