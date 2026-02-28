@@ -321,21 +321,15 @@ for model in ["claude-sonnet-4", "gpt-4.1", "o3"]:
 }
 ```
 
+***Curiosity compounds. Rigor endures.***
+
 ## License
 
 MIT License - see LICENSE file for details.
 
 ## Contributing
 
-Contributions welcome! Areas for improvement:
-- Additional problem categories
-- More sophisticated reasoning evaluation
-- Integration with additional LLM providers
-- Expanded coverage of financial domains
-
-## Status
-
-This project is under active, ongoing development. Core benchmark problems, evaluation framework, and multi-provider runners are stable. New problem categories, scoring methods, and model integrations are added as evaluation needs evolve.
+Under active development. Contributions welcome — areas for improvement include additional problem categories, reasoning evaluation methods, LLM provider integrations, and financial domain coverage.
 
 ## Related Work
 
