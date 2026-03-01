@@ -14,41 +14,6 @@ This is a continually developed project. Problem categories, evaluation methods,
 - *How well does this AI model handle finance reasoning problems?*
 - *Which financial concepts are hardest for LLMs, and at what difficulty level do they break down?*
 
-## Overview
-
-This benchmark contains **360 curated finance reasoning problems** across seven categories, emphasizing challenging problems that require deep financial knowledge and analytical reasoning.
-
-| Category | Count | Description | Example Tasks |
-|----------|-------|-------------|---------------|
-| **Earnings Surprises** | 61 | Analyzing quarterly earnings | Beat/miss calculations, guidance analysis, earnings drift |
-| **DCF Sanity Checks** | 59 | Validating valuation models | Terminal growth, WACC consistency, scenario analysis |
-| **Accounting Red Flags** | 59 | Detecting accounting issues | Revenue recognition, accrual anomalies, cash flow divergence |
-| **Catalyst Identification** | 53 | Identifying stock catalysts | Event timing, risk isolation, crowding analysis |
-| **Formula Audit** | 63 | Finding model errors | Beta neutrality pitfalls, factor exposure, estimation error |
-| **Financial Statement** | 60 | Analyzing financials | Ratio analysis, margin trends, working capital |
-| **Risk Assessment** | 5 | Evaluating portfolio risk | Drawdown probability, vol-of-vol, correlation stress, liquidity risk, position-level metrics |
-
-The Risk Assessment category covers five sub-areas: drawdown probability (max drawdown estimation, conditional recovery, leverage amplification), volatility-of-volatility (vol regime detection, VIX term structure, dispersion-correlation disconnect), correlation stress (crisis correlation breakdown, stock-bond regime shift, factor correlation during stress), liquidity risk (position exit horizon, small-cap illiquidity, crowding spirals), and position-level risk metrics (Kelly criterion, VaR vs Expected Shortfall, beta-adjusted exposure).
-
-### Difficulty Distribution
-
-| Difficulty | Count | Percentage | Description |
-|------------|-------|------------|-------------|
-| **Hard** | 128 | 36% | Subtle issues requiring careful analysis |
-| **Medium** | 116 | 32% | Requires solid financial knowledge |
-| **Expert** | 40 | 11% | Complex, multi-factor problems |
-| **Easy** | 76 | 21% | Baseline problems for sanity checks |
-
-### Advanced Problem Types
-
-The benchmark includes 60 curated advanced problems covering:
-- **Alpha/Beta Separation** - Distinguishing idiosyncratic vs. systematic returns
-- **Factor Models** - Multi-factor attribution, momentum, volatility factors
-- **Position Sizing** - Risk budgeting, conviction-based sizing
-- **Risk Decomposition** - Tracking error, beta-neutrality pitfalls
-- **Portfolio Construction** - Mean-variance optimization, constraints, capacity
-- **Performance Attribution** - Drawdown analysis, process vs. outcome evaluation
-
 ## Quick Start
 
 ### Using `run.sh` (recommended)
@@ -121,27 +86,64 @@ dcf_problems = load_benchmark(
 runner = create_anthropic_runner(model="claude-sonnet-4")
 ```
 
-## Dataset Format
+## How It Works
+
+### Overview
+
+This benchmark contains **360 curated finance reasoning problems** across seven categories, emphasizing challenging problems that require deep financial knowledge and analytical reasoning.
+
+| Category | Count | Description | Example Tasks |
+|----------|-------|-------------|---------------|
+| **Earnings Surprises** | 61 | Analyzing quarterly earnings | Beat/miss calculations, guidance analysis, earnings drift |
+| **DCF Sanity Checks** | 59 | Validating valuation models | Terminal growth, WACC consistency, scenario analysis |
+| **Accounting Red Flags** | 59 | Detecting accounting issues | Revenue recognition, accrual anomalies, cash flow divergence |
+| **Catalyst Identification** | 53 | Identifying stock catalysts | Event timing, risk isolation, crowding analysis |
+| **Formula Audit** | 63 | Finding model errors | Beta neutrality pitfalls, factor exposure, estimation error |
+| **Financial Statement** | 60 | Analyzing financials | Ratio analysis, margin trends, working capital |
+| **Risk Assessment** | 5 | Evaluating portfolio risk | Drawdown probability, vol-of-vol, correlation stress, liquidity risk, position-level metrics |
+
+The Risk Assessment category covers five sub-areas: drawdown probability (max drawdown estimation, conditional recovery, leverage amplification), volatility-of-volatility (vol regime detection, VIX term structure, dispersion-correlation disconnect), correlation stress (crisis correlation breakdown, stock-bond regime shift, factor correlation during stress), liquidity risk (position exit horizon, small-cap illiquidity, crowding spirals), and position-level risk metrics (Kelly criterion, VaR vs Expected Shortfall, beta-adjusted exposure).
+
+#### Difficulty Distribution
+
+| Difficulty | Count | Percentage | Description |
+|------------|-------|------------|-------------|
+| **Hard** | 128 | 36% | Subtle issues requiring careful analysis |
+| **Medium** | 116 | 32% | Requires solid financial knowledge |
+| **Expert** | 40 | 11% | Complex, multi-factor problems |
+| **Easy** | 76 | 21% | Baseline problems for sanity checks |
+
+#### Advanced Problem Types
+
+The benchmark includes 60 curated advanced problems covering:
+- **Alpha/Beta Separation** - Distinguishing idiosyncratic vs. systematic returns
+- **Factor Models** - Multi-factor attribution, momentum, volatility factors
+- **Position Sizing** - Risk budgeting, conviction-based sizing
+- **Risk Decomposition** - Tracking error, beta-neutrality pitfalls
+- **Portfolio Construction** - Mean-variance optimization, constraints, capacity
+- **Performance Attribution** - Drawdown analysis, process vs. outcome evaluation
+
+### Dataset Format
 
 Each problem has `id`, `category`, `difficulty`, `question`, `context`, `answer_type`, `correct_answer`, `answer_options`, `explanation`, `reasoning_steps`, and `tags`. Available as local JSON splits (train/val/test) or via HuggingFace Hub (`bdschi1/financial-reasoning-eval`).
 
-## Evaluation Metrics
+### Evaluation Metrics
 
-### Primary Metrics
+#### Primary Metrics
 
 - **Overall Accuracy** - Percentage of correct answers
 - **Category Accuracy** - Breakdown by problem category
 - **Difficulty Accuracy** - Breakdown by difficulty level
 
-### Additional Metrics
+#### Additional Metrics
 
 - **Reasoning Quality** - Assessment of step-by-step reasoning
 - **Latency** - Response time per problem
 - **Token Usage** - Tokens consumed per evaluation
 
-## Sample Results
+### Sample Results
 
-### Baseline: Claude 3 Haiku (50 problems)
+#### Baseline: Claude 3 Haiku (50 problems)
 
 | Metric | Score |
 |--------|-------|
@@ -153,7 +155,51 @@ Each problem has `id`, `category`, `difficulty`, `question`, `context`, `answer_
 | Formula Audit | 53.8% |
 | Accounting Red Flag | 44.4% |
 
-## Project Structure
+### Configuration
+
+#### Environment Variables
+
+Create a `.env` file with your API keys:
+
+```bash
+ANTHROPIC_API_KEY=***REDACTED***...
+OPENAI_API_KEY=sk-...
+HF_API_KEY=hf_...
+```
+
+#### Supported Models
+
+| Provider | Models | Status |
+|----------|--------|--------|
+| Anthropic | claude-opus-4, claude-sonnet-4, claude-haiku-3.5 | Current |
+| Anthropic | claude-3.5-sonnet, claude-3-opus, claude-3-haiku | Legacy |
+| OpenAI | gpt-4.1, gpt-4.1-mini, o3, o4-mini | Current |
+| OpenAI | gpt-4o, gpt-4-turbo, o1 | Legacy |
+| HuggingFace | llama-4-scout, llama-3.3-70b, deepseek-r1, qwen2.5-72b | Via API |
+
+### Use Cases
+
+#### Model Evaluation
+
+```python
+# Compare models on specific categories
+for model in ["claude-sonnet-4", "gpt-4.1", "o3"]:
+    results = evaluate_model(
+        model,
+        categories=["dcf_sanity_check"],
+        difficulties=["hard", "expert"]
+    )
+    print(f"{model}: {results['overall_accuracy']:.1%}")
+```
+
+#### Research Applications
+
+- Evaluate domain adaptation for financial LLMs
+- Analyze which financial concepts are hardest for LLMs
+- Compare model performance across difficulty levels
+- Study reasoning quality on complex financial problems
+
+## Architecture
 
 ```
 fin-reasoning-eval/
@@ -167,57 +213,18 @@ fin-reasoning-eval/
 └── results/            # Evaluation outputs (gitignored)
 ```
 
-## Configuration
-
-### Environment Variables
-
-Create a `.env` file with your API keys:
+## Testing
 
 ```bash
-ANTHROPIC_API_KEY=***REDACTED***...
-OPENAI_API_KEY=sk-...
-HF_API_KEY=hf_...
+pytest tests/ -v
 ```
-
-### Supported Models
-
-| Provider | Models | Status |
-|----------|--------|--------|
-| Anthropic | claude-opus-4, claude-sonnet-4, claude-haiku-3.5 | Current |
-| Anthropic | claude-3.5-sonnet, claude-3-opus, claude-3-haiku | Legacy |
-| OpenAI | gpt-4.1, gpt-4.1-mini, o3, o4-mini | Current |
-| OpenAI | gpt-4o, gpt-4-turbo, o1 | Legacy |
-| HuggingFace | llama-4-scout, llama-3.3-70b, deepseek-r1, qwen2.5-72b | Via API |
-
-## Use Cases
-
-### Model Evaluation
-
-```python
-# Compare models on specific categories
-for model in ["claude-sonnet-4", "gpt-4.1", "o3"]:
-    results = evaluate_model(
-        model,
-        categories=["dcf_sanity_check"],
-        difficulties=["hard", "expert"]
-    )
-    print(f"{model}: {results['overall_accuracy']:.1%}")
-```
-
-### Research Applications
-
-- Evaluate domain adaptation for financial LLMs
-- Analyze which financial concepts are hardest for LLMs
-- Compare model performance across difficulty levels
-- Study reasoning quality on complex financial problems
-
-***Curiosity compounds. Rigor endures.***
-
-## License
-
-MIT License - see LICENSE file for details.
 
 ## Contributing
 
 Under active development. Contributions welcome — areas for improvement include additional problem categories, reasoning evaluation methods, LLM provider integrations, and financial domain coverage.
 
+## License
+
+MIT License - see LICENSE file for details.
+
+***Curiosity compounds. Rigor endures.***
