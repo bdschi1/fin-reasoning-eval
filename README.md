@@ -8,8 +8,6 @@
 
 A test suite for evaluating how well AI models handle finance reasoning problems — valuation, risk, portfolio math, and accounting. You give it a model, it runs 360 graded problems, and returns accuracy scores by category and difficulty level.
 
-A benchmark for evaluating LLM performance on financial reasoning tasks. Designed to test domain expertise in finance, accounting, investment analysis, and quantitative concepts.
-
 This is a continually developed project. Problem categories, evaluation methods, and model coverage expand over time as new financial reasoning challenges are identified.
 
 **Key questions this project answers:**
@@ -125,46 +123,7 @@ runner = create_anthropic_runner(model="claude-sonnet-4")
 
 ## Dataset Format
 
-### Problem Schema
-
-```json
-{
-  "id": "qc_market_001",
-  "category": "formula_audit",
-  "difficulty": "hard",
-  "question": "A return predictor has strong out-of-sample accuracy but trades in securities with large bid-ask spreads...",
-  "context": {
-    "company_name": "Signal Analysis",
-    "sector": "Quantitative",
-    "model_assumptions": {...}
-  },
-  "answer_type": "multiple_choice",
-  "correct_answer": "Transaction costs can exceed expected returns...",
-  "answer_options": [
-    {"id": "A", "text": "...", "is_correct": false},
-    {"id": "B", "text": "...", "is_correct": true},
-    ...
-  ],
-  "explanation": "Expected gross return from signal = IC * volatility...",
-  "reasoning_steps": ["Step 1...", "Step 2...", ...],
-  "tags": ["transaction-costs", "market-microstructure", "quant-concepts"]
-}
-```
-
-### HuggingFace Dataset
-
-```python
-from datasets import load_dataset
-
-# Load from local files
-dataset = load_dataset(
-    'json',
-    data_files={'test': 'data/huggingface/test.jsonl'}
-)
-
-# Or load from Hub (after publishing)
-dataset = load_dataset('bdschi1/financial-reasoning-eval')
-```
+Each problem has `id`, `category`, `difficulty`, `question`, `context`, `answer_type`, `correct_answer`, `answer_options`, `explanation`, `reasoning_steps`, and `tags`. Available as local JSON splits (train/val/test) or via HuggingFace Hub (`bdschi1/financial-reasoning-eval`).
 
 ## Evaluation Metrics
 
@@ -198,61 +157,14 @@ dataset = load_dataset('bdschi1/financial-reasoning-eval')
 
 ```
 fin-reasoning-eval/
-├── README.md
-├── requirements.txt
-├── .env                    # API keys (not in git)
-├── .gitignore
-├── LICENSE
-│
-├── problems/               # Problem definitions
-│   ├── schema.py           # Problem dataclasses
-│   ├── advanced_problems.py    # 30 advanced concept problems
-│   ├── quant_concepts_problems.py  # 30 quant concept problems
-│   └── risk_assessment_problems.py  # 15 risk assessment problems
-│
-├── generators/             # Problem generators
-│   ├── base.py
-│   ├── earnings_surprise.py
-│   ├── dcf_sanity.py
-│   ├── accounting_red_flags.py
-│   ├── catalyst_identification.py
-│   ├── formula_audit.py
-│   └── financial_statement.py
-│
-├── evaluation/             # Evaluation framework
-│   ├── dataset.py          # Dataset loader
-│   ├── metrics.py          # Evaluation metrics
-│   └── __init__.py
-│
-├── runners/                # LLM runners
-│   ├── base.py             # Base runner class
-│   ├── openai_runner.py    # GPT-4o, GPT-4
-│   ├── anthropic_runner.py # Claude models
-│   ├── huggingface_runner.py
-│   └── run_evaluation.py   # Main evaluation script
-│
-├── leaderboard/            # Leaderboard system
-│   ├── leaderboard.py
-│   └── submission.py
-│
-├── spaces/                 # HuggingFace Spaces
-│   └── app.py              # Gradio app
-│
-├── scripts/                # Utility scripts
-│   ├── generate_dataset.py
-│   ├── test_benchmark.py
-│   └── update_benchmark.py
-│
-├── data/                   # Generated data
-│   ├── financial_reasoning_benchmark.json  # Full benchmark (v1.4.0)
-│   ├── benchmark_train.json    # 251 problems
-│   ├── benchmark_validation.json  # 55 problems
-│   ├── benchmark_test.json     # 54 problems
-│   └── huggingface/
-│       └── dataset_info.json
-│
-└── results/                # Evaluation results
-    └── *.json
+├── problems/           # Problem schema, advanced/quant/risk assessment curated sets
+├── generators/         # Per-category problem generators (earnings, DCF, accounting, etc.)
+├── evaluation/         # Dataset loader, scoring metrics, rubric scoring, FLaME alignment
+├── runners/            # LLM runner base + provider runners (Anthropic, OpenAI, HuggingFace, Ollama)
+├── leaderboard/        # Leaderboard system and submission handling
+├── spaces/             # Gradio app for HuggingFace Spaces
+├── data/               # Generated benchmark JSON + HuggingFace export (train/val/test splits)
+└── results/            # Evaluation outputs (gitignored)
 ```
 
 ## Configuration
@@ -299,28 +211,6 @@ for model in ["claude-sonnet-4", "gpt-4.1", "o3"]:
 - Compare model performance across difficulty levels
 - Study reasoning quality on complex financial problems
 
-## Version History
-
-| Version | Problems | Changes |
-|---------|----------|---------|
-| 1.4.0 | 360 | Added 15 risk assessment problems (drawdown, vol-of-vol, correlation stress, liquidity, position metrics) |
-| 1.3.0 | 306 | Removed 59 easy problems, focus on challenging content |
-| 1.2.0 | 365 | Added 60 advanced/quant concept problems |
-| 1.1.0 | 330 | Added 30 advanced concept problems |
-| 1.0.0 | 300 | Initial release |
-
-## Citation
-
-```bibtex
-@misc{financial-reasoning-eval,
-  title={Financial Reasoning Eval Benchmark},
-  author=bdschi1,
-  year={2026},
-  publisher={HuggingFace},
-  url={https://huggingface.co/datasets/bdschi1/financial-reasoning-eval}
-}
-```
-
 ***Curiosity compounds. Rigor endures.***
 
 ## License
@@ -330,14 +220,4 @@ MIT License - see LICENSE file for details.
 ## Contributing
 
 Under active development. Contributions welcome — areas for improvement include additional problem categories, reasoning evaluation methods, LLM provider integrations, and financial domain coverage.
-
-## Related Work
-
-This benchmark is informed by and aligned with recent advances in financial NLP evaluation:
-
-- **PRBench** (Akyurek et al., 2025) — Large-scale expert rubrics for professional reasoning evaluation with 19,356 binary criteria across 7 finance categories. Directly informs our `evaluation/rubric_scoring.py` weighted binary criteria methodology. [arXiv:2511.11562](https://arxiv.org/abs/2511.11562)
-- **FLaME** (Matlin et al., 2025) — Holistic financial NLP benchmarking suite defining 6 core task categories across 20 datasets. Our `evaluation/flame_alignment.py` maps problem categories to the FLaME taxonomy for cross-benchmark comparability. [arXiv:2506.15846](https://arxiv.org/abs/2506.15846)
-- **Fin-RATE** (Jiang et al., 2026) — Real-world financial analytics benchmark with three QA pathway types (DR-QA, EC-QA, LT-QA). Motivates the `cross_entity_qa` and `longitudinal_qa` problem categories. [Under review]
-- **FinanceQA** (Mateega et al., 2025) — Benchmark showing frontier LLMs fail ~60% of realistic analyst tasks. Validates the need for rigorous financial reasoning evaluation with emphasis on accounting conventions and assumption handling. [arXiv:2501.18062](https://arxiv.org/abs/2501.18062)
-- **Fin-o1** (Qian et al., 2025) — First open-source financial reasoning models with FinReason benchmark covering structured financial reasoning. Demonstrates that domain-specific training data quality matters more than model scale. [arXiv:2502.08127](https://arxiv.org/abs/2502.08127)
 
