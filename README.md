@@ -6,7 +6,7 @@
 ![Anthropic](https://img.shields.io/badge/Anthropic-191919?style=flat&logo=anthropic&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)
 
-A test suite for evaluating how well AI models handle finance reasoning problems — valuation, risk, portfolio math, and accounting. You give it a model, it runs 321 graded problems, and returns accuracy scores by category and difficulty level.
+A test suite for evaluating how well AI models handle finance reasoning problems — valuation, risk, portfolio math, and accounting. You give it a model, it runs 360 graded problems, and returns accuracy scores by category and difficulty level.
 
 A benchmark for evaluating LLM performance on financial reasoning tasks. Designed to test domain expertise in finance, accounting, investment analysis, and quantitative concepts.
 
@@ -18,17 +18,17 @@ This is a continually developed project. Problem categories, evaluation methods,
 
 ## Overview
 
-This benchmark contains **321 curated finance reasoning problems** across seven categories, emphasizing challenging problems that require deep financial knowledge and analytical reasoning.
+This benchmark contains **360 curated finance reasoning problems** across seven categories, emphasizing challenging problems that require deep financial knowledge and analytical reasoning.
 
 | Category | Count | Description | Example Tasks |
 |----------|-------|-------------|---------------|
-| **Earnings Surprises** | 49 | Analyzing quarterly earnings | Beat/miss calculations, guidance analysis, earnings drift |
-| **DCF Sanity Checks** | 49 | Validating valuation models | Terminal growth, WACC consistency, scenario analysis |
-| **Accounting Red Flags** | 47 | Detecting accounting issues | Revenue recognition, accrual anomalies, cash flow divergence |
-| **Catalyst Identification** | 54 | Identifying stock catalysts | Event timing, risk isolation, crowding analysis |
-| **Formula Audit** | 46 | Finding model errors | Beta neutrality pitfalls, factor exposure, estimation error |
-| **Financial Statement** | 51 | Analyzing financials | Ratio analysis, margin trends, working capital |
-| **Risk Assessment** | 25 | Evaluating portfolio risk | Drawdown probability, vol-of-vol, correlation stress, liquidity risk, position-level metrics |
+| **Earnings Surprises** | 61 | Analyzing quarterly earnings | Beat/miss calculations, guidance analysis, earnings drift |
+| **DCF Sanity Checks** | 59 | Validating valuation models | Terminal growth, WACC consistency, scenario analysis |
+| **Accounting Red Flags** | 59 | Detecting accounting issues | Revenue recognition, accrual anomalies, cash flow divergence |
+| **Catalyst Identification** | 53 | Identifying stock catalysts | Event timing, risk isolation, crowding analysis |
+| **Formula Audit** | 63 | Finding model errors | Beta neutrality pitfalls, factor exposure, estimation error |
+| **Financial Statement** | 60 | Analyzing financials | Ratio analysis, margin trends, working capital |
+| **Risk Assessment** | 5 | Evaluating portfolio risk | Drawdown probability, vol-of-vol, correlation stress, liquidity risk, position-level metrics |
 
 The Risk Assessment category covers five sub-areas: drawdown probability (max drawdown estimation, conditional recovery, leverage amplification), volatility-of-volatility (vol regime detection, VIX term structure, dispersion-correlation disconnect), correlation stress (crisis correlation breakdown, stock-bond regime shift, factor correlation during stress), liquidity risk (position exit horizon, small-cap illiquidity, crowding spirals), and position-level risk metrics (Kelly criterion, VaR vs Expected Shortfall, beta-adjusted exposure).
 
@@ -36,10 +36,10 @@ The Risk Assessment category covers five sub-areas: drawdown probability (max dr
 
 | Difficulty | Count | Percentage | Description |
 |------------|-------|------------|-------------|
-| **Hard** | 150 | 47% | Subtle issues requiring careful analysis |
-| **Medium** | 111 | 35% | Requires solid financial knowledge |
-| **Expert** | 50 | 16% | Complex, multi-factor problems |
-| **Easy** | 10 | 3% | Baseline problems for sanity checks |
+| **Hard** | 128 | 36% | Subtle issues requiring careful analysis |
+| **Medium** | 116 | 32% | Requires solid financial knowledge |
+| **Expert** | 40 | 11% | Complex, multi-factor problems |
+| **Easy** | 76 | 21% | Baseline problems for sanity checks |
 
 ### Advanced Problem Types
 
@@ -245,9 +245,9 @@ fin-reasoning-eval/
 │
 ├── data/                   # Generated data
 │   ├── financial_reasoning_benchmark.json  # Full benchmark (v1.4.0)
-│   ├── benchmark_train.json    # 214 problems
-│   ├── benchmark_validation.json  # 46 problems
-│   ├── benchmark_test.json     # 46 problems
+│   ├── benchmark_train.json    # 251 problems
+│   ├── benchmark_validation.json  # 55 problems
+│   ├── benchmark_test.json     # 54 problems
 │   └── huggingface/
 │       └── dataset_info.json
 │
@@ -303,7 +303,7 @@ for model in ["claude-sonnet-4", "gpt-4.1", "o3"]:
 
 | Version | Problems | Changes |
 |---------|----------|---------|
-| 1.4.0 | 321 | Added 15 risk assessment problems (drawdown, vol-of-vol, correlation stress, liquidity, position metrics) |
+| 1.4.0 | 360 | Added 15 risk assessment problems (drawdown, vol-of-vol, correlation stress, liquidity, position metrics) |
 | 1.3.0 | 306 | Removed 59 easy problems, focus on challenging content |
 | 1.2.0 | 365 | Added 60 advanced/quant concept problems |
 | 1.1.0 | 330 | Added 30 advanced concept problems |

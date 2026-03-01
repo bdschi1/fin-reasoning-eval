@@ -58,17 +58,17 @@
         "formula_context": null
       },
       "answer_type": "multiple_choice",
-      "correct_answer": "Capital return program - implied by investment priorities",
+      "correct_answer": "Product development catalyst - 40% R&D increase signals pipeline investment in next-generation products",
       "answer_options": [
         {
           "id": "A",
-          "text": "Asset quality improvement - potential catalyst",
-          "is_correct": false
+          "text": "Product development catalyst - 40% R&D increase signals pipeline investment in next-generation products",
+          "is_correct": true
         },
         {
           "id": "B",
           "text": "Capital return program - implied by investment priorities",
-          "is_correct": true
+          "is_correct": false
         },
         {
           "id": "C",
@@ -83,7 +83,7 @@
       ],
       "answer_unit": null,
       "tolerance": null,
-      "explanation": "In Financials, capital return program is often the most impactful catalyst. The context clue 'R&D spending increased 40% with focus on next-generation products.' points to this as the primary focus.",
+      "explanation": "The context clue \u2014 R&D spending increased 40% with focus on next-generation products \u2014 signals accelerating product investment, not capital return. Capital return programs (buybacks, dividends) are typically accompanied by slowing investment and excess cash generation, the opposite of a 40% R&D ramp. The most logical near-term catalyst is a product launch, pipeline update, or investor day highlighting the next-generation development roadmap.",
       "reasoning_steps": [],
       "common_mistakes": [],
       "source": null,
@@ -223,17 +223,17 @@
         "formula_context": null
       },
       "answer_type": "multiple_choice",
-      "correct_answer": "Consistent - FCF growth 1348% reflects revenue (15%) + margin expansion",
+      "correct_answer": "Inconsistent - 1348% FCF CAGR on 15% revenue CAGR implies an implausible FCF margin; this is a model red flag",
       "answer_options": [
         {
           "id": "A",
-          "text": "Invalid - FCF must equal net income",
-          "is_correct": false
+          "text": "Inconsistent - 1348% FCF CAGR on 15% revenue CAGR implies an implausible FCF margin; this is a model red flag",
+          "is_correct": true
         },
         {
           "id": "B",
           "text": "Consistent - FCF growth 1348% reflects revenue (15%) + margin expansion",
-          "is_correct": true
+          "is_correct": false
         },
         {
           "id": "C",
@@ -248,7 +248,7 @@
       ],
       "answer_unit": null,
       "tolerance": null,
-      "explanation": "FCF growth exceeding revenue growth must be explained by margin expansion, declining capex intensity, or working capital improvements. Unexplained divergence is a red flag.",
+      "explanation": "A 1348% FCF CAGR against 15% revenue CAGR implies FCF reaching a multiple of revenue by year 5, which is mathematically impossible \u2014 FCF cannot exceed revenue. Starting at a 15% FCF margin, the projected FCF figures (e.g., $5.1B FCF vs. $1.35B revenue in 2028E) imply an FCF margin well above 100%. This is a serious model error, not a legitimate case of margin expansion or capex efficiency. Any unexplained divergence of this magnitude should be treated as a red flag requiring immediate model review.",
       "reasoning_steps": [],
       "common_mistakes": [],
       "source": null,
@@ -267,7 +267,7 @@
       "id": "f91d14532460",
       "category": "catalyst_identification",
       "difficulty": "medium",
-      "question": "Meridian Resources has a pending fda approval decision with PDUFA date August 2025. How would you characterize the catalyst timing?",
+      "question": "Meridian Resources (Energy) has an upcoming quarterly earnings release with updated production guidance scheduled for August 2025. How would you characterize the catalyst timing?",
       "context": {
         "company_name": "Meridian Resources",
         "ticker": "MERE",
@@ -292,16 +292,16 @@
         "guidance": null,
         "consensus_estimates": null,
         "recent_news": [
-          "FDA approval decision: PDUFA date August 2025"
+          "Quarterly earnings with updated production guidance: August 2025"
         ],
         "model_assumptions": {
-          "Catalyst": "FDA approval decision",
-          "Stated Timeline": "PDUFA date August 2025"
+          "Catalyst": "Quarterly earnings release with production guidance update",
+          "Stated Timeline": "August 2025"
         },
         "formula_context": null
       },
       "answer_type": "multiple_choice",
-      "correct_answer": "Medium-term (6-9 months) - FDA approval decision has defined regulatory timeline",
+      "correct_answer": "Medium-term (6-9 months) - quarterly earnings with production guidance has defined reporting timeline",
       "answer_options": [
         {
           "id": "A",
@@ -310,7 +310,7 @@
         },
         {
           "id": "B",
-          "text": "Medium-term (6-9 months) - FDA approval decision has defined regulatory timeline",
+          "text": "Medium-term (6-9 months) - quarterly earnings with production guidance has defined reporting timeline",
           "is_correct": true
         },
         {
@@ -326,7 +326,7 @@
       ],
       "answer_unit": null,
       "tolerance": null,
-      "explanation": "Catalyst timing assessment requires understanding both stated timelines and historical execution. FDA approval decision with PDUFA date August 2025 implies Medium-term (6-9 months).",
+      "explanation": "Catalyst timing assessment requires understanding both stated timelines and company reporting cadence. A quarterly earnings release with updated production guidance scheduled for August 2025 implies a medium-term (6-9 months) catalyst with a defined timeline tied to the standard earnings calendar. For Energy sector companies, production guidance updates at earnings are among the most significant near-to-medium-term price catalysts.",
       "reasoning_steps": [],
       "common_mistakes": [],
       "source": null,

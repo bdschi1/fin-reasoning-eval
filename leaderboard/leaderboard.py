@@ -34,6 +34,8 @@ class LeaderboardEntry:
     # Additional metrics
     reasoning_quality: Optional[float] = None
     calibration_error: Optional[float] = None
+    brier_score: Optional[float] = None
+    log_loss: Optional[float] = None
     avg_latency_ms: Optional[float] = None
 
     # Metadata
@@ -288,4 +290,6 @@ def create_entry_from_results(results: dict, model_name: Optional[str] = None) -
         difficulty_accuracy=metrics.get('difficulty_accuracy', {}),
         reasoning_quality=metrics.get('reasoning_quality'),
         calibration_error=metrics.get('calibration_error'),
+        brier_score=metrics.get('brier_score_avg'),
+        log_loss=metrics.get('log_loss_avg'),
     )

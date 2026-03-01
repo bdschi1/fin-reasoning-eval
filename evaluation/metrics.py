@@ -12,6 +12,13 @@ from typing import Optional, Union
 from dataclasses import dataclass, field
 from collections import defaultdict
 
+from .calibration import (
+    brier_score,
+    expected_calibration_error,
+    generate_calibration_report,
+    log_loss_score,
+)
+
 try:
     import numpy as np
     NUMPY_AVAILABLE = True
@@ -42,6 +49,9 @@ class EvaluationResults:
     difficulty_accuracy: dict[str, float]
     reasoning_quality: Optional[float] = None
     calibration_error: Optional[float] = None
+    brier_score_avg: Optional[float] = None
+    log_loss_avg: Optional[float] = None
+    calibration_per_bin: Optional[list[dict]] = None
 
     # Detailed breakdown
     correct_count: int = 0
@@ -56,6 +66,8 @@ class EvaluationResults:
             'difficulty_accuracy': self.difficulty_accuracy,
             'reasoning_quality': self.reasoning_quality,
             'calibration_error': self.calibration_error,
+            'brier_score_avg': self.brier_score_avg,
+            'log_loss_avg': self.log_loss_avg,
             'correct_count': self.correct_count,
         }
 
@@ -79,6 +91,12 @@ class EvaluationResults:
 
         if self.calibration_error is not None:
             lines.extend(["", f"Calibration Error (ECE): {self.calibration_error:.3f}"])
+
+        if self.brier_score_avg is not None:
+            lines.append(f"Brier Score (avg): {self.brier_score_avg:.4f}")
+
+        if self.log_loss_avg is not None:
+            lines.append(f"Log Loss (avg): {self.log_loss_avg:.4f}")
 
         return "\n".join(lines)
 
@@ -336,10 +354,37 @@ class FinancialReasoningMetrics:
             for diff in difficulty_total
         }
 
-        # Calibration error (if confidence scores available)
+        # Calibration metrics (if confidence scores available)
         calibration_error = None
-        if any(p.confidence is not None for p in self._predictions):
-            calibration_error = self._compute_calibration_error()
+        brier_score_avg = None
+        log_loss_avg = None
+        calibration_per_bin = None
+
+        predictions_with_conf = [
+            p for p in self._predictions if p.confidence is not None
+        ]
+        if predictions_with_conf:
+            conf_probs = [p.confidence for p in predictions_with_conf]
+            outcomes = [int(p.is_correct) for p in predictions_with_conf]
+
+            # Use the calibration module for ECE with per-bin stats
+            ece_val, bin_stats = expected_calibration_error(conf_probs, outcomes)
+            calibration_error = ece_val
+            calibration_per_bin = bin_stats
+
+            # Compute Brier and log loss averages
+            brier_scores = [
+                brier_score(c, o) for c, o in zip(conf_probs, outcomes)
+            ]
+            log_losses = [
+                log_loss_score(c, o) for c, o in zip(conf_probs, outcomes)
+            ]
+            brier_score_avg = round(
+                sum(brier_scores) / len(brier_scores), 4
+            )
+            log_loss_avg = round(
+                sum(log_losses) / len(log_losses), 4
+            )
 
         # Reasoning quality from rubric scoring
         reasoning_quality = self._compute_reasoning_quality()
@@ -351,6 +396,9 @@ class FinancialReasoningMetrics:
             difficulty_accuracy=difficulty_accuracy,
             reasoning_quality=reasoning_quality,
             calibration_error=calibration_error,
+            brier_score_avg=brier_score_avg,
+            log_loss_avg=log_loss_avg,
+            calibration_per_bin=calibration_per_bin,
             correct_count=correct,
             predictions=self._predictions,
         )
@@ -424,8 +472,11 @@ class FinancialReasoningMetrics:
         return round(total_score / len(predictions_with_reasoning), 2)
 
     def _compute_calibration_error(self, n_bins: int = 10) -> float:
-        """
-        Compute Expected Calibration Error (ECE).
+        """Compute Expected Calibration Error (ECE).
+
+        Delegates to the calibration module's expected_calibration_error().
+        Kept for backward compatibility. The compute() method now calls
+        the calibration module directly for the richer per-bin version.
 
         Args:
             n_bins: Number of bins for calibration
@@ -440,30 +491,10 @@ class FinancialReasoningMetrics:
         if not predictions_with_conf:
             return 0.0
 
-        # Create bins
-        bin_boundaries = [i / n_bins for i in range(n_bins + 1)]
-        bin_correct = [0] * n_bins
-        bin_conf_sum = [0.0] * n_bins
-        bin_count = [0] * n_bins
-
-        for p in predictions_with_conf:
-            conf = p.confidence
-            bin_idx = min(int(conf * n_bins), n_bins - 1)
-            bin_count[bin_idx] += 1
-            bin_correct[bin_idx] += int(p.is_correct)
-            bin_conf_sum[bin_idx] += conf
-
-        # Compute ECE
-        ece = 0.0
-        total = len(predictions_with_conf)
-
-        for i in range(n_bins):
-            if bin_count[i] > 0:
-                avg_conf = bin_conf_sum[i] / bin_count[i]
-                avg_acc = bin_correct[i] / bin_count[i]
-                ece += (bin_count[i] / total) * abs(avg_acc - avg_conf)
-
-        return ece
+        conf_probs = [p.confidence for p in predictions_with_conf]
+        outcomes = [int(p.is_correct) for p in predictions_with_conf]
+        ece_val, _ = expected_calibration_error(conf_probs, outcomes, n_bins)
+        return ece_val
 
     def reset(self):
         """Reset collected predictions."""
