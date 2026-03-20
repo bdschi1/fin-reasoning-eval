@@ -81,6 +81,11 @@ def get_runner(
         config.model_name = model[len("ollama:"):]
         return OllamaRunner(config)
 
+    if model_lower.startswith("qwen3.5"):
+        from runners.ollama_runner import OllamaRunner
+        config.max_tokens = max(max_tokens, 8192)
+        return OllamaRunner(config)
+
     if any(prefix in model_lower for prefix in ("gpt", "o1", "o3", "o4")):
         from runners.openai_runner import OpenAIRunner
         return OpenAIRunner(config)
@@ -324,7 +329,7 @@ def main():
         "--split",
         type=str,
         default="test",
-        choices=["test", "validation"],
+        choices=["test", "validation", "finqa"],
         help="Dataset split to evaluate"
     )
     parser.add_argument(

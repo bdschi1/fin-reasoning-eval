@@ -7,6 +7,7 @@ Ollama runs at http://localhost:11434 by default.
 
 import json
 import os
+import re
 import time
 import urllib.error
 import urllib.request
@@ -55,6 +56,12 @@ class OllamaRunner(BaseRunner):
         "phi3": "phi3:latest",
         "phi4": "phi4:latest",
         "qwen2.5": "qwen2.5:latest",
+        "qwen3.5": "qwen3.5:latest",
+        "qwen3.5-35b": "qwen3.5:35b-a3b",
+        "qwen3.5-35b-a3b": "qwen3.5:35b-a3b",
+        "qwen3.5-27b": "qwen3.5:27b",
+        "qwen3.5-122b": "qwen3.5:122b-a10b",
+        "qwen3.5-122b-a10b": "qwen3.5:122b-a10b",
         "deepseek-r1": "deepseek-r1:latest",
         "gemma2": "gemma2:latest",
         "codellama": "codellama:latest",
@@ -145,6 +152,11 @@ class OllamaRunner(BaseRunner):
             # Extract response
             latency_ms = (time.time() - start_time) * 1000
             full_response = response.choices[0].message.content or ""
+
+            # Strip thinking tags (Qwen 3.5 and similar models use <think> blocks)
+            full_response = re.sub(
+                r"<think>.*?</think>\s*", "", full_response, flags=re.DOTALL
+            )
 
             # Parse answer and reasoning
             answer, reasoning = self.parse_response(full_response)
