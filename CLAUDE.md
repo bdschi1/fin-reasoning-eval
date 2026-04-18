@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## What This Is
 
-A benchmark for evaluating LLM performance on financial reasoning tasks. Contains 306 curated problems across seven categories (earnings surprises, DCF sanity checks, accounting red flags, catalyst identification, formula audit, financial statement analysis, risk assessment) with difficulty levels from easy to expert. Includes multi-provider evaluation runners, a Gradio leaderboard, and HuggingFace dataset integration.
+A benchmark for evaluating LLM performance on financial reasoning tasks. Contains 360 curated problems across seven categories (earnings surprises, DCF sanity checks, accounting red flags, catalyst identification, formula audit, financial statement analysis, risk assessment) with difficulty levels from easy to expert. Includes multi-provider evaluation runners, a Gradio leaderboard, and HuggingFace dataset integration.
 
 ## Commands
 
@@ -45,7 +45,7 @@ ruff check .
 
 - Problems follow a strict schema with `id`, `category`, `difficulty`, `question`, `context`, `answer_type`, `correct_answer`, `answer_options`, `explanation`, `reasoning_steps`, and `tags`
 - Runners implement a base class; adding a new LLM provider means subclassing `runners/base.py`
-- Dataset splits: train (214), validation (46), test (46)
+- Dataset splits: train (251), validation (55), test (54); total 360
 - Evaluation filters by category and difficulty via CLI flags
 - Benchmark versioning tracks problem count changes (v1.0.0 through v1.3.0)
 
