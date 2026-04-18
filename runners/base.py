@@ -40,6 +40,63 @@ class RunnerConfig:
     include_reasoning_request: bool = True
 
 
+# Per-1M token pricing table (USD). Numbers are approximate list prices
+# as of 2026-Q1 and are used only for informational leaderboard cost
+# columns. Providers drift; update before a public leaderboard push.
+# Format: model_id -> {"input": $/1M in-tokens, "output": $/1M out-tokens}.
+PRICING_PER_1M_USD: dict[str, dict[str, float]] = {
+    # Anthropic — current
+    "claude-opus-4-20250514": {"input": 15.0, "output": 75.0},
+    "claude-sonnet-4-20250514": {"input": 3.0, "output": 15.0},
+    "claude-3-5-sonnet-20241022": {"input": 3.0, "output": 15.0},
+    "claude-3-5-haiku-20241022": {"input": 0.80, "output": 4.0},
+    "claude-haiku-4-5-20251001": {"input": 1.0, "output": 5.0},
+    "claude-3-opus-20240229": {"input": 15.0, "output": 75.0},
+    "claude-3-haiku-20240307": {"input": 0.25, "output": 1.25},
+    # OpenAI — current
+    "gpt-4.1": {"input": 2.0, "output": 8.0},
+    "gpt-4.1-mini": {"input": 0.40, "output": 1.60},
+    "gpt-4o": {"input": 2.50, "output": 10.0},
+    "o3": {"input": 10.0, "output": 40.0},
+    "o3-mini": {"input": 1.10, "output": 4.40},
+    "o4-mini": {"input": 1.10, "output": 4.40},
+    "o1": {"input": 15.0, "output": 60.0},
+    # Open weights / hosted
+    "deepseek-v3.1": {"input": 0.27, "output": 1.10},
+    "llama-3.3-70b": {"input": 0.90, "output": 0.90},
+    "qwen3.5-122b-a10b": {"input": 0.0, "output": 0.0},  # local Ollama
+}
+
+
+def estimate_cost_usd(
+    model_name: str,
+    input_tokens: int,
+    output_tokens: int,
+) -> Optional[float]:
+    """Return USD cost estimate for a single call, or None if unknown.
+
+    Lookup is substring-based so that versioned SKUs (e.g.
+    ``claude-sonnet-4-20250514``) match both exact and shortform entries.
+    """
+    if not model_name:
+        return None
+    key = model_name.lower()
+    pricing = PRICING_PER_1M_USD.get(key)
+    if pricing is None:
+        # Try a shortform lookup (e.g. "claude-sonnet-4" in the full SKU).
+        for candidate, price in PRICING_PER_1M_USD.items():
+            if candidate in key or key in candidate:
+                pricing = price
+                break
+    if pricing is None:
+        return None
+    return round(
+        input_tokens * pricing["input"] / 1_000_000
+        + output_tokens * pricing["output"] / 1_000_000,
+        6,
+    )
+
+
 @dataclass
 class ModelResponse:
     """Response from an LLM."""
@@ -54,6 +111,14 @@ class ModelResponse:
     latency_ms: float = 0.0
     tokens_used: int = 0
     confidence: Optional[float] = None
+
+    # Fine-grained token + cost tracking (optional; filled by runners
+    # that report usage. Absent values stay None/0 so older call sites
+    # continue to work.)
+    input_tokens: int = 0
+    output_tokens: int = 0
+    wall_time_s: float = 0.0
+    cost_usd: Optional[float] = None
 
     # Error handling
     error: Optional[str] = None

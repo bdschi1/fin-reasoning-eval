@@ -194,6 +194,10 @@ def run_benchmark(
             "full_response": response.full_response,
             "latency_ms": response.latency_ms,
             "tokens_used": response.tokens_used,
+            "input_tokens": getattr(response, "input_tokens", 0),
+            "output_tokens": getattr(response, "output_tokens", 0),
+            "wall_time_s": getattr(response, "wall_time_s", response.latency_ms / 1000.0),
+            "cost_usd": getattr(response, "cost_usd", None),
             "success": response.success,
             "error": response.error,
         }
@@ -243,6 +247,13 @@ def run_benchmark(
     print("\nResults:")
     print(results.summary())
 
+    # Aggregate cost and token totals
+    total_input_tokens = sum(p.get("input_tokens", 0) or 0 for p in predictions)
+    total_output_tokens = sum(p.get("output_tokens", 0) or 0 for p in predictions)
+    total_wall_time_s = sum(p.get("wall_time_s", 0.0) or 0.0 for p in predictions)
+    cost_vals = [p.get("cost_usd") for p in predictions if p.get("cost_usd") is not None]
+    total_cost_usd = round(sum(cost_vals), 4) if cost_vals else None
+
     # Prepare output
     output = {
         "model": runner.model_identifier,
@@ -253,6 +264,14 @@ def run_benchmark(
             "model_name": runner.config.model_name,
             "temperature": runner.config.temperature,
             "max_tokens": runner.config.max_tokens,
+        },
+        "judge_model": os.environ.get("JUDGE_MODEL", "claude-haiku-4-5-20251001"),
+        "prompt_version": os.environ.get("PROMPT_VERSION", "v1.2.0"),
+        "totals": {
+            "input_tokens": total_input_tokens,
+            "output_tokens": total_output_tokens,
+            "wall_time_s": round(total_wall_time_s, 2),
+            "cost_usd": total_cost_usd,
         },
     }
 
