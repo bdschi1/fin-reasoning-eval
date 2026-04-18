@@ -38,6 +38,15 @@ class LeaderboardEntry:
     log_loss: Optional[float] = None
     avg_latency_ms: Optional[float] = None
 
+    # Cost & efficiency (Phase 1 extension)
+    total_cost_usd: Optional[float] = None
+    total_input_tokens: Optional[int] = None
+    total_output_tokens: Optional[int] = None
+    total_wall_time_s: Optional[float] = None
+    cost_per_100_correct: Optional[float] = None
+    judge_model: Optional[str] = None
+    prompt_version: Optional[str] = None
+
     # Metadata
     submission_date: str = field(default_factory=lambda: datetime.utcnow().isoformat())
     submitted_by: Optional[str] = None
@@ -177,11 +186,8 @@ class Leaderboard:
         """
         Generate a markdown table of the leaderboard.
 
-        Args:
-            n: Number of entries to include
-
-        Returns:
-            Markdown formatted table
+        Returns a compact accuracy-by-difficulty view. Use
+        ``to_cost_table`` for the cost-centric view.
         """
         entries = self.get_top_n(n)
 
@@ -190,8 +196,8 @@ class Leaderboard:
 
         # Header
         lines = [
-            "| Rank | Model | Overall | Easy | Medium | Hard | Expert |",
-            "|------|-------|---------|------|--------|------|--------|",
+            "| Rank | Model | Overall | Easy | Medium | Hard | Expert | Brier | ECE |",
+            "|------|-------|---------|------|--------|------|--------|-------|-----|",
         ]
 
         # Rows
@@ -200,13 +206,64 @@ class Leaderboard:
             medium = entry.difficulty_accuracy.get('medium', 0)
             hard = entry.difficulty_accuracy.get('hard', 0)
             expert = entry.difficulty_accuracy.get('expert', 0)
+            brier = f"{entry.brier_score:.3f}" if entry.brier_score is not None else "—"
+            ece = f"{entry.calibration_error:.3f}" if entry.calibration_error is not None else "—"
 
             lines.append(
                 f"| {entry.rank} | {entry.display_name} | "
                 f"{entry.overall_accuracy:.1%} | "
-                f"{easy:.1%} | {medium:.1%} | {hard:.1%} | {expert:.1%} |"
+                f"{easy:.1%} | {medium:.1%} | {hard:.1%} | {expert:.1%} | "
+                f"{brier} | {ece} |"
             )
 
+        return "\n".join(lines)
+
+    def to_cost_table(self, n: int = 20) -> str:
+        """Generate a markdown table of cost and throughput metrics.
+
+        Shows total $, cost per 100 correct answers, input/output tokens,
+        wall-clock time. Returns em-dash for fields missing from a run.
+        """
+        entries = self.get_top_n(n)
+        if not entries:
+            return "No entries yet."
+
+        lines = [
+            "| Rank | Model | Overall | Total $ | $/100 Correct | In Tok | Out Tok | Wall (s) | Judge |",
+            "|------|-------|---------|---------|---------------|--------|---------|----------|-------|",
+        ]
+        for entry in entries:
+            cost = (
+                f"${entry.total_cost_usd:.2f}"
+                if entry.total_cost_usd is not None
+                else "—"
+            )
+            cphc = (
+                f"${entry.cost_per_100_correct:.3f}"
+                if entry.cost_per_100_correct is not None
+                else "—"
+            )
+            tin = (
+                f"{entry.total_input_tokens:,}"
+                if entry.total_input_tokens
+                else "—"
+            )
+            tout = (
+                f"{entry.total_output_tokens:,}"
+                if entry.total_output_tokens
+                else "—"
+            )
+            wall = (
+                f"{entry.total_wall_time_s:.1f}"
+                if entry.total_wall_time_s is not None
+                else "—"
+            )
+            judge = entry.judge_model or "—"
+            lines.append(
+                f"| {entry.rank} | {entry.display_name} | "
+                f"{entry.overall_accuracy:.1%} | {cost} | {cphc} | "
+                f"{tin} | {tout} | {wall} | {judge} |"
+            )
         return "\n".join(lines)
 
     def to_category_table(self, n: int = 20) -> str:
@@ -253,6 +310,10 @@ class Leaderboard:
             "",
             self.to_category_table(),
             "",
+            "## Cost & Efficiency",
+            "",
+            self.to_cost_table(),
+            "",
             "## Statistics",
             "",
             f"- Total submissions: {len(self.entries)}",
@@ -273,23 +334,38 @@ def create_entry_from_results(results: dict, model_name: Optional[str] = None) -
     """
     Create a leaderboard entry from evaluation results.
 
-    Args:
-        results: Results dictionary from evaluation
-        model_name: Optional model name override
-
-    Returns:
-        LeaderboardEntry
+    Reads both the legacy metrics block and the Phase-1 totals block
+    (tokens, cost, wall-time) when present. Older result files that
+    lack the totals block still produce a valid entry with None cost
+    fields.
     """
     metrics = results.get('metrics', {})
+    totals = results.get('totals', {}) or {}
+
+    total_cost = totals.get('cost_usd')
+    total_examples = metrics.get('total_examples', 0)
+    accuracy = metrics.get('overall_accuracy', 0.0)
+    cost_per_100_correct = None
+    if total_cost is not None and total_examples and accuracy:
+        correct = accuracy * total_examples
+        if correct > 0:
+            cost_per_100_correct = round((total_cost / correct) * 100.0, 4)
 
     return LeaderboardEntry(
         model_name=model_name or results.get('model', 'Unknown'),
-        overall_accuracy=metrics.get('overall_accuracy', 0.0),
-        total_examples=metrics.get('total_examples', 0),
+        overall_accuracy=accuracy,
+        total_examples=total_examples,
         category_accuracy=metrics.get('category_accuracy', {}),
         difficulty_accuracy=metrics.get('difficulty_accuracy', {}),
         reasoning_quality=metrics.get('reasoning_quality'),
         calibration_error=metrics.get('calibration_error'),
         brier_score=metrics.get('brier_score_avg'),
         log_loss=metrics.get('log_loss_avg'),
+        total_cost_usd=total_cost,
+        total_input_tokens=totals.get('input_tokens'),
+        total_output_tokens=totals.get('output_tokens'),
+        total_wall_time_s=totals.get('wall_time_s'),
+        cost_per_100_correct=cost_per_100_correct,
+        judge_model=results.get('judge_model'),
+        prompt_version=results.get('prompt_version'),
     )
