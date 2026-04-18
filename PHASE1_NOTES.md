@@ -64,13 +64,28 @@ surfaces the root cause to operators.
 
 **Deferred (explicit scope cut from the session task):**
 
-- Full 360-problem runs on Opus, Sonnet-4, GPT-4.1, o3, Llama-3.3,
-  DeepSeek. These are **live API spend** (~$190–250 for the set) and
-  require explicit budget approval. The current session is local-only.
+- **Items 4 & 5 of the first-commit queue** — full 360-problem runs on
+  `claude-sonnet-4`, `claude-opus-4`, `gpt-4.1` (~$75 for the three).
+  These are **live API spend** and fall outside the local-only session
+  scope. Scaffolded at `leaderboard_configs/phase1_items_4_5.yaml`;
+  invoke via:
+  ```bash
+  python3 scripts/run_leaderboard.py \
+      --config leaderboard_configs/phase1_items_4_5.yaml --yes
+  ```
+- **Full six-frontier-model leaderboard run** (~$190–250, budget ceiling
+  ~$250 with contingency). Gated on explicit budget approval. Scaffolded
+  at `leaderboard_configs/phase1_full_leaderboard.yaml`; o3 is commented
+  out by default due to reasoning-token cost variance.
 - Re-running the stale Sonnet-4 20-problem result. Same reason.
 - Publishing any numbers to the HF Space or dataset repo.
 - Running `huggingface-cli upload` for the regenerated `dataset_info.json`
   — house rule: local metadata change only for this pass.
+
+The orchestrator (`scripts/run_leaderboard.py`) refuses to run without
+`--yes`, validates API-key env vars, aborts if the per-config hard cost
+ceiling is exceeded, and writes `manifest.json` with per-model status.
+`--dry-run` walks the whole flow with zero API calls.
 
 ## 4. /harden outcome
 

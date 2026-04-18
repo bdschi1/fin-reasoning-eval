@@ -1,0 +1,64 @@
+# Phase 1 first-commit queue — items 4 and 5
+#
+# Scope: full 360-problem runs on claude-sonnet-4, claude-opus-4, gpt-4.1.
+# These are SCAFFOLDED ONLY. The YAML below is the reproducible config; the
+# run is live API spend and is gated on explicit user approval at
+# scripts/run_leaderboard.py invocation time.
+#
+# Estimated total cost: ~$75 (planning estimate, not a guarantee).
+# Estimated total wall time: ~3.0-3.5 hours sequential.
+#
+# To execute (requires --yes to confirm budget):
+#   python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_items_4_5.yaml --yes
+#
+# To preview without calling any API:
+#   python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_items_4_5.yaml --dry-run
+
+name: phase1_items_4_5
+description: >-
+  Items 4-5 of the Phase 1 first-commit queue. Runs the three frontier models
+  that Phase 1 deferred for budget reasons. Produces the smallest result set
+  that establishes a Sonnet/Opus/GPT-4.1 leaderboard triad.
+
+prompt_version: v1.2.0
+judge_model: claude-haiku-4-5-20251001
+split: test
+data_dir: data
+output_dir: results/phase1_items_4_5
+
+# Per-model overrides. Defaults applied if a key is absent:
+#   temperature: 0.0
+#   auto_rubric: true
+#   max_tokens: 4096
+models:
+  - name: claude-sonnet-4
+    provider: anthropic
+    max_tokens: 4096
+    auto_rubric: true
+    est_cost_usd: 12.0
+    est_wall_min: 60
+    api_key_env: ANTHROPIC_API_KEY
+
+  - name: claude-opus-4
+    provider: anthropic
+    max_tokens: 4096
+    auto_rubric: true
+    est_cost_usd: 57.0
+    est_wall_min: 90
+    api_key_env: ANTHROPIC_API_KEY
+
+  - name: gpt-4.1
+    provider: openai
+    max_tokens: 4096
+    auto_rubric: true
+    est_cost_usd: 6.5
+    est_wall_min: 45
+    api_key_env: OPENAI_API_KEY
+
+budget:
+  hard_ceiling_usd: 100.0
+  contingency_pct: 25
+  notes: >-
+    Hard ceiling is the orchestrator abort threshold (sum of est_cost_usd +
+    contingency). Approve by passing --yes and ensure billing alerts are set
+    on the provider console.

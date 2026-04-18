@@ -16,6 +16,28 @@ This is a continually developed project. Problem categories, evaluation methods,
 - *How well does this AI model handle finance reasoning problems?*
 - *Which financial concepts are hardest for LLMs, and at what difficulty level do they break down?*
 
+## Next Clear Steps (scaffolded, not executed)
+
+Phase 1 shipped the benchmark, runner, and result schema end-to-end.
+Two follow-up runs are **scaffolded and gated on explicit budget approval**
+— no live API spend has occurred. Configs live in `leaderboard_configs/`
+and the orchestrator at `scripts/run_leaderboard.py`.
+
+| Step | Config | Models | Est. cost | Command |
+|---|---|---|---|---|
+| First-commit queue items 4 & 5 | `phase1_items_4_5.yaml` | Sonnet 4, Opus 4, GPT-4.1 | ~$75 | `python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_items_4_5.yaml --yes` |
+| Full six-frontier leaderboard | `phase1_full_leaderboard.yaml` | +Haiku, Llama-3.3, DeepSeek | ~$190–250 (ceiling $250) | `python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_full_leaderboard.yaml --yes` |
+
+Preview any run without API calls:
+
+```bash
+python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_items_4_5.yaml --dry-run
+```
+
+The orchestrator refuses to run without `--yes`, checks required API-key
+env vars are set, and will abort if the cost ceiling is exceeded. See
+`LEADERBOARD_RUN.md` for the full methodology and per-model caveats.
+
 ## Quick Start
 
 ### Using `run.sh` (recommended)

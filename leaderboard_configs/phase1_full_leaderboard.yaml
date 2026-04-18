@@ -1,0 +1,96 @@
+# Phase 1 — full six-frontier-model leaderboard
+#
+# Scope: full 360-problem runs on the six frontier models that form the
+# public leaderboard v1.2.0 baseline. SCAFFOLDED ONLY — execution is live
+# API spend and gated on explicit budget approval.
+#
+# Estimated total cost: ~$190 base + ~$21 judge = ~$210.
+# Budget ceiling with 25% contingency: ~$250.
+# Estimated total wall time: ~7-9 hours sequential (parallelize at your
+# own risk — rate limits and cost-tracking get harder).
+#
+# To execute (requires --yes + confirmation that hard_ceiling is acceptable):
+#   python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_full_leaderboard.yaml --yes
+#
+# To preview without calling any API:
+#   python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_full_leaderboard.yaml --dry-run
+
+name: phase1_full_leaderboard
+description: >-
+  Six-frontier-model leaderboard baseline for v1.2.0. Spans Anthropic, OpenAI,
+  open-weights (Llama, DeepSeek). Excludes o3 by default due to reasoning-token
+  cost variance; enable o3 by uncommenting its entry below if budget allows.
+
+prompt_version: v1.2.0
+judge_model: claude-haiku-4-5-20251001
+split: test
+data_dir: data
+output_dir: results/phase1_full_leaderboard
+
+models:
+  - name: claude-opus-4
+    provider: anthropic
+    max_tokens: 4096
+    auto_rubric: true
+    est_cost_usd: 57.0
+    est_wall_min: 90
+    api_key_env: ANTHROPIC_API_KEY
+
+  - name: claude-sonnet-4
+    provider: anthropic
+    max_tokens: 4096
+    auto_rubric: true
+    est_cost_usd: 12.0
+    est_wall_min: 60
+    api_key_env: ANTHROPIC_API_KEY
+
+  - name: claude-haiku-3.5
+    provider: anthropic
+    max_tokens: 2048
+    auto_rubric: false
+    est_cost_usd: 3.0
+    est_wall_min: 30
+    api_key_env: ANTHROPIC_API_KEY
+
+  - name: gpt-4.1
+    provider: openai
+    max_tokens: 4096
+    auto_rubric: true
+    est_cost_usd: 6.5
+    est_wall_min: 45
+    api_key_env: OPENAI_API_KEY
+
+  - name: llama-3.3-70b
+    provider: huggingface
+    max_tokens: 4096
+    auto_rubric: false
+    est_cost_usd: 1.5
+    est_wall_min: 90
+    api_key_env: HF_API_KEY
+
+  - name: deepseek-v3.1
+    provider: deepseek
+    max_tokens: 4096
+    auto_rubric: false
+    est_cost_usd: 1.0
+    est_wall_min: 60
+    api_key_env: DEEPSEEK_API_KEY
+
+  # - name: o3
+  #   provider: openai
+  #   max_tokens: 8192
+  #   auto_rubric: true
+  #   est_cost_usd: 85.0
+  #   est_wall_min: 180
+  #   api_key_env: OPENAI_API_KEY
+  #   notes: >-
+  #     Reasoning tokens triple output cost in practice. Subsample to 150
+  #     stratified problems if dry-run shows >3k output tok/problem.
+
+budget:
+  hard_ceiling_usd: 250.0
+  contingency_pct: 25
+  notes: >-
+    $190 base + $21 Haiku judge pass = ~$210. 25% contingency covers rate-limit
+    retries and judge drift re-runs. Do not approve without a billing alert on
+    the provider consoles and explicit sign-off on the $250 ceiling.
