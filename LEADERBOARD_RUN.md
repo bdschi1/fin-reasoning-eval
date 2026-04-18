@@ -6,6 +6,29 @@ this repo stop at "runner works end-to-end on one model against a small
 sample"; the full 360 × 6-model run is explicit downstream work with a
 separate budget approval gate.
 
+## TL;DR — run via the orchestrator
+
+Two YAML configs are checked in. Use them instead of hand-invoking each
+model:
+
+```bash
+# Preview (no API calls)
+python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_items_4_5.yaml --dry-run
+
+# Items 4 & 5 only: Sonnet 4 + Opus 4 + GPT-4.1 (~$75)
+python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_items_4_5.yaml --yes
+
+# Full six-model leaderboard (~$190–250, ceiling $250)
+python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_full_leaderboard.yaml --yes
+```
+
+The orchestrator prints a cost preview, validates required env vars
+(`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, etc.), refuses to run without
+`--yes`, and writes a `manifest.json` with per-model status into the
+config's `output_dir`. Models with existing result files are skipped
+unless `--force` is passed. See §§1–5 below for the underlying
+methodology.
+
 Pin the following before any public push:
 
 - `prompt_version = v1.2.0` (matches `data/huggingface/dataset_info.json`).
