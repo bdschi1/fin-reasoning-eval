@@ -1,3 +1,6 @@
+# prompt_version: 1.0.0
+# prompt_date: 2026-04-04
+# description: Rubric definitions for AI vendor assessment dimensions across accuracy, latency, cost, safety, domain expertise, and consistency
 version: "1.0.0"
 description: "Rubric definitions for AI vendor assessment dimensions"
 

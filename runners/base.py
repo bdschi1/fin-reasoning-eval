@@ -209,13 +209,14 @@ class BaseRunner(ABC):
 
         # Add reasoning request
         if self.config.include_reasoning_request:
-            prompt_parts.extend([
-                "",
-                "Please provide your answer and explain your reasoning step by step.",
-                "Format your response as:",
-                "Reasoning: [Your step-by-step analysis]",
-                "Answer: [Your final answer]",
-            ])
+            prompt_parts.append("")
+            prompt_parts.append("Please provide your answer and explain your reasoning step by step.")
+            prompt_parts.append("Format your response as:")
+            prompt_parts.append("Reasoning: [Your step-by-step analysis]")
+            if not options:
+                prompt_parts.append("Answer: [A single number or short phrase — no sentences]")
+            else:
+                prompt_parts.append("Answer: [Your final answer]")
 
         return "\n".join(prompt_parts)
 

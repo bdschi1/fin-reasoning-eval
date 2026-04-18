@@ -17,6 +17,19 @@ except ImportError:
     ANTHROPIC_AVAILABLE = False
 
 
+def _format_system(system: str | None) -> list[dict] | str | None:
+    """Wrap system prompts >= 400 chars with cache_control for prompt caching."""
+    if not system or len(system) < 400:
+        return system
+    return [
+        {
+            "type": "text",
+            "text": system,
+            "cache_control": {"type": "ephemeral"},
+        }
+    ]
+
+
 class AnthropicRunner(BaseRunner):
     """Runner for Anthropic Claude models."""
 
@@ -94,7 +107,7 @@ class AnthropicRunner(BaseRunner):
 
             # Add system prompt if provided
             if self.config.system_prompt:
-                request_params["system"] = self.config.system_prompt
+                request_params["system"] = _format_system(self.config.system_prompt)
 
             # Add optional parameters
             if self.config.temperature > 0:
@@ -147,26 +160,82 @@ class AnthropicRunner(BaseRunner):
                 success=False,
             )
 
-    def generate_with_thinking(self, prompt: str) -> ModelResponse:
+    def generate_with_thinking(
+        self,
+        prompt: str,
+        max_tokens: int = 16384,
+        system: Optional[str] = None,
+        thinking_budget: int = 8000,
+    ) -> ModelResponse:
         """
-        Generate a response with extended thinking (for Claude 3.5+).
-
-        This uses the extended thinking feature to get more detailed reasoning.
+        Generate a response using Anthropic's extended thinking API.
 
         Args:
             prompt: The input prompt
+            max_tokens: Maximum tokens for the response (must exceed thinking_budget)
+            system: Optional system prompt override
+            thinking_budget: Token budget for the thinking phase
 
         Returns:
-            ModelResponse with detailed reasoning
+            ModelResponse with reasoning from extended thinking
         """
-        # Add explicit reasoning request to prompt
-        thinking_prompt = (
-            f"{prompt}\n\n"
-            "Please think through this step by step, showing your complete reasoning process. "
-            "Consider all relevant factors before providing your final answer."
-        )
+        start_time = time.time()
 
-        return self.generate(thinking_prompt)
+        try:
+            messages = [{"role": "user", "content": prompt}]
+            kwargs = {
+                "model": self.model,
+                "max_tokens": max_tokens,
+                "messages": messages,
+                "thinking": {
+                    "type": "enabled",
+                    "budget_tokens": thinking_budget,
+                },
+            }
+            # Ensure max_tokens accommodates thinking budget
+            if kwargs["max_tokens"] < thinking_budget + 1024:
+                kwargs["max_tokens"] = thinking_budget + 4096
+            if system:
+                kwargs["system"] = _format_system(system)
+            elif self.config.system_prompt:
+                kwargs["system"] = _format_system(self.config.system_prompt)
+
+            response = self.client.messages.create(**kwargs)
+
+            latency_ms = (time.time() - start_time) * 1000
+
+            thinking_text = ""
+            answer_text = ""
+            for block in response.content:
+                if block.type == "thinking":
+                    thinking_text = block.thinking
+                elif block.type == "text":
+                    answer_text = block.text
+
+            tokens_used = 0
+            if response.usage:
+                tokens_used = response.usage.output_tokens
+
+            return ModelResponse(
+                answer=answer_text,
+                reasoning=thinking_text,
+                full_response=answer_text,
+                model=self.model,
+                latency_ms=latency_ms,
+                tokens_used=tokens_used,
+                success=True,
+            )
+
+        except Exception as e:
+            latency_ms = (time.time() - start_time) * 1000
+            return ModelResponse(
+                answer="",
+                full_response="",
+                model=self.model,
+                latency_ms=latency_ms,
+                error=str(e),
+                success=False,
+            )
 
 
 def create_anthropic_runner(
