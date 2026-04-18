@@ -1,4 +1,4 @@
-<!-- fin-reasoning-eval/README.md | Last updated: 2026-04-16 -->
+<!-- fin-reasoning-eval/README.md | Last updated: 2026-04-18 -->
 
 # Financial Reasoning Eval Benchmark
 
@@ -141,6 +141,29 @@ The eval exists to measure how well AI models handle real financial reasoning --
 
 Each problem has `id`, `category`, `difficulty`, `question`, `context`, `answer_type`, `correct_answer`, `answer_options`, `explanation`, `reasoning_steps`, and `tags`. Available as local JSON splits (train/val/test) or via HuggingFace Hub (`bdschi1/financial-reasoning-eval`).
 
+**Live counts** (source: `data/financial_reasoning_benchmark.json`, mirrored by the v1.2.0 HF export):
+
+- 360 problems, all `answer_type = multiple_choice`
+- Splits: train 251 / validation 55 / test 54
+- 7 categories: earnings_surprise (61), dcf_sanity_check (59), accounting_red_flag (59), catalyst_identification (53), formula_audit (63), financial_statement_analysis (60), risk_assessment (5)
+- 4 difficulties: easy 76 / medium 116 / hard 128 / expert 40
+- Long-form memo seeds: 5 problems in `problems/memo_problems.py` (Phase 2 wiring pending)
+
+The thin `risk_assessment` category (5 problems) is a known Phase 1 gap; Phase 3 expands it to 40 including 10 long-form variants.
+
+### How to run a model (one-liner)
+
+```bash
+# Local (free, Ollama)
+python3 runners/run_evaluation.py --model ollama:qwen3.5:27b --split validation --limit 5 --max-tokens 4096
+
+# Managed API (paid; expects ANTHROPIC_API_KEY / OPENAI_API_KEY in .env)
+python3 runners/run_evaluation.py --model claude-sonnet-4 --split test --max-tokens 4096 --auto-rubric
+python3 runners/run_evaluation.py --model gpt-4.1         --split test --max-tokens 4096 --auto-rubric
+```
+
+Full 360-problem leaderboard recipe, per-model cost and wall-time estimates, and reasoning-model caveats (`<think>`-block truncation, rate limits) are in [`LEADERBOARD_RUN.md`](LEADERBOARD_RUN.md). Methodology and metric definitions are in [`docs/leaderboard_methodology.md`](docs/leaderboard_methodology.md).
+
 ### Evaluation Metrics
 
 #### Primary Metrics
@@ -157,17 +180,27 @@ Each problem has `id`, `category`, `difficulty`, `question`, `context`, `answer_
 
 ### Sample Results
 
-#### Baseline: Claude 3 Haiku (50 problems)
+Early pre-Phase-1 result files (n = 5–50) live in
+`results/archive/pre_phase1/` for reference. Phase 1 will publish a full
+360-problem leaderboard across a frontier-model set; see
+`LEADERBOARD_RUN.md` for the exact invocation recipe and the per-model
+cost/wall-time envelope summarized below.
 
-| Metric | Score |
-|--------|-------|
-| Overall Accuracy | 64.0% |
-| Earnings Surprise | 100.0% |
-| Financial Statement | 75.0% |
-| Catalyst Identification | 66.7% |
-| DCF Sanity Check | 60.0% |
-| Formula Audit | 53.8% |
-| Accounting Red Flag | 44.4% |
+#### Cost estimate per full 360-problem run (planning, not guarantees)
+
+Figures assume ~3k input / ~1.5k output tokens per problem plus a
+Haiku-4.5 judge pass. Pulled from `runners/base.py::PRICING_PER_1M_USD`.
+
+| Model | Provider | Cost per run | Wall time |
+|---|---|---|---|
+| claude-opus-4 | Anthropic | ~$57 | ~90 min |
+| claude-sonnet-4 | Anthropic | ~$12 | ~60 min |
+| claude-haiku-3.5 | Anthropic | ~$3 | ~30 min |
+| gpt-4.1 | OpenAI | ~$6.5 | ~45 min |
+| o3 | OpenAI | ~$85 | ~3 hr |
+| llama-3.3-70b | Together / HF | ~$1.5 | ~90 min |
+| deepseek-v3.1 | DeepSeek | ~$1 | ~60 min |
+| qwen3.5:27b | Ollama (local) | $0 | ~6–10 hr on M-series |
 
 ### Configuration
 
