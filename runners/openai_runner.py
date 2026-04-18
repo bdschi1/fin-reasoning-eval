@@ -8,7 +8,7 @@ import os
 import time
 from typing import Optional
 
-from .base import BaseRunner, RunnerConfig, ModelResponse
+from .base import BaseRunner, RunnerConfig, ModelResponse, estimate_cost_usd
 
 try:
     import openai
@@ -142,8 +142,15 @@ class OpenAIRunner(BaseRunner):
 
             # Get token usage
             tokens_used = 0
+            input_tokens = 0
+            output_tokens = 0
             if response.usage:
-                tokens_used = response.usage.total_tokens
+                input_tokens = int(getattr(response.usage, "prompt_tokens", 0) or 0)
+                output_tokens = int(getattr(response.usage, "completion_tokens", 0) or 0)
+                tokens_used = int(getattr(response.usage, "total_tokens", input_tokens + output_tokens) or 0)
+
+            cost_usd = estimate_cost_usd(self.model, input_tokens, output_tokens)
+            wall_time_s = latency_ms / 1000.0
 
             return ModelResponse(
                 answer=answer,
@@ -152,6 +159,10 @@ class OpenAIRunner(BaseRunner):
                 model=self.model,
                 latency_ms=latency_ms,
                 tokens_used=tokens_used,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                wall_time_s=wall_time_s,
+                cost_usd=cost_usd,
                 success=True,
             )
 
@@ -218,7 +229,16 @@ class OpenAIRunner(BaseRunner):
                     if probs:
                         confidence = sum(probs) / len(probs)
 
-            tokens_used = response.usage.total_tokens if response.usage else 0
+            tokens_used = 0
+            input_tokens = 0
+            output_tokens = 0
+            if response.usage:
+                input_tokens = int(getattr(response.usage, "prompt_tokens", 0) or 0)
+                output_tokens = int(getattr(response.usage, "completion_tokens", 0) or 0)
+                tokens_used = int(getattr(response.usage, "total_tokens", input_tokens + output_tokens) or 0)
+
+            cost_usd = estimate_cost_usd(self.model, input_tokens, output_tokens)
+            wall_time_s = latency_ms / 1000.0
 
             return ModelResponse(
                 answer=answer,
@@ -227,6 +247,10 @@ class OpenAIRunner(BaseRunner):
                 model=self.model,
                 latency_ms=latency_ms,
                 tokens_used=tokens_used,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                wall_time_s=wall_time_s,
+                cost_usd=cost_usd,
                 confidence=confidence,
                 success=True,
             )
