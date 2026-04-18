@@ -134,10 +134,17 @@ class FinancialReasoningDataset:
         )
 
     def _load_jsonl(self, filepath: str):
-        """Load from JSONL format."""
+        """Load from JSONL format.
+
+        JSONL splits exported from ProblemSet may carry a nested dict as
+        ``context``. Runners expect a string, so flatten here the same way
+        :meth:`_load_json` does.
+        """
         with open(filepath, 'r') as f:
             for line in f:
                 record = json.loads(line)
+                if isinstance(record.get('context'), dict):
+                    record['context'] = self._format_context(record['context'])
                 example = self._record_to_example(record)
                 if self._should_include(example):
                     self._examples.append(example)

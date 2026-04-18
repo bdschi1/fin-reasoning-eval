@@ -151,12 +151,24 @@ class OllamaRunner(BaseRunner):
 
             # Extract response
             latency_ms = (time.time() - start_time) * 1000
-            full_response = response.choices[0].message.content or ""
+            raw_response = response.choices[0].message.content or ""
 
-            # Strip thinking tags (Qwen 3.5 and similar models use <think> blocks)
+            # Strip complete thinking tags (Qwen 3.5 and similar models
+            # emit <think>...</think> blocks). If a block is unterminated
+            # the model ran out of tokens mid-thought; flag and retain the
+            # trailing fragment so downstream parsers can see something.
+            thinking_truncated = False
             full_response = re.sub(
-                r"<think>.*?</think>\s*", "", full_response, flags=re.DOTALL
+                r"<think>.*?</think>\s*", "", raw_response, flags=re.DOTALL
             )
+            if "<think>" in full_response and "</think>" not in full_response:
+                thinking_truncated = True
+                # Drop the opening tag; keep what came after it (usually
+                # empty at low max_tokens, but this at least preserves any
+                # fragment the model emitted).
+                full_response = re.sub(
+                    r"<think>.*", "", full_response, flags=re.DOTALL
+                )
 
             # Parse answer and reasoning
             answer, reasoning = self.parse_response(full_response)
@@ -179,6 +191,18 @@ class OllamaRunner(BaseRunner):
                 cost_usd = 0.0
             wall_time_s = latency_ms / 1000.0
 
+            # Surface thinking-truncation as a non-fatal error so result
+            # files make the root cause visible without blocking the run.
+            err = None
+            success = True
+            if thinking_truncated and not answer.strip():
+                err = (
+                    "thinking_truncated: model did not emit a closing "
+                    "</think> tag within max_tokens; raise max_tokens or "
+                    "disable thinking to capture a final answer."
+                )
+                success = False
+
             return ModelResponse(
                 answer=answer,
                 reasoning=reasoning,
@@ -190,7 +214,8 @@ class OllamaRunner(BaseRunner):
                 output_tokens=output_tokens,
                 wall_time_s=wall_time_s,
                 cost_usd=cost_usd,
-                success=True,
+                error=err,
+                success=success,
             )
 
         except Exception as e:
