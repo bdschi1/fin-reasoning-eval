@@ -208,7 +208,12 @@ class FinancialReasoningMetrics:
         reference: str,
         tolerance: float
     ) -> bool:
-        """Check numeric answer with tolerance."""
+        """Check numeric answer with tolerance.
+
+        Handles percentage format mismatch: if one value is ~100x the other
+        (e.g., model says 14.5% but ground truth is 0.14464), tries both
+        scales before failing.
+        """
         try:
             pred_val = self._extract_number(predicted)
             ref_val = self._extract_number(reference)
@@ -219,20 +224,44 @@ class FinancialReasoningMetrics:
             if ref_val == 0:
                 return abs(pred_val) < tolerance
 
-            return abs(pred_val - ref_val) / abs(ref_val) <= tolerance
+            # Direct comparison
+            if abs(pred_val - ref_val) / abs(ref_val) <= tolerance:
+                return True
+
+            # Try percentage scaling (pred is 100x ref, e.g., 14.5 vs 0.145)
+            if ref_val != 0 and abs(pred_val / 100 - ref_val) / abs(ref_val) <= tolerance:
+                return True
+
+            # Try inverse scaling (ref is 100x pred)
+            if pred_val != 0 and abs(pred_val - ref_val / 100) / abs(pred_val) <= tolerance:
+                return True
+
+            return False
         except (ValueError, ZeroDivisionError):
             return False
 
     def _extract_number(self, text: str) -> Optional[float]:
-        """Extract a number from text."""
+        """Extract a number from text, preferring the last number found."""
         # Remove common formatting
         text = text.replace(',', '').replace('$', '').replace('%', '')
 
-        # Find numbers
+        # Find all numbers
         numbers = re.findall(r'-?\d+\.?\d*', text)
-        if numbers:
+        if not numbers:
+            return None
+
+        # If only one number, return it
+        if len(numbers) == 1:
             return float(numbers[0])
-        return None
+
+        # Prefer the last number (typically the final answer, not a year or
+        # context number). Filter out likely year values (1900-2099) unless
+        # all numbers look like years.
+        non_year = [n for n in numbers if not (1900 <= abs(float(n)) <= 2099 and '.' not in n)]
+        if non_year:
+            return float(non_year[-1])
+
+        return float(numbers[-1])
 
     def _check_boolean(self, predicted: str, reference: str) -> bool:
         """Check boolean answer."""
@@ -403,18 +432,43 @@ class FinancialReasoningMetrics:
             predictions=self._predictions,
         )
 
-    def _compute_reasoning_quality(self) -> Optional[float]:
+    def _compute_reasoning_quality(
+        self,
+        use_llm: bool = False,
+        llm_judge_model: str = "claude-opus-4-20250514",
+        llm_judge_api_key: Optional[str] = None,
+    ) -> Optional[float]:
         """
-        Compute reasoning quality using heuristic rubric scoring.
+        Compute reasoning quality.
 
-        Evaluates model reasoning against key criteria from the PRBench-aligned
-        rubric without requiring an LLM-as-judge. Returns a 0-5 scale score.
+        When use_llm=False (default), evaluates model reasoning against key
+        criteria from the PRBench-aligned rubric using heuristic keyword
+        matching. Returns a 0-5 scale score.
+
+        When use_llm=True, instantiates FinancialReasoningJudge and calls
+        .grade() for each prediction that has reasoning. The LLM-graded
+        criterion judgments are aggregated to a 0-5 scale score matching the
+        heuristic output range. Fallback results (judge_validation_failure) are
+        excluded from the average; if all results are fallbacks, returns None.
+
+        Args:
+            use_llm: If True, use AI-as-judge scoring instead of heuristics.
+                     Default False for backwards compatibility.
+            llm_judge_model: Anthropic model to use for judging (use_llm=True only).
+            llm_judge_api_key: Optional API key override (use_llm=True only).
         """
         predictions_with_reasoning = [
             p for p in self._predictions if p.reasoning and len(p.reasoning) > 20
         ]
         if not predictions_with_reasoning:
             return None
+
+        if use_llm:
+            return self._compute_reasoning_quality_llm(
+                predictions_with_reasoning,
+                model=llm_judge_model,
+                api_key=llm_judge_api_key,
+            )
 
         total_score = 0.0
 
@@ -470,6 +524,63 @@ class FinancialReasoningMetrics:
             total_score += (score / checks) * 5.0
 
         return round(total_score / len(predictions_with_reasoning), 2)
+
+    def _compute_reasoning_quality_llm(
+        self,
+        predictions_with_reasoning: list[PredictionResult],
+        model: str = "claude-opus-4-20250514",
+        api_key: Optional[str] = None,
+    ) -> Optional[float]:
+        """LLM-as-judge path for reasoning quality scoring.
+
+        Grades each prediction's reasoning using FinancialReasoningJudge against
+        the default PRBench criteria set. Aggregates per-criterion judgments to a
+        0-5 scale score matching the heuristic output range.
+
+        Fallback results (judge_validation_failure) are excluded from the average.
+        Returns None if all results are fallbacks.
+        """
+        from .ai_judge import FinancialReasoningJudge
+        from .rubric_scoring import DEFAULT_CRITERIA
+
+        judge = FinancialReasoningJudge(model=model, api_key=api_key)
+        total_score = 0.0
+        valid_count = 0
+
+        for pred in predictions_with_reasoning:
+            result = judge.grade(
+                question=pred.problem_id,  # use problem_id as question placeholder
+                context="",
+                correct_answer=pred.correct_answer,
+                model_response=pred.reasoning or "",
+                criteria=DEFAULT_CRITERIA,
+                problem_category=pred.category,
+            )
+
+            if result.fallback_used:
+                continue
+
+            # Convert binary judgments to a 0-5 score:
+            # earned weighted points / total possible points * 5
+            criterion_map = {c.id: c for c in DEFAULT_CRITERIA}
+            earned = 0
+            possible = 0
+            for j in result.criterion_judgments:
+                criterion = criterion_map.get(j.criterion_id)
+                if criterion is None:
+                    continue
+                possible += criterion.weight
+                if j.met:
+                    earned += criterion.weight
+
+            if possible > 0:
+                total_score += (earned / possible) * 5.0
+                valid_count += 1
+
+        if valid_count == 0:
+            return None
+
+        return round(total_score / valid_count, 2)
 
     def _compute_calibration_error(self, n_bins: int = 10) -> float:
         """Compute Expected Calibration Error (ECE).

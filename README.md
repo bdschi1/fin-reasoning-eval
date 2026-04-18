@@ -1,3 +1,5 @@
+<!-- fin-reasoning-eval/README.md | Last updated: 2026-04-16 -->
+
 # Financial Reasoning Eval Benchmark
 
 ![Python](https://img.shields.io/badge/python-3.11+-3776AB?style=flat&logo=python&logoColor=white)
@@ -123,6 +125,18 @@ The benchmark includes 60 curated advanced problems covering:
 - **Portfolio Construction** - Mean-variance optimization, constraints, capacity
 - **Performance Attribution** - Drawdown analysis, process vs. outcome evaluation
 
+## Policy
+
+Every problem must be objectively gradable and grounded in real financial reasoning.
+
+1. **Structured schema, no ambiguity.** Each problem follows a strict schema with ID, category, difficulty, question, context, correct answer, explanation, and reasoning steps -- nothing subjective in the ground truth.
+2. **Difficulty is a feature, not a bug.** The benchmark skews hard/expert (47% combined) because easy problems do not differentiate models on financial reasoning.
+3. **Category isolation for diagnostics.** Seven categories (earnings, DCF, accounting, catalysts, formula audit, financial statements, risk) enable pinpointing exactly where a model breaks down.
+4. **Provider-agnostic runners.** Adding a new LLM provider means subclassing one base class -- the benchmark is model-neutral by design.
+5. **Curated over generated.** Advanced problems are hand-crafted to cover alpha/beta separation, factor models, position sizing, and risk decomposition -- areas where naive generation produces shallow questions.
+
+The eval exists to measure how well AI models handle real financial reasoning -- not pattern matching, not trivia, but the analytical problems that separate useful tools from toys.
+
 ### Dataset Format
 
 Each problem has `id`, `category`, `difficulty`, `question`, `context`, `answer_type`, `correct_answer`, `answer_options`, `explanation`, `reasoning_steps`, and `tags`. Available as local JSON splits (train/val/test) or via HuggingFace Hub (`bdschi1/financial-reasoning-eval`).
@@ -177,6 +191,8 @@ HF_API_KEY=hf_...
 | OpenAI | gpt-4o, gpt-4-turbo, o1 | Legacy |
 | HuggingFace | llama-4-scout, llama-3.3-70b, deepseek-r1, qwen2.5-72b | Via API |
 
+The Anthropic runner's `generate_with_thinking()` uses the native Anthropic thinking API for extended reasoning. The AI judge (`evaluation/ai_judge.py`) supports an optional `thinking_budget` parameter for extended thinking during scoring. System prompts are automatically cached via Anthropic's prompt caching API to reduce token costs on repeated calls.
+
 ### Use Cases
 
 #### Model Evaluation
@@ -206,7 +222,7 @@ fin-reasoning-eval/
 ├── problems/           # Problem schema, advanced/quant/risk assessment curated sets
 ├── generators/         # Per-category problem generators (earnings, DCF, accounting, etc.)
 ├── evaluation/         # Dataset loader, scoring metrics, rubric scoring, FLaME alignment
-├── runners/            # LLM runner base + provider runners (Anthropic, OpenAI, HuggingFace, Ollama)
+├── runners/            # LLM runner base + provider runners (Anthropic, OpenAI, HuggingFace, Ollama); Anthropic runner supports extended thinking via real API
 ├── leaderboard/        # Leaderboard system and submission handling
 ├── spaces/             # Gradio app for HuggingFace Spaces
 ├── data/               # Generated benchmark JSON + HuggingFace export (train/val/test splits)

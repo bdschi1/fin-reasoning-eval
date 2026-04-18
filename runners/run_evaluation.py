@@ -13,6 +13,7 @@ Usage:
 
 import argparse
 import json
+import logging
 import os
 import sys
 from datetime import datetime
@@ -106,6 +107,8 @@ def run_benchmark(
     output_dir: str,
     save_predictions: bool = True,
     show_progress: bool = True,
+    contamination_check: bool = False,
+    auto_rubric: bool = False,
 ) -> tuple[dict, list[dict]]:
     """
     Run the benchmark evaluation.
@@ -116,11 +119,37 @@ def run_benchmark(
         output_dir: Directory for output files
         save_predictions: Save individual predictions
         show_progress: Show progress during evaluation
+        contamination_check: Run contamination detection on each response.
+            Non-blocking — logs warnings only.
+        auto_rubric: When True, run RubricAutoGrader on every model response
+            and attach rubric scores to each prediction record. Does not alter
+            accuracy or other metrics.
 
     Returns:
         Tuple of (output dict, predictions list)
     """
     os.makedirs(output_dir, exist_ok=True)
+
+    # Set up auto-rubric grader if requested.
+    auto_grader = None
+    if auto_rubric:
+        from evaluation.rubric_auto_grader import RubricAutoGrader
+        auto_grader = RubricAutoGrader()
+        logging.getLogger(__name__).info("RubricAutoGrader enabled for this run.")
+
+    # Set up contamination checker if requested.
+    checker = None
+    contamination_results = []
+    if contamination_check:
+        from evaluation.contamination import ContaminationChecker, _extract_problem_text
+        checker = ContaminationChecker()
+        hashes_path = Path(__file__).parent.parent / "data" / "problem_hashes.json"
+        if hashes_path.exists():
+            checker.load_hash_index(hashes_path)
+        else:
+            print("Contamination check: building hash index from current dataset...")
+            idx = checker.build_hash_index(list(dataset))
+            checker.save_hash_index(idx, hashes_path)
 
     metrics = FinancialReasoningMetrics()
     predictions = []
@@ -143,6 +172,16 @@ def run_benchmark(
         # Generate response
         response = runner.generate(prompt)
 
+        # Contamination check (non-blocking)
+        if checker is not None:
+            problem_text = _extract_problem_text(example.question, example.context)
+            c_result = checker.check_response(
+                problem_id=example.id,
+                problem_text=problem_text,
+                model_response=response.full_response or "",
+            )
+            contamination_results.append(c_result)
+
         # Record prediction
         prediction = {
             "id": example.id,
@@ -158,6 +197,31 @@ def run_benchmark(
             "success": response.success,
             "error": response.error,
         }
+
+        # Auto-rubric scoring (optional, non-blocking)
+        if auto_grader is not None:
+            try:
+                auto_result = auto_grader.grade(
+                    question=example.question,
+                    context=example.context or "",
+                    correct_answer=example.correct_answer or "",
+                    model_response=response.full_response or response.answer or "",
+                    problem_category=example.category,
+                )
+                prediction["auto_rubric"] = auto_result.rubric_result.to_dict()
+                if auto_result.needs_human_review:
+                    logging.getLogger(__name__).warning(
+                        "Problem %s flagged for human rubric review "
+                        "(low-confidence criteria: %s)",
+                        example.id,
+                        auto_result.low_confidence_criteria,
+                    )
+            except Exception as exc:  # noqa: BLE001
+                logging.getLogger(__name__).warning(
+                    "RubricAutoGrader failed for problem %s: %s", example.id, exc
+                )
+                prediction["auto_rubric"] = None
+
         predictions.append(prediction)
 
         # Add to metrics
@@ -205,6 +269,24 @@ def run_benchmark(
             json.dump(predictions, f, indent=2)
         print(f"Predictions saved to: {predictions_path}")
 
+    # Contamination report
+    if checker is not None and contamination_results:
+        report = checker.generate_report(contamination_results)
+        flagged = report["flagged_count"]
+        total_checked = report["total_checked"]
+        rate = report["flagged_rate"]
+        print(f"\nContamination check: {flagged}/{total_checked} flagged ({rate:.1%})")
+        if flagged:
+            print(f"  Flagged IDs: {report['flagged_problem_ids']}")
+        contamination_path = os.path.join(
+            output_dir,
+            f"{runner.config.model_name.replace('/', '_')}_contamination.json",
+        )
+        with open(contamination_path, "w") as f:
+            json.dump(report, f, indent=2)
+        print(f"Contamination report saved to: {contamination_path}")
+        output["contamination_report"] = report
+
     return output, predictions
 
 
@@ -221,6 +303,8 @@ def evaluate_model(
     max_tokens: int = 1024,
     limit: Optional[int] = None,
     narrative_llm: bool = False,
+    contamination_check: bool = False,
+    auto_rubric: bool = False,
 ) -> dict:
     """
     Evaluate a model on the benchmark.
@@ -238,6 +322,10 @@ def evaluate_model(
         max_tokens: Maximum tokens to generate
         limit: Limit number of examples (for testing)
         narrative_llm: Use the evaluated model to generate a richer narrative summary
+        contamination_check: Run contamination detection on model responses.
+        auto_rubric: When True, run RubricAutoGrader on each response and attach
+            rubric scores to every prediction record. Does not alter accuracy
+            or other benchmark metrics.
 
     Returns:
         Evaluation results dictionary
@@ -289,6 +377,8 @@ def evaluate_model(
         runner=runner,
         dataset=dataset,
         output_dir=output_dir,
+        contamination_check=contamination_check,
+        auto_rubric=auto_rubric,
     )
 
     # Generate narrative summary
@@ -309,6 +399,91 @@ def evaluate_model(
     print(f"Narrative summary saved to: {narrative_path}")
 
     return results
+
+
+_CI_MODEL = "claude-haiku-4-5-20251001"
+_CI_THRESHOLD = 0.50
+_CI_LIMIT = 5
+
+
+def _run_ci_mode(args) -> None:
+    """Run a fast CI quality gate and exit with an appropriate exit code.
+
+    Uses the validation split (not test) to preserve test-set integrity.
+    Outputs machine-parseable JSON to stdout; all other logging goes to stderr.
+    Exits 0 on pass, 1 on fail.
+    """
+    import sys
+
+    print("CI mode: loading validation split...", file=sys.stderr)
+
+    try:
+        dataset = load_benchmark(
+            split="validation",
+            data_dir=args.data_dir if hasattr(args, "data_dir") else None,
+        )
+    except FileNotFoundError:
+        print("CI mode: benchmark data not found. Generating dataset...", file=sys.stderr)
+        from scripts.generate_dataset import generate_benchmark_dataset
+        generate_benchmark_dataset(num_problems=300, output_dir="./benchmark/data")
+        dataset = load_benchmark(split="validation")
+
+    # Limit to first CI_LIMIT problems
+    if len(dataset) > _CI_LIMIT:
+        dataset._examples = dataset._examples[:_CI_LIMIT]
+
+    n = len(dataset)
+    print(f"CI mode: evaluating {n} problems with {_CI_MODEL}...", file=sys.stderr)
+
+    runner = get_runner(
+        model=_CI_MODEL,
+        api_key=args.api_key if hasattr(args, "api_key") else None,
+        use_api=True,
+        temperature=0.0,
+        max_tokens=512,
+    )
+
+    metrics = FinancialReasoningMetrics()
+    for example in dataset:
+        prompt = runner.format_prompt(
+            question=example.question,
+            context=example.context,
+            options=example.options,
+        )
+        response = runner.generate(prompt)
+        metrics.add_prediction(
+            problem_id=example.id,
+            predicted=response.answer,
+            reference=example.correct_answer,
+            category=example.category,
+            difficulty=example.difficulty,
+            reasoning=response.reasoning,
+            latency_ms=response.latency_ms,
+            answer_type=example.answer_type,
+        )
+
+    results = metrics.compute()
+    accuracy = results.to_dict().get("overall_accuracy", 0.0)
+    passed = accuracy >= _CI_THRESHOLD
+
+    status_str = "CI PASS" if passed else "CI FAIL"
+    output = {
+        "ci_mode": True,
+        "model": _CI_MODEL,
+        "problems_evaluated": n,
+        "overall_accuracy": round(accuracy, 4),
+        "pass": passed,
+        "threshold": _CI_THRESHOLD,
+        "summary": (
+            f"{n}/{n} problems evaluated. "
+            f"Accuracy: {accuracy * 100:.1f}%. "
+            f"{status_str}."
+        ),
+    }
+
+    # JSON to stdout; nothing else
+    print(json.dumps(output, indent=2))
+    sys.exit(0 if passed else 1)
 
 
 def main():
@@ -403,7 +578,68 @@ def main():
         help="Use the evaluated model to generate a richer narrative summary (costs extra tokens)"
     )
 
+    # Auto-rubric options
+    parser.add_argument(
+        "--auto-rubric",
+        action="store_true",
+        default=False,
+        help=(
+            "Run automated rubric scoring (RubricAutoGrader) on each model response "
+            "using the AI judge. Attaches rubric scores to prediction records. "
+            "Does not alter accuracy or other metrics. Requires ANTHROPIC_API_KEY."
+        ),
+    )
+
+    # Contamination detection options
+    parser.add_argument(
+        "--contamination-check",
+        action="store_true",
+        default=False,
+        help=(
+            "Run benchmark contamination detection on model responses. "
+            "Non-blocking — logs warnings and saves a contamination report alongside results."
+        ),
+    )
+    parser.add_argument(
+        "--build-hash-index",
+        action="store_true",
+        default=False,
+        help=(
+            "Build and save a SHA-256 hash index of all benchmark problems to "
+            "data/problem_hashes.json, then exit without running evaluation."
+        ),
+    )
+
+    # CI mode
+    parser.add_argument(
+        "--ci",
+        action="store_true",
+        default=False,
+        help=(
+            "CI mode: limits to 5 validation problems, uses Haiku judge, "
+            "outputs JSON to stdout, exits 1 if accuracy < threshold."
+        ),
+    )
+
     args = parser.parse_args()
+
+    # --ci: fast quality gate for CI pipelines
+    if args.ci:
+        _run_ci_mode(args)
+        return
+
+    # --build-hash-index: build index and exit without running evaluation.
+    if args.build_hash_index:
+        from evaluation.contamination import ContaminationChecker
+        data_dir = args.data_dir
+        print("Building hash index from benchmark problems...")
+        dataset = load_benchmark(split=args.split, data_dir=data_dir)
+        checker = ContaminationChecker()
+        index = checker.build_hash_index(list(dataset))
+        hashes_path = Path(__file__).parent.parent / "data" / "problem_hashes.json"
+        checker.save_hash_index(index, hashes_path)
+        print(f"Hash index saved: {hashes_path} ({len(index)} entries)")
+        return
 
     # Run evaluation
     results = evaluate_model(
@@ -419,6 +655,8 @@ def main():
         max_tokens=args.max_tokens,
         limit=args.limit,
         narrative_llm=args.narrative_llm,
+        contamination_check=args.contamination_check,
+        auto_rubric=args.auto_rubric,
     )
 
     print("\nEvaluation complete!")

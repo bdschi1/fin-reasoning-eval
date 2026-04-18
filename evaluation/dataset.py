@@ -115,6 +115,13 @@ class FinancialReasoningDataset:
             self._load_json(json_path)
             return
 
+        # Try parent data/ dir (for external dataset splits like finqa)
+        parent_dir = str(Path(self.data_dir).parent)
+        parent_json = os.path.join(parent_dir, f"benchmark_{self.split}.json")
+        if parent_dir != self.data_dir and os.path.exists(parent_json):
+            self._load_json(parent_json)
+            return
+
         # Try the full benchmark file
         full_path = os.path.join(self.data_dir, "financial_reasoning_benchmark.json")
         if os.path.exists(full_path):
