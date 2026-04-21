@@ -117,6 +117,16 @@ htmlcov/
 
 HOW_IT_WORKS.md
 
+# Internal docs — never for public repo (how-to-use / how-it-works variants)
+HOW_IT_WORKS*
+HOW-IT-WORKS*
+HOW_TO_USE*
+HOW-TO-USE*
+how_it_works*
+how-it-works*
+how_to_use*
+how-to-use*
+
 # ============================================================
 # ML / GPU artifacts
 # ============================================================
