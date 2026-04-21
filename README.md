@@ -8,13 +8,17 @@
 ![Anthropic](https://img.shields.io/badge/Anthropic-191919?style=flat&logo=anthropic&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)
 
-A test suite for evaluating how well AI models handle finance reasoning problems — valuation, risk, portfolio math, and accounting. You give it a model, it runs 360 graded problems, and returns accuracy scores by category and difficulty level.
+**360 rubric-scored financial-reasoning problems across 7 categories** (earnings surprises, DCF sanity checks, accounting red flags, catalyst identification, formula audits, financial-statement analysis, risk assessment) and 4 difficulty levels (easy / medium / hard / expert). Every problem has a multiple-choice ground truth for deterministic accuracy scoring, layered with a [PRBench-style](https://arxiv.org/abs/2511.04478) weighted-binary rubric (`evaluation/rubric_scoring.py`) that grades *reasoning quality*, not just the chosen letter. Problems use synthetic tickers; reasoning structures, accounting patterns, and valuation mechanics are not.
 
-This is a continually developed project. Problem categories, evaluation methods, and model coverage expand over time as new financial reasoning challenges are identified.
+**Start here:**
+- [`SAMPLE_TASK.md`](SAMPLE_TASK.md) — one worked problem end-to-end (prompt, gold answer, rubric, anchor responses).
+- [`METHODOLOGY.md`](METHODOLOGY.md) — design philosophy, category taxonomy, difficulty calibration, ground-truth discipline.
+- [`LEADERBOARD_RUN.md`](LEADERBOARD_RUN.md) — full 360-problem recipe with per-model cost and wall-time budgets.
 
 **Key questions this project answers:**
-- *How well does this AI model handle finance reasoning problems?*
-- *Which financial concepts are hardest for LLMs, and at what difficulty level do they break down?*
+- *Does this model reason about finance, or does it pattern-match to fluent-sounding distractors?*
+- *Where does it break — valuation, accounting, portfolio math, risk, or catalyst identification?*
+- *At what difficulty level does reasoning quality collapse even when the multiple-choice answer is right?*
 
 ## Next Clear Steps (scaffolded, not executed)
 
@@ -27,6 +31,7 @@ and the orchestrator at `scripts/run_leaderboard.py`.
 |---|---|---|---|---|
 | First-commit queue items 4 & 5 | `phase1_items_4_5.yaml` | Sonnet 4, Opus 4, GPT-4.1 | ~$75 | `python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_items_4_5.yaml --yes` |
 | Full six-frontier leaderboard | `phase1_full_leaderboard.yaml` | +Haiku, Llama-3.3, DeepSeek | ~$190–250 (ceiling $250) | `python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_full_leaderboard.yaml --yes` |
+| Plugin-derived scenario pilot | `plugin_pilot.yaml` | Sonnet 4.6, Haiku 4.5 | ~$2.5 (ceiling $5) | `python3 scripts/run_leaderboard.py --config leaderboard_configs/plugin_pilot.yaml --yes` |
 
 Preview any run without API calls:
 
@@ -37,6 +42,35 @@ python3 scripts/run_leaderboard.py --config leaderboard_configs/phase1_items_4_5
 The orchestrator refuses to run without `--yes`, checks required API-key
 env vars are set, and will abort if the cost ceiling is exceeded. See
 `LEADERBOARD_RUN.md` for the full methodology and per-model caveats.
+
+### Plugin-derived scenarios (pilot)
+
+Free-text scenarios can be derived from the `SKILL.md` files in the
+[anthropic/financial-services-plugins](https://github.com/anthropics/financial-services-plugins)
+repo. Each skill's stated conventions and output schema become the ground
+truth, graded by a new `skill_adherence` rubric category.
+
+Sibling-clone convention (not vendored, not a submodule):
+
+```bash
+# One-time clone — sibling of fin-reasoning-eval
+git clone https://github.com/anthropics/financial-services-plugins \
+  ~/code/work/bds_repos/Tier_1/financial-services-plugins
+
+# Build 5 pilot scenarios (dcf-model, comps-analysis, lbo-model, ic-memo, earnings-preview)
+python scripts/build_plugin_scenarios.py
+# -> writes data/plugin_scenarios.json
+
+# Override sibling path via env var:
+FIN_PLUGINS_ROOT=/custom/path python scripts/build_plugin_scenarios.py
+```
+
+Load the scenarios via the dataset loader using `data_path`:
+
+```python
+from evaluation.dataset import FinancialReasoningDataset
+ds = FinancialReasoningDataset(data_path="data/plugin_scenarios.json")
+```
 
 ## Quick Start
 
