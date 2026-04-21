@@ -101,9 +101,9 @@ Fundamental.md
 b-notes.md
 
 # ============================================================
-# Claude Code
+# Claude Code (user-scoped local overrides only)
 # ============================================================
-.claude/
+.claude/settings.local.json
 
 # Hardening additions
 .pytest_cache/
