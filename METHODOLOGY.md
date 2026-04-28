@@ -106,7 +106,7 @@ Tickers and company names are synthetic throughout ("Titan Resources", "Lunar Li
 1. **Deterministic grading for MC primary.** The benchmark-wide accuracy metric does not use an LLM judge — the correct option is labeled in the schema (`answer_options[i].is_correct`). Scores are reproducible across runs.
 2. **Rubric overlay via `RubricGrader`.** Free-text reasoning is scored against the binary criteria. For automated pipelines, an LLM judge (`evaluation/ai_judge.py`) produces per-criterion met/not-met verdicts; for gold-standard runs, a human grader does the same with the same schema.
 3. **Inter-grader agreement.** When an LLM judge is used, `judge_agreement.py`-style kappa sampling against human-graded pairs is on the roadmap (see `LEADERBOARD_RUN.md` for cost and sampling plan).
-4. **Overconfidence screen.** The skill-adherence probabilistic-language criterion (`evaluation/rubric_scoring.py:244`) explicitly penalizes phrases like "guaranteed", "100% correct", "cannot lose", matching the repo-wide [output-language rule](/Users/bdsm4/.claude/CLAUDE.md). Investment reasoning is probabilistic; rubric language enforces that.
+4. **Overconfidence screen.** The skill-adherence probabilistic-language criterion (`evaluation/rubric_scoring.py:244`) explicitly penalizes phrases like "guaranteed", "100% correct", "cannot lose". Investment reasoning is probabilistic; rubric language enforces that.
 
 ---
 
