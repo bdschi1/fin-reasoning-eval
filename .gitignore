@@ -101,9 +101,9 @@ Fundamental.md
 b-notes.md
 
 # ============================================================
-# Claude Code
+# Claude Code (user-scoped local overrides only)
 # ============================================================
-.claude/
+.claude/settings.local.json
 
 # Hardening additions
 .pytest_cache/
@@ -134,3 +134,6 @@ logs/
 # Generated external datasets (regenerate via scripts/)
 # ============================================================
 data/benchmark_finqa.json
+
+# Local agent config (full directory)
+.claude/
