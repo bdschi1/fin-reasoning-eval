@@ -7,6 +7,7 @@
 ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=flat&logo=huggingface&logoColor=black)
 ![Anthropic](https://img.shields.io/badge/Anthropic-191919?style=flat&logo=anthropic&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)
+![tests](https://img.shields.io/badge/tests-286%20passing-brightgreen?style=flat)
 
 **360 rubric-scored financial-reasoning problems across 7 categories** (earnings surprises, DCF sanity checks, accounting red flags, catalyst identification, formula audits, financial-statement analysis, risk assessment) and 4 difficulty levels (easy / medium / hard / expert). Every problem has a multiple-choice ground truth for deterministic accuracy scoring, layered with a [PRBench-style](https://arxiv.org/abs/2511.04478) weighted-binary rubric (`evaluation/rubric_scoring.py`) that grades *reasoning quality*, not just the chosen letter. Problems use synthetic tickers; reasoning structures, accounting patterns, and valuation mechanics are not.
 
@@ -81,7 +82,7 @@ chmod +x run.sh
 
 ./run.sh setup                            # Create venv & install deps
 ./run.sh test                             # Verify everything works
-./run.sh eval claude-sonnet-4 test 50     # Evaluate a model
+./run.sh eval claude-opus-4-7 test 50     # Evaluate a model
 ```
 
 | Command | What It Does |
@@ -109,17 +110,17 @@ pip install -r requirements.txt
 
 ```bash
 # Evaluate Claude Sonnet 4
-python3 runners/run_evaluation.py --model claude-sonnet-4 --limit 50
+python3 runners/run_evaluation.py --model claude-opus-4-7 --limit 50
 
 # Evaluate with full test set
-python3 runners/run_evaluation.py --model claude-sonnet-4
+python3 runners/run_evaluation.py --model claude-opus-4-7
 
 # Evaluate OpenAI models
 python3 runners/run_evaluation.py --model gpt-4.1 --split test
 python3 runners/run_evaluation.py --model o3 --split test --limit 50
 
 # Filter by category or difficulty
-python3 runners/run_evaluation.py --model claude-sonnet-4 --difficulties hard expert --limit 10
+python3 runners/run_evaluation.py --model claude-opus-4-7 --difficulties hard expert --limit 10
     --categories dcf_sanity_check accounting_red_flag \
     --difficulties hard expert
 ```
@@ -141,7 +142,7 @@ dcf_problems = load_benchmark(
 )
 
 # Create a runner and evaluate
-runner = create_anthropic_runner(model="claude-sonnet-4")
+runner = create_anthropic_runner(model="claude-opus-4-7")
 ```
 
 ## How It Works
@@ -214,7 +215,7 @@ The thin `risk_assessment` category (5 problems) is a known Phase 1 gap; Phase 3
 python3 runners/run_evaluation.py --model ollama:qwen3.5:27b --split validation --limit 5 --max-tokens 4096
 
 # Managed API (paid; expects ANTHROPIC_API_KEY / OPENAI_API_KEY in .env)
-python3 runners/run_evaluation.py --model claude-sonnet-4 --split test --max-tokens 4096 --auto-rubric
+python3 runners/run_evaluation.py --model claude-opus-4-7 --split test --max-tokens 4096 --auto-rubric
 python3 runners/run_evaluation.py --model gpt-4.1         --split test --max-tokens 4096 --auto-rubric
 ```
 
@@ -250,7 +251,7 @@ Haiku-4.5 judge pass. Pulled from `runners/base.py::PRICING_PER_1M_USD`.
 | Model | Provider | Cost per run | Wall time |
 |---|---|---|---|
 | claude-opus-4 | Anthropic | ~$57 | ~90 min |
-| claude-sonnet-4 | Anthropic | ~$12 | ~60 min |
+| claude-opus-4-7 | Anthropic | ~$12 | ~60 min |
 | claude-haiku-3.5 | Anthropic | ~$3 | ~30 min |
 | gpt-4.1 | OpenAI | ~$6.5 | ~45 min |
 | o3 | OpenAI | ~$85 | ~3 hr |
@@ -274,8 +275,7 @@ HF_API_KEY=hf_...
 
 | Provider | Models | Status |
 |----------|--------|--------|
-| Anthropic | claude-opus-4, claude-sonnet-4, claude-haiku-3.5 | Current |
-| Anthropic | claude-3.5-sonnet, claude-3-opus, claude-3-haiku | Legacy |
+| Anthropic | claude-opus-4-7, claude-opus-4-7-6, claude-haiku-4-5 | Current |
 | OpenAI | gpt-4.1, gpt-4.1-mini, o3, o4-mini | Current |
 | OpenAI | gpt-4o, gpt-4-turbo, o1 | Legacy |
 | HuggingFace | llama-4-scout, llama-3.3-70b, deepseek-r1, qwen2.5-72b | Via API |
@@ -288,7 +288,7 @@ The Anthropic runner's `generate_with_thinking()` uses the native Anthropic thin
 
 ```python
 # Compare models on specific categories
-for model in ["claude-sonnet-4", "gpt-4.1", "o3"]:
+for model in ["claude-opus-4-7", "gpt-4.1", "o3"]:
     results = evaluate_model(
         model,
         categories=["dcf_sanity_check"],
