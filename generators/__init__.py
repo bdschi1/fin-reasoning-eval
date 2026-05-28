@@ -7,6 +7,12 @@ from .accounting_red_flags import AccountingRedFlagGenerator
 from .catalyst_identification import CatalystIdentificationGenerator
 from .formula_audit import FormulaAuditGenerator
 from .financial_statement import FinancialStatementGenerator
+from .plugin_reader import SkillSpec, load_skill, parse_skill_md
+from .plugin_scenarios import (
+    PluginScenarioConfig,
+    PluginScenarioGenerator,
+    SKILL_CATEGORY_MAP,
+)
 
 __all__ = [
     'BaseGenerator',
@@ -16,4 +22,10 @@ __all__ = [
     'CatalystIdentificationGenerator',
     'FormulaAuditGenerator',
     'FinancialStatementGenerator',
+    'SkillSpec',
+    'load_skill',
+    'parse_skill_md',
+    'PluginScenarioConfig',
+    'PluginScenarioGenerator',
+    'SKILL_CATEGORY_MAP',
 ]

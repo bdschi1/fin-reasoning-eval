@@ -1,0 +1,62 @@
+# Plugin-derived scenario pilot run
+#
+# Scope: 5 free-text scenarios generated from 5 pilot skills in the
+# anthropic/financial-services-plugins repo (dcf-model, comps-analysis,
+# lbo-model, ic-memo, earnings-preview). Ground truth is adherence to each
+# skill's stated conventions and output schema; grading combines the
+# PRBench-aligned rubric with the new skill_adherence category.
+#
+# Pre-reqs:
+#   1. Sibling clone present at
+#      ~/code/work/bds_repos/Tier_1/financial-services-plugins
+#   2. Scenarios built:
+#      python scripts/build_plugin_scenarios.py
+#
+# Expected behavior:
+#   - 2 models x 5 scenarios = 10 LLM calls plus judge calls
+#   - Budget ceiling set low; orchestrator will abort if estimates exceed it
+#
+# To preview without calling any API:
+#   python3 scripts/run_leaderboard.py --config leaderboard_configs/plugin_pilot.yaml --dry-run
+#
+# To execute (requires --yes to confirm budget):
+#   python3 scripts/run_leaderboard.py --config leaderboard_configs/plugin_pilot.yaml --yes
+
+name: plugin_pilot
+description: >-
+  Plugin-derived free-text scenario pilot. Evaluates whether models can
+  follow the curated SKILL.md conventions from the anthropic financial
+  services plugins. Small scope so the rubric and judge can be tuned
+  before expanding coverage.
+
+prompt_version: v0.1.0-plugin-pilot
+judge_model: claude-opus-4-7
+split: test
+data_dir: data
+data_path: data/plugin_scenarios.json
+output_dir: results/plugin_pilot
+
+models:
+  - name: claude-sonnet-4-6
+    provider: anthropic
+    max_tokens: 8192
+    auto_rubric: true
+    est_cost_usd: 2.0
+    est_wall_min: 10
+    api_key_env: ANTHROPIC_API_KEY
+
+  - name: claude-haiku-4-5-20251001
+    provider: anthropic
+    max_tokens: 8192
+    auto_rubric: true
+    est_cost_usd: 0.5
+    est_wall_min: 5
+    api_key_env: ANTHROPIC_API_KEY
+
+budget:
+  hard_ceiling_usd: 5.0
+  contingency_pct: 25
+  notes: >-
+    Tight ceiling — pilot is intentionally small. If the orchestrator
+    reports estimated cost above this ceiling, lower scenario count
+    or raise the ceiling deliberately with review.

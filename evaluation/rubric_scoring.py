@@ -91,7 +91,8 @@ class RubricResult:
 # Rubric definition
 # ---------------------------------------------------------------------------
 
-# 7 PRBench-aligned finance rubric categories
+# 7 PRBench-aligned finance rubric categories + skill_adherence for
+# plugin-derived scenarios (ground-truth sourced from SKILL.md conventions).
 RUBRIC_CATEGORIES = [
     "numerical_accuracy",
     "conceptual_understanding",
@@ -100,7 +101,34 @@ RUBRIC_CATEGORIES = [
     "risk_awareness",
     "assumption_identification",
     "completeness",
+    "skill_adherence",
 ]
+
+
+# Phrasing that violates the repo-wide "no overconfidence" output-language
+# rule (see ~/.claude/CLAUDE.md). Used by the skill-adherence probabilistic-
+# language criterion to flag responses that overstate certainty.
+OVERCONFIDENT_PHRASES: list[str] = [
+    "100% confident",
+    "100% correct",
+    "guaranteed",
+    "no risk",
+    "zero risk",
+    "cannot lose",
+    "can't lose",
+    "sure thing",
+    "certain to",
+    "will definitely",
+    "definitely will",
+]
+
+
+def contains_overconfident_language(text: str) -> bool:
+    """Return True if the text uses any prohibited overconfidence phrase."""
+    if not text:
+        return False
+    lowered = text.lower()
+    return any(phrase in lowered for phrase in OVERCONFIDENT_PHRASES)
 
 
 # Default criteria set — a practical starting set aligned with PRBench
@@ -148,6 +176,82 @@ DEFAULT_CRITERIA: List[RubricCriterion] = [
     RubricCriterion("CO_002", "Relevant context information utilized", 2, "completeness"),
     RubricCriterion("CO_003", "Response is appropriately detailed (not too terse or verbose)", 1, "completeness"),
 ]
+
+
+def build_skill_adherence_criteria(
+    skill_slug: str,
+    conventions: Optional[List[str]] = None,
+    output_schema: str = "",
+) -> List[RubricCriterion]:
+    """Construct skill-adherence criteria for a plugin-derived scenario.
+
+    Criteria check whether a free-text response follows the SKILL.md's
+    stated conventions, output structure, inputs, and probabilistic-
+    language norms. Descriptions embed a short reference to the skill's
+    own conventions (first two bullets) to aid judge grounding.
+    """
+    convs = conventions or []
+    conv_hint = "; ".join(convs[:2])[:220] if convs else ""
+    schema_hint = output_schema.split("\n", 1)[0].strip()[:180] if output_schema else ""
+
+    conv_suffix = f" (skill conventions: {conv_hint})" if conv_hint else ""
+    schema_suffix = f" (output schema: {schema_hint})" if schema_hint else ""
+
+    prefix = f"SA_{skill_slug.upper().replace('-', '_')}"
+
+    return [
+        RubricCriterion(
+            id=f"{prefix}_STRUCTURE",
+            description=(
+                f"Response follows the output structure prescribed by the "
+                f"`{skill_slug}` skill{schema_suffix}"
+            ),
+            weight=3,
+            category="skill_adherence",
+            tags=["skill_adherence", skill_slug, "structure"],
+        ),
+        RubricCriterion(
+            id=f"{prefix}_CONVENTIONS",
+            description=(
+                f"Response applies the conventions stated by the "
+                f"`{skill_slug}` skill{conv_suffix}"
+            ),
+            weight=3,
+            category="skill_adherence",
+            tags=["skill_adherence", skill_slug, "conventions"],
+        ),
+        RubricCriterion(
+            id=f"{prefix}_INPUTS",
+            description=(
+                f"Response uses the required inputs and assumptions the "
+                f"`{skill_slug}` skill calls out"
+            ),
+            weight=2,
+            category="skill_adherence",
+            tags=["skill_adherence", skill_slug, "inputs"],
+        ),
+        RubricCriterion(
+            id=f"{prefix}_COMPLETENESS",
+            description=(
+                f"Response produces all required output fields of the "
+                f"`{skill_slug}` skill"
+            ),
+            weight=2,
+            category="skill_adherence",
+            tags=["skill_adherence", skill_slug, "completeness"],
+        ),
+        RubricCriterion(
+            id=f"{prefix}_PROBABILISTIC",
+            description=(
+                "Response uses probabilistic language for conclusions and "
+                "avoids overconfident phrasing such as 'guaranteed', "
+                "'100% correct', 'definitely', or 'cannot lose'"
+            ),
+            weight=2,
+            category="skill_adherence",
+            tags=["skill_adherence", skill_slug, "probabilistic_language"],
+        ),
+    ]
 
 
 class RubricGrader:

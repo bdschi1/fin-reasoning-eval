@@ -45,10 +45,16 @@ class TestRubricGrader:
         grader = RubricGrader()
         assert len(grader.criteria) > 0
 
-    def test_seven_categories(self):
+    def test_default_covers_prbench_categories(self):
+        # Default grader uses the 7 PRBench-aligned categories. The
+        # skill_adherence category exists in RUBRIC_CATEGORIES but is opt-in
+        # per plugin-derived scenario and not part of DEFAULT_CRITERIA.
         from evaluation.rubric_scoring import RubricGrader, RUBRIC_CATEGORIES
         grader = RubricGrader()
-        assert len(grader.categories) == len(RUBRIC_CATEGORIES)
+        prbench_categories = [c for c in RUBRIC_CATEGORIES if c != "skill_adherence"]
+        assert set(grader.categories) == set(prbench_categories)
+        assert len(prbench_categories) == 7
+        assert "skill_adherence" in RUBRIC_CATEGORIES
 
     def test_total_possible_positive(self):
         from evaluation.rubric_scoring import RubricGrader

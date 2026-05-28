@@ -209,6 +209,7 @@ class FinancialReasoningJudge:
         model_response: str,
         criteria: list[RubricCriterion],
         problem_category: str = "",
+        skill_conventions: Optional[str] = None,
     ) -> JudgeResult:
         """Grade a model response against a list of rubric criteria.
 
@@ -219,6 +220,8 @@ class FinancialReasoningJudge:
             model_response: The model's response to evaluate.
             criteria: List of RubricCriterion objects to grade against.
             problem_category: Optional category label (e.g., "accounting_red_flag").
+            skill_conventions: Optional block of skill conventions / output
+                schema to ground skill_adherence grading.
 
         Returns:
             JudgeResult with per-criterion judgments and overall quality rating.
@@ -230,6 +233,7 @@ class FinancialReasoningJudge:
             model_response=model_response,
             criteria=criteria,
             problem_category=problem_category,
+            skill_conventions=skill_conventions,
         )
         return self._call_with_retry(messages, criteria=criteria)
 
@@ -246,6 +250,7 @@ class FinancialReasoningJudge:
         criteria: list[RubricCriterion],
         problem_category: str = "",
         error_feedback: Optional[str] = None,
+        skill_conventions: Optional[str] = None,
     ) -> list[dict]:
         """Construct the messages list for the API call."""
         criteria_block = "\n".join(
@@ -257,6 +262,13 @@ class FinancialReasoningJudge:
             f"\nProblem category: {problem_category}" if problem_category else ""
         )
 
+        skill_block = (
+            f"\n\n## Skill Conventions (use for skill_adherence criteria)\n"
+            f"{skill_conventions}"
+            if skill_conventions
+            else ""
+        )
+
         user_content = (
             f"Grade the following financial reasoning response against each rubric criterion."
             f"{category_line}\n\n"
@@ -265,6 +277,7 @@ class FinancialReasoningJudge:
             f"## Correct Answer\n{correct_answer}\n\n"
             f"## Model Response\n{model_response}\n\n"
             f"## Rubric Criteria\n{criteria_block}"
+            f"{skill_block}"
         )
 
         if error_feedback:

@@ -1,0 +1,471 @@
+{
+  "name": "plugin_scenarios_pilot",
+  "description": "Plugin-derived free-text scenarios for fin-reasoning-eval pilot. Ground truth sourced from SKILL.md files in anthropic/financial-services-plugins.",
+  "version": "0.1.0",
+  "created_at": "2026-04-20T16:28:38.271819",
+  "total_problems": 5,
+  "category_distribution": {
+    "dcf_sanity_check": 1,
+    "valuation_analysis": 2,
+    "financial_statement_analysis": 1,
+    "earnings_surprise": 1
+  },
+  "difficulty_distribution": {
+    "hard": 5
+  },
+  "problems": [
+    {
+      "id": "ecca99c53e48",
+      "category": "dcf_sanity_check",
+      "difficulty": "hard",
+      "question": "Build a DCF valuation for Summit Media following the conventions of the `dcf-model` skill. Produce the five-year FCF projection, WACC derivation, terminal value (Gordon growth), enterprise-value bridge to equity value per share, and a 5x5 sensitivity table (WACC vs terminal growth) with a highlighted center cell matching the base case. State each assumption with a source note; use probabilistic language for directional conclusions.",
+      "context": {
+        "company_name": "Summit Media",
+        "ticker": "SUME",
+        "sector": "Communication Services",
+        "market_cap": "$21.2B",
+        "fiscal_year": "2024",
+        "revenue": {
+          "2021": 3837.0,
+          "2022": 4224.1,
+          "2023": 4762.2,
+          "2024": 5551.3,
+          "2025E": 6380.2,
+          "2026E": 6609.1
+        },
+        "ebitda": {
+          "2021": 702.9,
+          "2022": 799.9,
+          "2023": 968.0,
+          "2024": 1333.4,
+          "2025E": 1506.5,
+          "2026E": 1662.9
+        },
+        "net_income": null,
+        "eps": {
+          "2021": 4.66,
+          "2022": 5.07,
+          "2023": 5.3,
+          "2024": 6.16,
+          "2025E": 6.72,
+          "2026E": 8.59
+        },
+        "free_cash_flow": {
+          "2021": 616.6,
+          "2022": 476.4,
+          "2023": 637.2,
+          "2024": 678.5,
+          "2025E": 747.9,
+          "2026E": 1064.6
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": 0.064,
+        "terminal_growth": 0.044,
+        "discount_rate": null,
+        "guidance": "Management reiterated the full-year revenue range and noted margin pressure from input costs offset by mix. Full-year EPS guidance left unchanged.",
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "wacc": 0.064,
+          "terminal_growth": 0.044,
+          "projection_years": 10,
+          "tax_rate": 0.15
+        },
+        "formula_context": null
+      },
+      "answer_type": "free_text",
+      "correct_answer": "",
+      "answer_options": null,
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Skill: dcf-model (plugin:financial-analysis/dcf-model). Real DCF (Discounted Cash Flow) model creation for equity valuation. Retrieves financial data from SEC filings and analyst reports, builds comprehensive cash flow projections with proper WACC calculations, performs sensitivity analysis, and outputs professional Excel models with executive summaries. Use when users need to value a company using DCF methodology, request intrinsic value analysis, or ask for detailed financial modeling with growth projections and terminal value calculations.\n\nKey conventions: **If running inside Excel (Office Add-in / Office JS environment):** Use Office JS directly \u2014 do NOT use Python/openpyxl. Write formulas via `range.formulas = [[\"=D19*(1+$B$8)\"]]`. No separate recalc step needed; Excel calculates natively. Use `range.format.*` for styling. The same formulas-over-hardcodes rule applies: set `.formulas`, never `.values` for derived cells.; **If generating a standalone .xlsx file (no live Excel session):** Use Python/openpyxl as described below, then run `recalc.py` before delivery.; The rest of this skill uses openpyxl examples \u2014 translate to Office JS API calls when in that environment, but all principles (formula strings, cell comments, section checkpoints, sensitivity table loops) apply identically.; Every projection, margin, discount factor, PV, and sensitivity cell MUST be a live Excel formula \u2014 never a value computed in Python and written as a number; When using openpyxl: `ws[\"D20\"] = \"=D19*(1+$B$8)\"` is correct; `ws[\"D20\"] = calculated_revenue` is WRONG; The only hardcoded numbers permitted are: (1) raw historical inputs, (2) assumption drivers (growth rates, WACC inputs, terminal g), (3) current market data (share price, debt balance)",
+      "reasoning_steps": [
+        "File naming**: `[Ticker]_DCF_Model_[Date].xlsx`",
+        "Two sheets**:",
+        "1. **DCF** - Complete model with Bear/Base/Bull cases + three sensitivity tables at bottom (WACC vs Terminal Growth, Revenue Growth vs EBIT Margin, Beta vs Risk-Free Rate)",
+        "2. **WACC** - Cost of capital calculation",
+        "Key features**: Case selector (1/2/3), consolidation column with INDEX/OFFSET formulas, color-coded cells, cell comments on all inputs, professional borders"
+      ],
+      "common_mistakes": [],
+      "source": "plugin:financial-analysis/dcf-model",
+      "tags": [
+        "plugin-derived",
+        "skill:dcf-model",
+        "plugin:financial-analysis"
+      ],
+      "created_at": "2026-04-20T16:28:38.269325",
+      "version": "1.0",
+      "max_points": 5,
+      "partial_credit": true
+    },
+    {
+      "id": "f88d93a93006",
+      "category": "valuation_analysis",
+      "difficulty": "hard",
+      "question": "Produce a trading comparables analysis for Nova Resources following the conventions of the `comps-analysis` skill. Select a defensible peer set (state inclusion criteria), compute current and next-twelve-month EV/EBITDA, EV/Revenue, and P/E multiples, surface median and mean, and apply the resulting multiples to Nova Resources's financials to produce an implied-value range. Flag outliers and state why each peer is comparable; use probabilistic language for valuation conclusions.",
+      "context": {
+        "company_name": "Nova Resources",
+        "ticker": "NORE",
+        "sector": "Energy",
+        "market_cap": "$12.7B",
+        "fiscal_year": "2024",
+        "revenue": {
+          "2021": 4132.1,
+          "2022": 4512.8,
+          "2023": 4686.6,
+          "2024": 5380.6,
+          "2025E": 5874.5,
+          "2026E": 5938.8
+        },
+        "ebitda": {
+          "2021": 999.4,
+          "2022": 1201.2,
+          "2023": 1114.2,
+          "2024": 1347.6,
+          "2025E": 1084.3,
+          "2026E": 1204.3
+        },
+        "net_income": null,
+        "eps": {
+          "2021": 2.8,
+          "2022": 3.0,
+          "2023": 3.52,
+          "2024": 4.04,
+          "2025E": 4.73,
+          "2026E": 5.48
+        },
+        "free_cash_flow": {
+          "2021": 623.3,
+          "2022": 583.0,
+          "2023": 607.5,
+          "2024": 628.2,
+          "2025E": 712.9,
+          "2026E": 1038.9
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": 0.086,
+        "terminal_growth": 0.046,
+        "discount_rate": null,
+        "guidance": "Management reiterated the full-year revenue range and noted margin pressure from input costs offset by mix. Full-year EPS guidance left unchanged.",
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "wacc": 0.086,
+          "terminal_growth": 0.046,
+          "projection_years": 10,
+          "tax_rate": 0.15
+        },
+        "formula_context": null
+      },
+      "answer_type": "free_text",
+      "correct_answer": "",
+      "answer_options": null,
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Skill: comps-analysis (plugin:financial-analysis/comps-analysis). Build institutional-grade comparable company analyses with operating metrics, valuation multiples, and statistical benchmarking in Excel/spreadsheet format.\n\n**Perfect for:**\n- Public company valuation (M&A, investment analysis)\n- Benchmarking performance vs. industry peers\n- Pricing IPOs or funding rounds\n- Identifying valuation outliers (over/under-valued)\n- Supporting investment committee presentations\n- Creating sector overview reports\n\n**Not ideal for:**\n- Private companies without comparable public peers\n- Highly diversified conglomerates\n- Distressed/bankrupt companies\n- Pre-revenue startups\n- Companies with unique business models",
+      "reasoning_steps": [
+        "Before delivering a comp analysis, verify:",
+        "[ ] All companies are truly comparable",
+        "[ ] Data is from consistent time periods",
+        "[ ] Units are clearly labeled (millions/billions)",
+        "[ ] Formulas reference cells, not hardcoded values",
+        "[ ] **All hard-coded input cells have comments with either: (1) exact data source with citation, OR (2) clear assumption with explanation**",
+        "[ ] **Hyperlinks added where relevant** (SEC EDGAR filings, Bloomberg pages, research reports)",
+        "[ ] Statistics include at least 5 metrics (Max, 75th, Med, 25th, Min)"
+      ],
+      "common_mistakes": [],
+      "source": "plugin:financial-analysis/comps-analysis",
+      "tags": [
+        "plugin-derived",
+        "skill:comps-analysis",
+        "plugin:financial-analysis"
+      ],
+      "created_at": "2026-04-20T16:28:38.270266",
+      "version": "1.0",
+      "max_points": 5,
+      "partial_credit": true
+    },
+    {
+      "id": "156ba235ab1f",
+      "category": "valuation_analysis",
+      "difficulty": "hard",
+      "question": "Construct an LBO analysis for Zenith Consumer following the conventions of the `lbo-model` skill. Specify sources & uses, debt schedule (term loan + revolver), five-year operating projection, exit multiple assumption, and sponsor IRR and MOIC. Include a sensitivity on entry multiple vs exit multiple. State each assumption with its source; use probabilistic language for return conclusions.",
+      "context": {
+        "company_name": "Zenith Consumer",
+        "ticker": "ZECO",
+        "sector": "Consumer Discretionary",
+        "market_cap": "$14.9B",
+        "fiscal_year": "2024",
+        "revenue": {
+          "2021": 2207.5,
+          "2022": 2585.7,
+          "2023": 2832.2,
+          "2024": 2913.9,
+          "2025E": 3127.7,
+          "2026E": 3589.5
+        },
+        "ebitda": {
+          "2021": 447.9,
+          "2022": 473.7,
+          "2023": 599.1,
+          "2024": 602.5,
+          "2025E": 629.0,
+          "2026E": 984.6
+        },
+        "net_income": null,
+        "eps": {
+          "2021": 5.44,
+          "2022": 5.47,
+          "2023": 5.87,
+          "2024": 7.21,
+          "2025E": 7.06,
+          "2026E": 8.67
+        },
+        "free_cash_flow": {
+          "2021": 301.8,
+          "2022": 313.4,
+          "2023": 339.1,
+          "2024": 422.3,
+          "2025E": 378.5,
+          "2026E": 526.8
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": 0.096,
+        "terminal_growth": 0.044,
+        "discount_rate": null,
+        "guidance": "Management reiterated the full-year revenue range and noted margin pressure from input costs offset by mix. Full-year EPS guidance left unchanged.",
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "wacc": 0.096,
+          "terminal_growth": 0.044,
+          "projection_years": 10,
+          "tax_rate": 0.15
+        },
+        "formula_context": null
+      },
+      "answer_type": "free_text",
+      "correct_answer": "",
+      "answer_options": null,
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Skill: lbo-model (plugin:financial-analysis/lbo-model). This skill should be used when completing LBO (Leveraged Buyout) model templates in Excel for private equity transactions, deal materials, or investment committee presentations. The skill fills in formulas, validates calculations, and ensures professional formatting standards that adapt to any template structure.\n\nKey conventions: **Blue (0000FF)**: Hardcoded inputs - typed numbers that don't reference other cells; **Black (000000)**: Formulas with calculations - any formula using operators or functions (`=B4*B5`, `=SUM()`, `=-MAX(0,B4)`); **Purple (800080)**: Links to cells on the **same tab** - direct references with no calculation (`=B9`, `=B45`); **Green (008000)**: Links to cells on **different tabs** - cross-sheet references (`=Assumptions!B5`, `='Operating Model'!C10`)",
+      "reasoning_steps": [
+        "[ ] Exit/terminal values calculated correctly",
+        "[ ] All relevant adjustments included",
+        "[ ] Cash flow signs are correct (negative for investment, positive for proceeds)",
+        "[ ] IRR/MOIC formulas reference complete ranges",
+        "[ ] Results are reasonable for the scenario"
+      ],
+      "common_mistakes": [],
+      "source": "plugin:financial-analysis/lbo-model",
+      "tags": [
+        "plugin-derived",
+        "skill:lbo-model",
+        "plugin:financial-analysis"
+      ],
+      "created_at": "2026-04-20T16:28:38.270714",
+      "version": "1.0",
+      "max_points": 5,
+      "partial_credit": true
+    },
+    {
+      "id": "1037078815bf",
+      "category": "financial_statement_analysis",
+      "difficulty": "hard",
+      "question": "Draft an investment-committee memo for a potential Kinetic Investments investment, following the conventions of the `ic-memo` skill. Cover: deal summary, investment thesis, management assessment, market and competitive position, financial summary, valuation and returns, key risks and mitigants, and a recommendation. Use probabilistic language for the thesis and return outlook \u2014 no 'guaranteed', 'definitely', or '100%' phrasing.",
+      "context": {
+        "company_name": "Kinetic Investments",
+        "ticker": "KIIN",
+        "sector": "Financials",
+        "market_cap": "$46.1B",
+        "fiscal_year": "2024",
+        "revenue": {
+          "2021": 909.1,
+          "2022": 1021.0,
+          "2023": 1130.2,
+          "2024": 1173.5,
+          "2025E": 1216.2,
+          "2026E": 1318.4
+        },
+        "ebitda": {
+          "2021": 198.3,
+          "2022": 285.5,
+          "2023": 263.2,
+          "2024": 325.2,
+          "2025E": 323.6,
+          "2026E": 238.8
+        },
+        "net_income": null,
+        "eps": {
+          "2021": 4.74,
+          "2022": 5.38,
+          "2023": 5.8,
+          "2024": 5.97,
+          "2025E": 6.62,
+          "2026E": 8.16
+        },
+        "free_cash_flow": {
+          "2021": 99.0,
+          "2022": 137.6,
+          "2023": 154.0,
+          "2024": 206.9,
+          "2025E": 206.8,
+          "2026E": 159.6
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": 0.08,
+        "terminal_growth": 0.042,
+        "discount_rate": null,
+        "guidance": "Management reiterated the full-year revenue range and noted margin pressure from input costs offset by mix. Full-year EPS guidance left unchanged.",
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "wacc": 0.08,
+          "terminal_growth": 0.042,
+          "projection_years": 10,
+          "tax_rate": 0.15
+        },
+        "formula_context": null
+      },
+      "answer_type": "free_text",
+      "correct_answer": "",
+      "answer_options": null,
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Skill: ic-memo (plugin:private-equity/ic-memo).",
+      "reasoning_steps": [
+        "Default: Word document (.docx) with professional formatting",
+        "Alternative: Markdown for quick review",
+        "Include tables for financials and returns, not just prose"
+      ],
+      "common_mistakes": [],
+      "source": "plugin:private-equity/ic-memo",
+      "tags": [
+        "plugin-derived",
+        "skill:ic-memo",
+        "plugin:private-equity"
+      ],
+      "created_at": "2026-04-20T16:28:38.271628",
+      "version": "1.0",
+      "max_points": 5,
+      "partial_credit": true
+    },
+    {
+      "id": "4e15de067515",
+      "category": "earnings_surprise",
+      "difficulty": "hard",
+      "question": "Write an earnings preview for Dynamic Entertainment following the conventions of the `earnings-preview` skill. Include: consensus expectations (revenue, EPS, key KPIs), buyside-vs-sellside setup, three things to watch, scenario analysis (beat / in-line / miss) with estimated stock reactions, and risk factors. Use probabilistic language for outcome likelihoods.",
+      "context": {
+        "company_name": "Dynamic Entertainment",
+        "ticker": "DYEN",
+        "sector": "Communication Services",
+        "market_cap": "$32.3B",
+        "fiscal_year": "2024",
+        "revenue": {
+          "2021": 2784.5,
+          "2022": 3105.4,
+          "2023": 3558.6,
+          "2024": 4147.0,
+          "2025E": 4998.0,
+          "2026E": 5992.3
+        },
+        "ebitda": {
+          "2021": 668.0,
+          "2022": 710.7,
+          "2023": 680.4,
+          "2024": 897.0,
+          "2025E": 1392.1,
+          "2026E": 1562.1
+        },
+        "net_income": null,
+        "eps": {
+          "2021": 2.58,
+          "2022": 2.67,
+          "2023": 3.01,
+          "2024": 3.68,
+          "2025E": 4.54,
+          "2026E": 5.37
+        },
+        "free_cash_flow": {
+          "2021": 460.2,
+          "2022": 553.5,
+          "2023": 507.5,
+          "2024": 456.4,
+          "2025E": 763.6,
+          "2026E": 1053.1
+        },
+        "total_assets": null,
+        "total_debt": null,
+        "cash": null,
+        "equity": null,
+        "pe_ratio": null,
+        "ev_ebitda": null,
+        "price_to_book": null,
+        "wacc": 0.067,
+        "terminal_growth": 0.045,
+        "discount_rate": null,
+        "guidance": "Management reiterated the full-year revenue range and noted margin pressure from input costs offset by mix. Full-year EPS guidance left unchanged.",
+        "consensus_estimates": null,
+        "recent_news": null,
+        "model_assumptions": {
+          "wacc": 0.067,
+          "terminal_growth": 0.045,
+          "projection_years": 10,
+          "tax_rate": 0.15
+        },
+        "formula_context": null
+      },
+      "answer_type": "free_text",
+      "correct_answer": "",
+      "answer_options": null,
+      "answer_unit": null,
+      "tolerance": null,
+      "explanation": "Skill: earnings-preview (plugin:equity-research/earnings-preview).",
+      "reasoning_steps": [
+        "One-page earnings preview with:",
+        "Company, quarter, earnings date",
+        "Consensus estimates table",
+        "Key metrics to watch (ranked by importance)",
+        "Bull/base/bear scenario table",
+        "Catalyst checklist",
+        "Trading setup: recent stock performance, implied move from options"
+      ],
+      "common_mistakes": [],
+      "source": "plugin:equity-research/earnings-preview",
+      "tags": [
+        "plugin-derived",
+        "skill:earnings-preview",
+        "plugin:equity-research"
+      ],
+      "created_at": "2026-04-20T16:28:38.271813",
+      "version": "1.0",
+      "max_points": 5,
+      "partial_credit": true
+    }
+  ]
+}

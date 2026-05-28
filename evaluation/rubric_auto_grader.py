@@ -92,6 +92,7 @@ class RubricAutoGrader:
         model_response: str,
         criteria: Optional[list[RubricCriterion]] = None,
         problem_category: str = "",
+        skill_conventions: Optional[str] = None,
     ) -> AutoRubricResult:
         """Auto-grade a model response against rubric criteria.
 
@@ -103,6 +104,9 @@ class RubricAutoGrader:
             criteria: Rubric criteria to evaluate against. When None, uses
                       DEFAULT_CRITERIA (the full 27-criterion PRBench set).
             problem_category: Optional category label for judge context.
+            skill_conventions: Optional block of SKILL.md conventions /
+                output schema to ground skill_adherence grading. Forwarded
+                to the underlying judge.
 
         Returns:
             AutoRubricResult containing rubric scores, per-criterion judgments,
@@ -125,6 +129,7 @@ class RubricAutoGrader:
             model_response=model_response,
             criteria=effective_criteria,
             problem_category=problem_category,
+            skill_conventions=skill_conventions,
         )
 
         if judge_result.fallback_used:
