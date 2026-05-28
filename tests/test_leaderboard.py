@@ -17,7 +17,7 @@ from leaderboard.leaderboard import (  # noqa: E402
 
 
 RESULTS_WITH_TOTALS = {
-    "model": "claude-sonnet-4-20250514",
+    "model": "claude-opus-4-7",
     "timestamp": "2026-04-18T00:00:00",
     "dataset_size": 10,
     "metrics": {
@@ -79,7 +79,7 @@ class TestMarkdownRenderingHasNewColumns(unittest.TestCase):
         md = lb.to_cost_table()
         self.assertIn("Total $", md)
         self.assertIn("$/100 Correct", md)
-        self.assertIn("claude-sonnet-4-20250514", md)
+        self.assertIn("claude-opus-4-7", md)
 
     def test_report_includes_cost_section(self):
         lb = self._leaderboard_with_one_entry()

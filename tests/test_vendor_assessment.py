@@ -122,7 +122,7 @@ class TestFramework:
     def test_assess_vendor_basic(self, framework):
         sc = framework.assess_vendor(
             vendor_name="Anthropic",
-            model_name="claude-sonnet-4",
+            model_name="claude-opus-4-7",
             overall_accuracy=0.92,
             avg_latency_ms=800,
             cost_per_1k_tokens=3.0,
@@ -160,7 +160,7 @@ class TestFramework:
 
     def test_compare_vendors(self, framework):
         sc1 = framework.assess_vendor(
-            "Anthropic", "claude-sonnet-4",
+            "Anthropic", "claude-opus-4-7",
             overall_accuracy=0.92, avg_latency_ms=800,
         )
         sc2 = framework.assess_vendor(
@@ -222,7 +222,7 @@ class TestComparator:
             scorecards=[
                 VendorScorecard(
                     vendor_name="Anthropic",
-                    model_name="claude-sonnet-4",
+                    model_name="claude-opus-4-7",
                     assessment_date="2024-01-01",
                     dimension_scores=[
                         DimensionScore(
@@ -250,7 +250,7 @@ class TestComparator:
             scorecards=[
                 VendorScorecard(
                     vendor_name="Anthropic",
-                    model_name="claude-sonnet-4",
+                    model_name="claude-opus-4-7",
                     assessment_date="2024-01-01",
                     dimension_scores=[],
                     overall_score=88.5,
@@ -259,7 +259,7 @@ class TestComparator:
             overall_winner="Anthropic",
         )
         summary = VendorComparator.to_summary(report)
-        assert "claude-sonnet-4" in summary
+        assert "claude-opus-4-7" in summary
         assert "88" in summary
 
     def test_summary_empty(self):

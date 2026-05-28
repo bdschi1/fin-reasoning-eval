@@ -32,7 +32,7 @@ class TestPricingTableAndCostEstimator(unittest.TestCase):
     def test_pricing_table_exposes_core_models(self):
         from runners.base import PRICING_PER_1M_USD
 
-        self.assertIn("claude-sonnet-4-20250514", PRICING_PER_1M_USD)
+        self.assertIn("claude-sonnet-4-6", PRICING_PER_1M_USD)
         self.assertIn("gpt-4.1", PRICING_PER_1M_USD)
         self.assertIn("o3", PRICING_PER_1M_USD)
         for entry in PRICING_PER_1M_USD.values():
@@ -44,7 +44,7 @@ class TestPricingTableAndCostEstimator(unittest.TestCase):
 
         # 1M input tokens at $3/M + 1M output tokens at $15/M = $18.
         cost = estimate_cost_usd(
-            "claude-sonnet-4-20250514", 1_000_000, 1_000_000
+            "claude-sonnet-4-6", 1_000_000, 1_000_000
         )
         self.assertAlmostEqual(cost, 18.0, places=4)
 
@@ -84,7 +84,7 @@ class TestResultOutputContainsCostFields(unittest.TestCase):
             answer="A",
             reasoning="r",
             full_response="Reasoning: r\nAnswer: A",
-            model="claude-sonnet-4-20250514",
+            model="claude-opus-4-7",
             latency_ms=1234.5,
             tokens_used=400,
             input_tokens=300,
@@ -95,8 +95,8 @@ class TestResultOutputContainsCostFields(unittest.TestCase):
         )
 
         mock_runner = MagicMock()
-        mock_runner.model_identifier = "claude-sonnet-4-20250514"
-        mock_runner.config.model_name = "claude-sonnet-4-20250514"
+        mock_runner.model_identifier = "claude-opus-4-7"
+        mock_runner.config.model_name = "claude-opus-4-7"
         mock_runner.config.temperature = 0.0
         mock_runner.config.max_tokens = 1024
         mock_runner.format_prompt.return_value = "prompt"

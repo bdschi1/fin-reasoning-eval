@@ -5,8 +5,8 @@ Compare multiple models on the Financial Reasoning Eval Benchmark.
 Runs each model on the same problem set and outputs a side-by-side comparison.
 
 Usage:
-    python compare_models.py --models claude-sonnet-4 gpt-4.1 ollama:llama3.2 --limit 20
-    python compare_models.py --models claude-sonnet-4 ollama:mistral --split test
+    python compare_models.py --models claude-opus-4-7 gpt-4.1 ollama:llama3.2 --limit 20
+    python compare_models.py --models claude-opus-4-7 ollama:mistral --split test
 """
 
 import argparse
@@ -157,7 +157,7 @@ def main():
         type=str,
         nargs="+",
         required=True,
-        help="Models to compare (e.g., claude-sonnet-4 gpt-4.1 ollama:llama3.2)",
+        help="Models to compare (e.g., claude-opus-4-7 gpt-4.1 ollama:llama3.2)",
     )
     parser.add_argument(
         "--split",

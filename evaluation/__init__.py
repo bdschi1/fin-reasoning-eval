@@ -17,6 +17,15 @@ from .calibration import (
 )
 from .dataset import FinancialReasoningDataset, load_benchmark
 from .narrative import generate_narrative_summary
+from .rubric_scoring import (
+    OVERCONFIDENT_PHRASES,
+    RUBRIC_CATEGORIES,
+    RubricCriterion,
+    RubricGrader,
+    RubricResult,
+    build_skill_adherence_criteria,
+    contains_overconfident_language,
+)
 
 __all__ = [
     'FinancialReasoningMetrics',
@@ -33,4 +42,11 @@ __all__ = [
     'expected_calibration_error',
     'generate_calibration_report',
     'parse_confidence_from_response',
+    'OVERCONFIDENT_PHRASES',
+    'RUBRIC_CATEGORIES',
+    'RubricCriterion',
+    'RubricGrader',
+    'RubricResult',
+    'build_skill_adherence_criteria',
+    'contains_overconfident_language',
 ]

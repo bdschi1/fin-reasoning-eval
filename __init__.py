@@ -23,7 +23,7 @@ Quick Start:
     dataset = load_benchmark(split="test")
 
     # Evaluate a model
-    runner = create_anthropic_runner(model="claude-sonnet-4")
+    runner = create_anthropic_runner(model="claude-opus-4-7")
 
 For more details, see:
 - README.md - Full documentation

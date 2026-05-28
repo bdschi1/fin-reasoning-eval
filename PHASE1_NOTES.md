@@ -65,7 +65,7 @@ surfaces the root cause to operators.
 **Deferred (explicit scope cut from the session task):**
 
 - **Items 4 & 5 of the first-commit queue** — full 360-problem runs on
-  `claude-sonnet-4`, `claude-opus-4`, `gpt-4.1` (~$75 for the three).
+  `claude-opus-4-7`, `claude-opus-4`, `gpt-4.1` (~$75 for the three).
   These are **live API spend** and fall outside the local-only session
   scope. Scaffolded at `leaderboard_configs/phase1_items_4_5.yaml`;
   invoke via:

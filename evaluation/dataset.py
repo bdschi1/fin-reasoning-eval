@@ -71,6 +71,7 @@ class FinancialReasoningDataset:
         split: str = "test",
         categories: Optional[list[str]] = None,
         difficulties: Optional[list[str]] = None,
+        data_path: Optional[str] = None,
     ):
         """
         Initialize the dataset.
@@ -80,8 +81,13 @@ class FinancialReasoningDataset:
             split: Dataset split to load ('test', 'validation')
             categories: Filter to specific problem categories
             difficulties: Filter to specific difficulty levels
+            data_path: Explicit path to a single benchmark JSON/JSONL file.
+                When provided, bypasses data_dir auto-discovery.
         """
-        self.data_dir = data_dir or self._find_data_dir()
+        self.data_path = data_path
+        self.data_dir = data_dir or (
+            str(Path(data_path).parent) if data_path else self._find_data_dir()
+        )
         self.split = split
         self.categories = categories
         self.difficulties = difficulties
@@ -103,6 +109,14 @@ class FinancialReasoningDataset:
 
     def _load_data(self):
         """Load data from files."""
+        # Explicit data_path takes precedence — route to the matching loader.
+        if self.data_path:
+            if self.data_path.endswith(".jsonl"):
+                self._load_jsonl(self.data_path)
+            else:
+                self._load_json(self.data_path)
+            return
+
         # Try JSONL format first (HuggingFace format)
         jsonl_path = os.path.join(self.data_dir, f"{self.split}.jsonl")
         if os.path.exists(jsonl_path):
@@ -286,6 +300,7 @@ def load_benchmark(
     categories: Optional[list[str]] = None,
     difficulties: Optional[list[str]] = None,
     as_huggingface: bool = False,
+    data_path: Optional[str] = None,
 ) -> Union[FinancialReasoningDataset, 'Dataset']:
     """
     Load the Financial Reasoning Eval Benchmark.
@@ -296,6 +311,7 @@ def load_benchmark(
         categories: Filter to specific problem categories
         difficulties: Filter to specific difficulty levels
         as_huggingface: Return as HuggingFace Dataset
+        data_path: Explicit path to a single benchmark JSON/JSONL file.
 
     Returns:
         FinancialReasoningDataset or HuggingFace Dataset
@@ -305,6 +321,7 @@ def load_benchmark(
         split=split,
         categories=categories,
         difficulties=difficulties,
+        data_path=data_path,
     )
 
     if as_huggingface:

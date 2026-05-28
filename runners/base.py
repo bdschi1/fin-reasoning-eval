@@ -45,14 +45,10 @@ class RunnerConfig:
 # columns. Providers drift; update before a public leaderboard push.
 # Format: model_id -> {"input": $/1M in-tokens, "output": $/1M out-tokens}.
 PRICING_PER_1M_USD: dict[str, dict[str, float]] = {
-    # Anthropic — current
-    "claude-opus-4-20250514": {"input": 15.0, "output": 75.0},
-    "claude-sonnet-4-20250514": {"input": 3.0, "output": 15.0},
-    "claude-3-5-sonnet-20241022": {"input": 3.0, "output": 15.0},
-    "claude-3-5-haiku-20241022": {"input": 0.80, "output": 4.0},
+    # Anthropic — current (verify against anthropic.com/pricing before public push)
+    "claude-opus-4-7": {"input": 15.0, "output": 75.0},
+    "claude-sonnet-4-6": {"input": 3.0, "output": 15.0},
     "claude-haiku-4-5-20251001": {"input": 1.0, "output": 5.0},
-    "claude-3-opus-20240229": {"input": 15.0, "output": 75.0},
-    "claude-3-haiku-20240307": {"input": 0.25, "output": 1.25},
     # OpenAI — current
     "gpt-4.1": {"input": 2.0, "output": 8.0},
     "gpt-4.1-mini": {"input": 0.40, "output": 1.60},
@@ -76,14 +72,14 @@ def estimate_cost_usd(
     """Return USD cost estimate for a single call, or None if unknown.
 
     Lookup is substring-based so that versioned SKUs (e.g.
-    ``claude-sonnet-4-20250514``) match both exact and shortform entries.
+    ``claude-haiku-4-5-20251001``) match both exact and shortform entries.
     """
     if not model_name:
         return None
     key = model_name.lower()
     pricing = PRICING_PER_1M_USD.get(key)
     if pricing is None:
-        # Try a shortform lookup (e.g. "claude-sonnet-4" in the full SKU).
+        # Try a shortform lookup (e.g. "claude-opus" in the full SKU).
         for candidate, price in PRICING_PER_1M_USD.items():
             if candidate in key or key in candidate:
                 pricing = price

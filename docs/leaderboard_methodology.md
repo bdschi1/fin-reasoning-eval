@@ -114,7 +114,7 @@ python3 runners/run_evaluation.py \
 
 # Full 360-problem run (reads train/val/test splits).
 python3 runners/run_evaluation.py \
-    --model claude-sonnet-4 \
+    --model claude-opus-4-7 \
     --split test \
     --output-dir ./results/v1.2.0 \
     --auto-rubric \

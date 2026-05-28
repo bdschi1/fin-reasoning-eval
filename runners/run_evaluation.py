@@ -6,7 +6,7 @@ Evaluates LLMs on the benchmark and generates results.
 
 Usage:
     python run_evaluation.py --model gpt-4.1 --split test
-    python run_evaluation.py --model claude-sonnet-4 --split test --categories dcf_sanity
+    python run_evaluation.py --model claude-opus-4-7 --split test --categories dcf_sanity
     python run_evaluation.py --model o3 --split test --limit 50
     python run_evaluation.py --model llama-3.1-70b --use-api
 """
@@ -36,6 +36,72 @@ from evaluation import (
     load_benchmark,
 )
 from runners.base import BaseRunner, RunnerConfig
+
+
+def _plugin_skill_slug(tags: list[str]) -> Optional[str]:
+    """Return the plugin skill slug when `tags` marks a plugin-derived scenario.
+
+    Plugin scenarios are tagged `plugin-derived` plus `skill:<slug>`. Returns
+    None for non-plugin scenarios so the caller can use default rubric wiring.
+    """
+    if not tags or "plugin-derived" not in tags:
+        return None
+    for tag in tags:
+        if tag.startswith("skill:"):
+            return tag.split(":", 1)[1]
+    return None
+
+
+def _plugin_grading_context(slug: str):
+    """Build (criteria, conventions_text) for a plugin-derived scenario.
+
+    Loads the SkillSpec via generators.plugin_reader, appends a set of
+    skill_adherence criteria to the default PRBench criteria, and formats
+    the skill's conventions + output schema into a text block for the judge.
+    Returns (None, None) if the skill cannot be loaded (falls back to
+    default rubric).
+    """
+    try:
+        from evaluation.rubric_scoring import (
+            DEFAULT_CRITERIA,
+            build_skill_adherence_criteria,
+        )
+        from generators.plugin_reader import load_skill
+    except ImportError as exc:  # pragma: no cover — import-time failure
+        logging.getLogger(__name__).warning(
+            "Plugin grading context unavailable (import failed): %s", exc
+        )
+        return None, None
+
+    try:
+        spec = load_skill(slug)
+    except FileNotFoundError as exc:
+        logging.getLogger(__name__).warning(
+            "Plugin skill '%s' could not be loaded (%s). "
+            "Falling back to default rubric with no skill conventions.",
+            slug,
+            exc,
+        )
+        return None, None
+
+    adherence = build_skill_adherence_criteria(
+        skill_slug=slug,
+        conventions=spec.conventions,
+        output_schema=spec.output_schema,
+    )
+    criteria = list(DEFAULT_CRITERIA) + adherence
+
+    conv_block_parts = [f"Skill: {spec.name} ({spec.source_ref})"]
+    if spec.description:
+        conv_block_parts.append(f"Description: {spec.description}")
+    if spec.conventions:
+        conv_block_parts.append("Conventions:")
+        conv_block_parts.extend(f"- {c}" for c in spec.conventions[:12])
+    if spec.output_schema:
+        schema_excerpt = spec.output_schema[:1200]
+        conv_block_parts.append(f"Output schema:\n{schema_excerpt}")
+
+    return criteria, "\n".join(conv_block_parts)
 
 
 def get_runner(
@@ -205,12 +271,22 @@ def run_benchmark(
         # Auto-rubric scoring (optional, non-blocking)
         if auto_grader is not None:
             try:
+                skill_slug = _plugin_skill_slug(getattr(example, "tags", []) or [])
+                skill_criteria = None
+                skill_conventions = None
+                if skill_slug:
+                    skill_criteria, skill_conventions = _plugin_grading_context(skill_slug)
+                    if skill_criteria is not None:
+                        prediction["plugin_skill_slug"] = skill_slug
+
                 auto_result = auto_grader.grade(
                     question=example.question,
                     context=example.context or "",
                     correct_answer=example.correct_answer or "",
                     model_response=response.full_response or response.answer or "",
                     problem_category=example.category,
+                    criteria=skill_criteria,
+                    skill_conventions=skill_conventions,
                 )
                 prediction["auto_rubric"] = auto_result.rubric_result.to_dict()
                 if auto_result.needs_human_review:
@@ -315,6 +391,7 @@ def evaluate_model(
     categories: Optional[list[str]] = None,
     difficulties: Optional[list[str]] = None,
     data_dir: Optional[str] = None,
+    data_path: Optional[str] = None,
     output_dir: str = "./results",
     api_key: Optional[str] = None,
     use_api: bool = True,
@@ -329,7 +406,7 @@ def evaluate_model(
     Evaluate a model on the benchmark.
 
     Args:
-        model: Model name (gpt-4.1, o3, claude-sonnet-4, llama-3.1-70b, etc.)
+        model: Model name (gpt-4.1, o3, claude-opus-4-7, llama-3.1-70b, etc.)
         split: Dataset split ('test', 'validation')
         categories: Filter to specific categories
         difficulties: Filter to specific difficulties
@@ -355,10 +432,13 @@ def evaluate_model(
         dataset = load_benchmark(
             split=split,
             data_dir=data_dir,
+            data_path=data_path,
             categories=categories,
             difficulties=difficulties,
         )
     except FileNotFoundError:
+        if data_path:
+            raise
         print("Benchmark data not found. Generating dataset first...")
         from scripts.generate_dataset import generate_benchmark_dataset
         generate_benchmark_dataset(
@@ -515,7 +595,7 @@ def main():
         "--model",
         type=str,
         required=True,
-        help="Model to evaluate (gpt-4.1, o3, claude-sonnet-4, claude-opus-4, llama-3.1-70b, etc.)"
+        help="Model to evaluate (gpt-4.1, o3, claude-opus-4-7, claude-sonnet-4-6, llama-3.1-70b, etc.)"
     )
 
     # Dataset options
@@ -542,6 +622,11 @@ def main():
         "--data-dir",
         type=str,
         help="Custom data directory"
+    )
+    parser.add_argument(
+        "--data-path",
+        type=str,
+        help="Path to a specific benchmark JSON/JSONL file (overrides --data-dir and --split)"
     )
 
     # Output options
@@ -667,6 +752,7 @@ def main():
         categories=args.categories,
         difficulties=args.difficulties,
         data_dir=args.data_dir,
+        data_path=args.data_path,
         output_dir=args.output_dir,
         api_key=args.api_key,
         use_api=not args.no_api,

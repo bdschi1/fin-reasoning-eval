@@ -1,7 +1,7 @@
 """
 Anthropic Runner for Financial Reasoning Eval Benchmark
 
-Supports Claude Opus 4, Claude Sonnet 4, and other Anthropic models.
+Supports current Claude Opus, Sonnet, and Haiku models.
 """
 
 import os
@@ -34,20 +34,14 @@ class AnthropicRunner(BaseRunner):
     """Runner for Anthropic Claude models."""
 
     # Model aliases for convenience
-    # Note: Some models may require specific API key permissions
     MODEL_ALIASES = {
-        # Current generation (2025)
-        "claude-opus-4": "claude-opus-4-20250514",
-        "claude-sonnet-4": "claude-sonnet-4-20250514",
-        "claude-haiku-3.5": "claude-3-5-haiku-20241022",
-        # Previous generation
-        "claude-3.5-sonnet": "claude-3-5-sonnet-20241022",
-        "claude-3-opus": "claude-3-opus-20240229",
-        "claude-3-haiku": "claude-3-haiku-20240307",
-        # Short aliases
-        "claude-opus": "claude-opus-4-20250514",
-        "claude-sonnet": "claude-sonnet-4-20250514",
-        "claude-haiku": "claude-3-5-haiku-20241022",
+        # Current generation
+        "claude-opus": "claude-opus-4-7",
+        "claude-opus-4-7": "claude-opus-4-7",
+        "claude-sonnet": "claude-sonnet-4-6",
+        "claude-sonnet-4-6": "claude-sonnet-4-6",
+        "claude-haiku": "claude-haiku-4-5-20251001",
+        "claude-haiku-4-5": "claude-haiku-4-5-20251001",
     }
 
     def __init__(self, config: RunnerConfig):
@@ -261,7 +255,7 @@ class AnthropicRunner(BaseRunner):
 
 
 def create_anthropic_runner(
-    model: str = "claude-sonnet-4",
+    model: str = "claude-opus-4-7",
     api_key: Optional[str] = None,
     temperature: float = 0.0,
     max_tokens: int = 1024,
@@ -270,7 +264,7 @@ def create_anthropic_runner(
     Create an Anthropic runner with common defaults.
 
     Args:
-        model: Model name (claude-opus-4, claude-sonnet-4, claude-haiku-3.5, etc.)
+        model: Model name (claude-opus-4-7, claude-sonnet-4-6, claude-haiku-4-5, etc.)
         api_key: Optional API key (defaults to ANTHROPIC_API_KEY env var)
         temperature: Sampling temperature
         max_tokens: Maximum tokens to generate

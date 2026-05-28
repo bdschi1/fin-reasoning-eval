@@ -90,7 +90,7 @@ Inspect the resulting `results/{model}_results.json` for:
 ```bash
 # Anthropic
 python3 runners/run_evaluation.py --model claude-opus-4       --split test --max-tokens 4096 --auto-rubric
-python3 runners/run_evaluation.py --model claude-sonnet-4     --split test --max-tokens 4096 --auto-rubric
+python3 runners/run_evaluation.py --model claude-opus-4-7     --split test --max-tokens 4096 --auto-rubric
 python3 runners/run_evaluation.py --model claude-haiku-3.5    --split test --max-tokens 2048
 
 # OpenAI
@@ -127,7 +127,7 @@ per-1M pricing table in `runners/base.py` and an assumption of ~3k input /
 | Model | Provider | Tokens in/out (est) | 360-problem cost | 360-problem wall time |
 |---|---|---|---|---|
 | claude-opus-4 | Anthropic | 1.08M / 0.54M | ~$57 | ~90 min |
-| claude-sonnet-4 | Anthropic | 1.08M / 0.54M | ~$12 | ~60 min |
+| claude-opus-4-7 | Anthropic | 1.08M / 0.54M | ~$12 | ~60 min |
 | claude-haiku-3.5 | Anthropic | 1.08M / 0.54M | ~$3 | ~30 min |
 | gpt-4.1 | OpenAI | 1.08M / 0.54M | ~$6.5 | ~45 min |
 | o3 | OpenAI | 1.08M / 1.80M (+thinking) | ~$85 | ~3 hr |
