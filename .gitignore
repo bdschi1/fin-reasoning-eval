@@ -139,3 +139,7 @@ hf_cache/
 # ============================================================
 outputs/
 logs/
+
+# Internal Claude Code config — never publish
+.claude/
+CLAUDE.md
