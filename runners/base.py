@@ -248,10 +248,9 @@ class BaseRunner(ABC):
         """
         prompt_parts = []
 
-        # Add system instruction
-        if self.config.system_prompt:
-            prompt_parts.append(self.config.system_prompt)
-            prompt_parts.append("")
+        # System prompt is sent via each provider's system parameter — do not
+        # duplicate it into the user message (it bloats every call and puts
+        # stable text in the variable block, defeating prompt caching).
 
         # Add context
         if context:

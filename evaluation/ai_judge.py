@@ -1,8 +1,11 @@
 """AI-as-judge for financial reasoning evaluation.
 
-# prompt_version: 1.0.0
-# prompt_date: 2026-04-04
+# prompt_version: 1.1.0
+# prompt_date: 2026-08-05
 # description: Anthropic tool_use judge for PRBench-aligned binary rubric grading
+#   1.1.0: rubric criteria moved from the user message into a second system
+#   block (stable prefix for prompt caching); retries append turns instead of
+#   rewriting the first user message. Grading rules and tool schema unchanged.
 
 Prompt Versioning Convention
 -----------------------------
@@ -25,20 +28,14 @@ try:
 except ImportError:
     ANTHROPIC_AVAILABLE = False
 
+try:
+    # Optional caching-aware wrapper; falls back to the raw SDK client when
+    # not installed so the repo works standalone.
+    from bd_anthropic import make_client as _bd_make_client
+except ImportError:
+    _bd_make_client = None
+
 from .rubric_scoring import RubricCriterion
-
-
-def _format_system(system: str | None) -> list[dict] | str | None:
-    """Wrap system prompts >= 400 chars with cache_control for prompt caching."""
-    if not system or len(system) < 400:
-        return system
-    return [
-        {
-            "type": "text",
-            "text": system,
-            "cache_control": {"type": "ephemeral"},
-        }
-    ]
 
 
 # ---------------------------------------------------------------------------
@@ -195,7 +192,12 @@ class FinancialReasoningJudge:
 
         self.model = model
         self.thinking_budget = thinking_budget
-        self.client = anthropic.Anthropic(api_key=resolved_key)
+        if _bd_make_client is not None:
+            self.client = _bd_make_client(
+                project="fin-reasoning-eval", api_key=resolved_key
+            )
+        else:
+            self.client = anthropic.Anthropic(api_key=resolved_key)
 
     # ------------------------------------------------------------------
     # Public API
@@ -226,20 +228,53 @@ class FinancialReasoningJudge:
         Returns:
             JudgeResult with per-criterion judgments and overall quality rating.
         """
+        system_blocks = self._build_system(
+            criteria=criteria,
+            skill_conventions=skill_conventions,
+        )
         messages = self._build_messages(
             question=question,
             context=context,
             correct_answer=correct_answer,
             model_response=model_response,
-            criteria=criteria,
             problem_category=problem_category,
-            skill_conventions=skill_conventions,
         )
-        return self._call_with_retry(messages, criteria=criteria)
+        return self._call_with_retry(
+            messages, criteria=criteria, system_blocks=system_blocks
+        )
 
     # ------------------------------------------------------------------
     # Internal helpers
     # ------------------------------------------------------------------
+
+    def _build_system(
+        self,
+        criteria: list[RubricCriterion],
+        skill_conventions: Optional[str] = None,
+    ) -> list[dict]:
+        """Build the system blocks: [grading rules, rubric criteria].
+
+        The rubric is stable across a sweep (default criteria, or per-skill
+        criteria stable within a skill), so it lives in the system prefix
+        where prompt caching can reuse it, rather than in the per-problem
+        user message.
+        """
+        criteria_block = "\n".join(
+            f"  - id: {c.id}\n    description: {c.description}\n    weight: {c.weight}"
+            for c in criteria
+        )
+
+        rubric_text = f"## Rubric Criteria\n{criteria_block}"
+        if skill_conventions:
+            rubric_text += (
+                f"\n\n## Skill Conventions (use for skill_adherence criteria)\n"
+                f"{skill_conventions}"
+            )
+
+        return [
+            {"type": "text", "text": SYSTEM_PROMPT},
+            {"type": "text", "text": rubric_text},
+        ]
 
     def _build_messages(
         self,
@@ -247,44 +282,22 @@ class FinancialReasoningJudge:
         context: str,
         correct_answer: str,
         model_response: str,
-        criteria: list[RubricCriterion],
         problem_category: str = "",
-        error_feedback: Optional[str] = None,
-        skill_conventions: Optional[str] = None,
     ) -> list[dict]:
-        """Construct the messages list for the API call."""
-        criteria_block = "\n".join(
-            f"  - id: {c.id}\n    description: {c.description}\n    weight: {c.weight}"
-            for c in criteria
-        )
-
+        """Construct the messages list (variable per-problem content only)."""
         category_line = (
             f"\nProblem category: {problem_category}" if problem_category else ""
         )
 
-        skill_block = (
-            f"\n\n## Skill Conventions (use for skill_adherence criteria)\n"
-            f"{skill_conventions}"
-            if skill_conventions
-            else ""
-        )
-
         user_content = (
-            f"Grade the following financial reasoning response against each rubric criterion."
+            f"Grade the following financial reasoning response against each rubric "
+            f"criterion listed in the system prompt."
             f"{category_line}\n\n"
             f"## Question\n{question}\n\n"
             f"## Context\n{context}\n\n"
             f"## Correct Answer\n{correct_answer}\n\n"
-            f"## Model Response\n{model_response}\n\n"
-            f"## Rubric Criteria\n{criteria_block}"
-            f"{skill_block}"
+            f"## Model Response\n{model_response}"
         )
-
-        if error_feedback:
-            user_content += (
-                f"\n\n## Validation Error from Previous Attempt\n{error_feedback}\n"
-                f"Please correct the above error in your tool call output."
-            )
 
         return [{"role": "user", "content": user_content}]
 
@@ -293,39 +306,45 @@ class FinancialReasoningJudge:
         messages: list[dict],
         criteria: list[RubricCriterion],
         max_retries: int = 2,
+        system_blocks: Optional[list[dict]] = None,
     ) -> JudgeResult:
         """Call the Anthropic API with retry-on-validation-failure logic.
 
-        On each attempt, if the response fails validation, append the specific
-        error to the messages and retry. Falls back to heuristic judgments when
-        max_retries is exhausted.
+        On each attempt, if the response fails validation, append
+        assistant + user turns carrying the error and retry — appending
+        (rather than rewriting the first user message) keeps the prompt
+        prefix byte-identical across attempts so cached tokens are reused.
+        Falls back to heuristic judgments when max_retries is exhausted.
         """
+        if system_blocks is None:
+            system_blocks = [{"type": "text", "text": SYSTEM_PROMPT}]
+
         last_error: Optional[str] = None
 
         for attempt in range(max_retries + 1):
-            # On retries, rebuild messages with error feedback
+            # On retries, append the error as new turns; earlier turns are
+            # untouched so the prefix cache stays valid.
             if attempt > 0 and last_error is not None:
-                # Extract original user message content and rebuild with error
-                orig_content = messages[0]["content"]
-                # Strip any previous error feedback block before appending new one
-                if "## Validation Error from Previous Attempt" in orig_content:
-                    orig_content = orig_content[
-                        : orig_content.index("## Validation Error from Previous Attempt")
-                    ].rstrip()
-                messages = [
+                messages = messages + [
+                    {
+                        "role": "assistant",
+                        "content": "[previous grading attempt failed validation]",
+                    },
                     {
                         "role": "user",
-                        "content": orig_content
-                        + f"\n\n## Validation Error from Previous Attempt\n{last_error}\n"
-                        "Please correct the above error in your tool call output.",
-                    }
+                        "content": (
+                            f"## Validation Error from Previous Attempt\n{last_error}\n"
+                            "Please correct the above error and call "
+                            "grade_financial_response again."
+                        ),
+                    },
                 ]
 
             try:
                 api_kwargs = {
                     "model": self.model,
                     "max_tokens": 4096,
-                    "system": _format_system(SYSTEM_PROMPT),
+                    "system": system_blocks,
                     "tools": [GRADE_TOOL],
                     "tool_choice": {"type": "tool", "name": "grade_financial_response"},
                     "messages": messages,

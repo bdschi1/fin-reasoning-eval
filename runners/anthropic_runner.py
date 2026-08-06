@@ -16,18 +16,12 @@ try:
 except ImportError:
     ANTHROPIC_AVAILABLE = False
 
-
-def _format_system(system: str | None) -> list[dict] | str | None:
-    """Wrap system prompts >= 400 chars with cache_control for prompt caching."""
-    if not system or len(system) < 400:
-        return system
-    return [
-        {
-            "type": "text",
-            "text": system,
-            "cache_control": {"type": "ephemeral"},
-        }
-    ]
+try:
+    # Optional caching-aware wrapper; falls back to the raw SDK client when
+    # not installed so the repo works standalone.
+    from bd_anthropic import make_client as _bd_make_client
+except ImportError:
+    _bd_make_client = None
 
 
 class AnthropicRunner(BaseRunner):
@@ -71,7 +65,12 @@ class AnthropicRunner(BaseRunner):
         if config.api_base:
             client_kwargs["base_url"] = config.api_base
 
-        self.client = anthropic.Anthropic(**client_kwargs)
+        if _bd_make_client is not None:
+            self.client = _bd_make_client(
+                project="fin-reasoning-eval", **client_kwargs
+            )
+        else:
+            self.client = anthropic.Anthropic(**client_kwargs)
 
         # Resolve model alias
         self.model = self.MODEL_ALIASES.get(
@@ -101,7 +100,7 @@ class AnthropicRunner(BaseRunner):
 
             # Add system prompt if provided
             if self.config.system_prompt:
-                request_params["system"] = _format_system(self.config.system_prompt)
+                request_params["system"] = self.config.system_prompt
 
             # Add optional parameters
             if self.config.temperature > 0:
@@ -211,9 +210,9 @@ class AnthropicRunner(BaseRunner):
             if kwargs["max_tokens"] < thinking_budget + 1024:
                 kwargs["max_tokens"] = thinking_budget + 4096
             if system:
-                kwargs["system"] = _format_system(system)
+                kwargs["system"] = system
             elif self.config.system_prompt:
-                kwargs["system"] = _format_system(self.config.system_prompt)
+                kwargs["system"] = self.config.system_prompt
 
             response = self.client.messages.create(**kwargs)
 

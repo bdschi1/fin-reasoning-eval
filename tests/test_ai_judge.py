@@ -16,6 +16,19 @@ from evaluation.ai_judge import (
 )
 from evaluation.rubric_scoring import RubricCriterion
 
+# The bd_anthropic wrapper replaces client.messages.create with a plain
+# function, which breaks MagicMock call introspection. Force the raw-client
+# fallback path for the whole module so mocks are observed directly.
+_BD_PATCH = patch("evaluation.ai_judge._bd_make_client", None)
+
+
+def setUpModule() -> None:
+    _BD_PATCH.start()
+
+
+def tearDownModule() -> None:
+    _BD_PATCH.stop()
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -260,6 +273,90 @@ class TestMetTrueHighConfidence(unittest.TestCase):
         self.assertEqual(result.overall_quality, "excellent")
         na001 = next(j for j in result.criterion_judgments if j.criterion_id == "NA_001")
         self.assertEqual(na001.detected_pattern, "exact_match")
+
+
+class TestPromptPrefixCaching(unittest.TestCase):
+    """Prompt layout supports prefix caching: rubric in system, stable retries."""
+
+    @patch("evaluation.ai_judge.anthropic.Anthropic")
+    def test_rubric_lives_in_system_not_user_message(
+        self, mock_anthropic_cls: MagicMock
+    ) -> None:
+        mock_client = MagicMock()
+        mock_anthropic_cls.return_value = mock_client
+        mock_client.messages.create.return_value = make_mock_tool_response(
+            _valid_judgments()
+        )
+
+        judge = FinancialReasoningJudge(api_key="test-key")
+        judge.grade(
+            question="Q",
+            context="ctx",
+            correct_answer="A",
+            model_response="R",
+            criteria=_make_criteria(),
+            skill_conventions="Use the standard output schema.",
+        )
+
+        kwargs = mock_client.messages.create.call_args.kwargs
+        system = kwargs["system"]
+        self.assertIsInstance(system, list)
+        self.assertEqual(len(system), 2)
+        rubric_block = system[1]["text"]
+        self.assertIn("## Rubric Criteria", rubric_block)
+        self.assertIn("NA_001", rubric_block)
+        self.assertIn("RC_001", rubric_block)
+        self.assertIn("## Skill Conventions", rubric_block)
+
+        user_content = kwargs["messages"][0]["content"]
+        self.assertNotIn("## Rubric Criteria", user_content)
+        self.assertNotIn("NA_001", user_content)
+
+    @patch("evaluation.ai_judge.anthropic.Anthropic")
+    def test_retry_appends_turns_and_preserves_prefix(
+        self, mock_anthropic_cls: MagicMock
+    ) -> None:
+        mock_client = MagicMock()
+        mock_anthropic_cls.return_value = mock_client
+
+        bad_response = make_mock_tool_response(
+            [
+                {
+                    "criterion_id": "UNKNOWN_999",
+                    "met": True,
+                    "confidence": "high",
+                    "reasoning": "bad id",
+                }
+            ]
+        )
+        good_response = make_mock_tool_response(_valid_judgments())
+        mock_client.messages.create.side_effect = [bad_response, good_response]
+
+        judge = FinancialReasoningJudge(api_key="test-key")
+        judge.grade(
+            question="Q",
+            context="ctx",
+            correct_answer="A",
+            model_response="R",
+            criteria=_make_criteria(),
+        )
+
+        calls = mock_client.messages.create.call_args_list
+        self.assertEqual(len(calls), 2)
+        first_msgs = calls[0].kwargs["messages"]
+        second_msgs = calls[1].kwargs["messages"]
+
+        # Retry appends assistant + user turns; the original user message is
+        # byte-identical so the cached prefix survives the retry.
+        self.assertEqual(len(first_msgs), 1)
+        self.assertEqual(len(second_msgs), 3)
+        self.assertEqual(first_msgs[0], second_msgs[0])
+        self.assertEqual(second_msgs[1]["role"], "assistant")
+        self.assertEqual(second_msgs[2]["role"], "user")
+        self.assertIn("Validation Error", second_msgs[2]["content"])
+
+        # System blocks are identical across attempts.
+        self.assertEqual(calls[0].kwargs["system"], calls[1].kwargs["system"])
 
 
 if __name__ == "__main__":
