@@ -224,6 +224,10 @@ def run_benchmark(
     metrics = FinancialReasoningMetrics()
     predictions = []
     total = len(dataset)
+    # A half-broken judge must not look like a normal run: count how many
+    # predictions were heuristic-graded or lost their rubric to an error.
+    judge_fallback_count = 0
+    auto_rubric_error_count = 0
 
     print(f"\nEvaluating {runner.model_identifier} on {total} examples...")
     print("-" * 60)
@@ -260,6 +264,7 @@ def run_benchmark(
             "question": example.question,
             "predicted": response.answer,
             "correct_answer": example.correct_answer,
+            "answer_type": example.answer_type,
             "reasoning": response.reasoning,
             "full_response": response.full_response,
             "latency_ms": response.latency_ms,
@@ -295,6 +300,8 @@ def run_benchmark(
                     skill_conventions=skill_conventions,
                 )
                 prediction["auto_rubric"] = auto_result.rubric_result.to_dict()
+                if auto_result.fallback_used:
+                    judge_fallback_count += 1
                 if auto_result.needs_human_review:
                     logging.getLogger(__name__).warning(
                         "Problem %s flagged for human rubric review "
@@ -307,6 +314,7 @@ def run_benchmark(
                     "RubricAutoGrader failed for problem %s: %s", example.id, exc
                 )
                 prediction["auto_rubric"] = None
+                auto_rubric_error_count += 1
 
         predictions.append(prediction)
 
@@ -353,6 +361,8 @@ def run_benchmark(
             "max_tokens": runner.config.max_tokens,
         },
         "judge_model": judge_model,
+        "judge_fallbacks": judge_fallback_count,
+        "auto_rubric_errors": auto_rubric_error_count,
         "prompt_version": os.environ.get("PROMPT_VERSION", "v1.2.0"),
         "cost_metrics": cost_metrics,
         "totals": {

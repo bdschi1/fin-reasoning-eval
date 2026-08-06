@@ -19,6 +19,7 @@ used to produce them, enabling apples-to-apples comparisons over time.
 from __future__ import annotations
 
 import os
+import time
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -32,10 +33,18 @@ try:
     # Optional caching-aware wrapper; falls back to the raw SDK client when
     # not installed so the repo works standalone.
     from bd_anthropic import make_client as _bd_make_client
+    from bd_anthropic.config import min_cache_tokens as _bd_min_cache_tokens
+    from bd_anthropic.tokens import estimate_tokens as _bd_estimate_tokens
 except ImportError:
     _bd_make_client = None
+    _bd_min_cache_tokens = None
+    _bd_estimate_tokens = None
 
 from .rubric_scoring import RubricCriterion
+
+# Base backoff for transient API failures (rate limit, overload). Attempt n
+# sleeps n * this. Tests patch time.sleep, so keep it modest, not zero.
+API_RETRY_BACKOFF_S = 2.0
 
 
 # ---------------------------------------------------------------------------
@@ -192,6 +201,7 @@ class FinancialReasoningJudge:
 
         self.model = model
         self.thinking_budget = thinking_budget
+        self._caching_managed = _bd_make_client is not None
         if _bd_make_client is not None:
             self.client = _bd_make_client(
                 project="fin-reasoning-eval", api_key=resolved_key
@@ -301,6 +311,25 @@ class FinancialReasoningJudge:
 
         return [{"role": "user", "content": user_content}]
 
+    def _prefix_cacheable(self, system_blocks: list[dict]) -> bool:
+        """Whether the stable prefix (tools + system) clears the judge
+        model's minimum cacheable-prefix size.
+
+        Uses bd_anthropic's own estimator and per-model thresholds so this
+        agrees exactly with the wrapper's injection decision. Fails open
+        (True) when the wrapper is absent or estimation errors — the wrapper
+        then makes its own call.
+        """
+        if _bd_min_cache_tokens is None or _bd_estimate_tokens is None:
+            return True
+        try:
+            prefix_tokens = _bd_estimate_tokens([GRADE_TOOL]) + _bd_estimate_tokens(
+                system_blocks
+            )
+            return prefix_tokens >= _bd_min_cache_tokens(self.model)
+        except Exception:  # noqa: BLE001 — sizing is an optimization only
+            return True
+
     def _call_with_retry(
         self,
         messages: list[dict],
@@ -308,23 +337,47 @@ class FinancialReasoningJudge:
         max_retries: int = 2,
         system_blocks: Optional[list[dict]] = None,
     ) -> JudgeResult:
-        """Call the Anthropic API with retry-on-validation-failure logic.
+        """Call the Anthropic API, retrying validation and API failures differently.
 
-        On each attempt, if the response fails validation, append
-        assistant + user turns carrying the error and retry — appending
-        (rather than rewriting the first user message) keeps the prompt
-        prefix byte-identical across attempts so cached tokens are reused.
+        Validation/parse failures append assistant + user turns carrying the
+        error and retry — appending (rather than rewriting the first user
+        message) keeps the prompt prefix byte-identical across attempts so
+        cached tokens are reused. API failures retry with **unchanged**
+        messages after a short backoff: the model never saw the request, so
+        feeding it a fabricated "validation error" turn would be wrong.
+        Refusals and context-window overflows are terminal — identical input
+        would fail identically, so they go straight to the heuristic fallback.
         Falls back to heuristic judgments when max_retries is exhausted.
         """
         if system_blocks is None:
             system_blocks = [{"type": "text", "text": SYSTEM_PROMPT}]
 
+        # bd_anthropic injects cache_control itself; on the raw-client
+        # fallback, mark the stable system prefix cacheable ourselves so
+        # standalone users still get prompt caching.
+        if not self._caching_managed:
+            system_blocks = [dict(b) for b in system_blocks]
+            system_blocks[-1] = {
+                **system_blocks[-1],
+                "cache_control": {"type": "ephemeral"},
+            }
+
+        # When the stable prefix (tools + system) is below the model's cache
+        # minimum (e.g. Haiku 4.5's 4096), the wrapper's only effective
+        # breakpoint is the trailing user message — a cache write per call
+        # that is almost never read back. Disable injection entirely rather
+        # than pay the 1.25x write premium for nothing.
+        suppress_injection = (
+            self._caching_managed and not self._prefix_cacheable(system_blocks)
+        )
+
         last_error: Optional[str] = None
+        validation_feedback: Optional[str] = None
 
         for attempt in range(max_retries + 1):
-            # On retries, append the error as new turns; earlier turns are
-            # untouched so the prefix cache stays valid.
-            if attempt > 0 and last_error is not None:
+            # On validation retries, append the error as new turns; earlier
+            # turns are untouched so the prefix cache stays valid.
+            if attempt > 0 and validation_feedback is not None:
                 messages = messages + [
                     {
                         "role": "assistant",
@@ -333,12 +386,14 @@ class FinancialReasoningJudge:
                     {
                         "role": "user",
                         "content": (
-                            f"## Validation Error from Previous Attempt\n{last_error}\n"
+                            f"## Validation Error from Previous Attempt\n"
+                            f"{validation_feedback}\n"
                             "Please correct the above error and call "
                             "grade_financial_response again."
                         ),
                     },
                 ]
+                validation_feedback = None
 
             try:
                 api_kwargs = {
@@ -349,6 +404,8 @@ class FinancialReasoningJudge:
                     "tool_choice": {"type": "tool", "name": "grade_financial_response"},
                     "messages": messages,
                 }
+                if suppress_injection:
+                    api_kwargs["bd_cache"] = False
                 if self.thinking_budget is not None:
                     api_kwargs["thinking"] = {
                         "type": "enabled",
@@ -361,12 +418,28 @@ class FinancialReasoningJudge:
                 response = self.client.messages.create(**api_kwargs)
             except Exception as exc:
                 last_error = f"API call failed: {exc}"
+                # bd_anthropic raises typed exceptions for terminal stop
+                # reasons; matched by name so the repo works without it.
+                if type(exc).__name__ in (
+                    "RefusalError",
+                    "ContextWindowExceededError",
+                ):
+                    break
+                if attempt < max_retries:
+                    time.sleep(API_RETRY_BACKOFF_S * (attempt + 1))
                 continue
+
+            # Raw-client path: a refusal arrives as a stop_reason, not an
+            # exception. Terminal for the same reason as above.
+            if getattr(response, "stop_reason", None) == "refusal":
+                last_error = "Model refused the grading request (stop_reason=refusal)"
+                break
 
             try:
                 result = self._parse_tool_use(response)
             except Exception as exc:
                 last_error = f"Failed to parse tool_use response: {exc}"
+                validation_feedback = last_error
                 continue
 
             validation_error = self._validate_result(result, criteria)
@@ -374,6 +447,7 @@ class FinancialReasoningJudge:
                 return result
 
             last_error = validation_error
+            validation_feedback = validation_error
 
         # All retries exhausted
         fallback = self._fallback_judgments(criteria)

@@ -662,7 +662,11 @@ def compute_cost_metrics(
         predictions: Prediction dicts as written by run_benchmark.
         budgets: Output-token ceilings for budget-conditioned pass rates.
             Tiers bracket the repo defaults (max_tokens 1024 CLI /
-            4096 leaderboard).
+            4096 leaderboard). Budgets compare ``output_tokens`` as the
+            provider reports them, which for reasoning models includes
+            thinking tokens — the budget charges reasoning spend, so
+            cross-vendor comparability depends on each API's
+            reasoning-token accounting.
 
     Returns:
         Dict with:

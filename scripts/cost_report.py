@@ -5,9 +5,10 @@ Computes budget-conditioned pass rates and quality-per-token from a
 ``*_predictions.json`` written by run_benchmark — no model calls are made.
 
 Predictions written before is_correct was persisted are backfilled with a
-text-match correctness check (the original answer_type is not stored in the
-predictions file, so numeric-tolerance grading is approximated; the report
-flags when backfill was used).
+text-match correctness check. Records that also carry ``answer_type`` are
+regraded exactly; older records without it fall back to multiple_choice
+matching (numeric tolerance approximated). The report flags when backfill
+was used.
 
 Usage:
     python scripts/cost_report.py results/claude-haiku-4-5_predictions.json
@@ -42,7 +43,7 @@ def main() -> int:
             p["is_correct"] = checker._check_correctness(
                 p.get("predicted") or "",
                 p.get("correct_answer") or "",
-                answer_type="multiple_choice",
+                answer_type=p.get("answer_type") or "multiple_choice",
             )
             backfilled += 1
 
@@ -54,8 +55,9 @@ def main() -> int:
     }
     if backfilled:
         report["backfill_note"] = (
-            "is_correct was recomputed via text match for records predating "
-            "its persistence; numeric-tolerance grading is approximated."
+            "is_correct was recomputed for records predating its persistence; "
+            "records without a stored answer_type were graded as "
+            "multiple_choice (numeric tolerance approximated)."
         )
 
     print(json.dumps(report, indent=2))

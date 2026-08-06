@@ -65,6 +65,7 @@ class AnthropicRunner(BaseRunner):
         if config.api_base:
             client_kwargs["base_url"] = config.api_base
 
+        self._caching_managed = _bd_make_client is not None
         if _bd_make_client is not None:
             self.client = _bd_make_client(
                 project="fin-reasoning-eval", **client_kwargs
@@ -77,6 +78,22 @@ class AnthropicRunner(BaseRunner):
             config.model_name.lower(),
             config.model_name
         )
+
+    def _system_param(self, system: str):
+        """System value for messages.create.
+
+        bd_anthropic injects cache_control itself; on the raw-client fallback,
+        wrap sizeable system prompts so standalone users still get caching.
+        """
+        if self._caching_managed or not system or len(system) < 400:
+            return system
+        return [
+            {
+                "type": "text",
+                "text": system,
+                "cache_control": {"type": "ephemeral"},
+            }
+        ]
 
     def generate(self, prompt: str) -> ModelResponse:
         """
@@ -100,7 +117,7 @@ class AnthropicRunner(BaseRunner):
 
             # Add system prompt if provided
             if self.config.system_prompt:
-                request_params["system"] = self.config.system_prompt
+                request_params["system"] = self._system_param(self.config.system_prompt)
 
             # Add optional parameters
             if self.config.temperature > 0:
@@ -142,9 +159,22 @@ class AnthropicRunner(BaseRunner):
                 cache_creation_tokens = int(
                     getattr(response.usage, "cache_creation_input_tokens", 0) or 0
                 )
-                tokens_used = input_tokens + output_tokens
+                # Total tokens the model actually processed — cache reads and
+                # writes are input tokens too, just billed at different rates.
+                tokens_used = (
+                    input_tokens
+                    + cache_read_tokens
+                    + cache_creation_tokens
+                    + output_tokens
+                )
 
-            cost_usd = estimate_cost_usd(self.model, input_tokens, output_tokens)
+            cost_usd = estimate_cost_usd(
+                self.model,
+                input_tokens,
+                output_tokens,
+                cache_read_input_tokens=cache_read_tokens,
+                cache_creation_input_tokens=cache_creation_tokens,
+            )
             wall_time_s = latency_ms / 1000.0
 
             return ModelResponse(
@@ -210,9 +240,9 @@ class AnthropicRunner(BaseRunner):
             if kwargs["max_tokens"] < thinking_budget + 1024:
                 kwargs["max_tokens"] = thinking_budget + 4096
             if system:
-                kwargs["system"] = system
+                kwargs["system"] = self._system_param(system)
             elif self.config.system_prompt:
-                kwargs["system"] = self.config.system_prompt
+                kwargs["system"] = self._system_param(self.config.system_prompt)
 
             response = self.client.messages.create(**kwargs)
 
@@ -240,9 +270,22 @@ class AnthropicRunner(BaseRunner):
                 cache_creation_tokens = int(
                     getattr(response.usage, "cache_creation_input_tokens", 0) or 0
                 )
-                tokens_used = input_tokens + output_tokens
+                # Total tokens the model actually processed — cache reads and
+                # writes are input tokens too, just billed at different rates.
+                tokens_used = (
+                    input_tokens
+                    + cache_read_tokens
+                    + cache_creation_tokens
+                    + output_tokens
+                )
 
-            cost_usd = estimate_cost_usd(self.model, input_tokens, output_tokens)
+            cost_usd = estimate_cost_usd(
+                self.model,
+                input_tokens,
+                output_tokens,
+                cache_read_input_tokens=cache_read_tokens,
+                cache_creation_input_tokens=cache_creation_tokens,
+            )
             wall_time_s = latency_ms / 1000.0
 
             return ModelResponse(

@@ -212,6 +212,9 @@ def run_model(
         entry["quality_per_1m_output_tokens"] = cost_metrics.get(
             "quality_per_1m_output_tokens"
         )
+        # "1024" mirrors the CLI default max_tokens and must exist in
+        # DEFAULT_TOKEN_BUDGETS (evaluation/metrics.py) — .get() degrades to
+        # None rather than crashing if the budget tiers ever change.
         entry["pass_rate_at_1024"] = (
             cost_metrics.get("pass_rate_at_budget", {}) or {}
         ).get("1024")

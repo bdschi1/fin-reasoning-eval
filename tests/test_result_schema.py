@@ -53,6 +53,28 @@ class TestPricingTableAndCostEstimator(unittest.TestCase):
 
         self.assertIsNone(estimate_cost_usd("unknown-model-xyz", 100, 100))
 
+    def test_cost_estimator_prices_cache_tokens(self):
+        from runners.base import estimate_cost_usd
+
+        # Cache writes bill at 1.25x the input rate, reads at 0.1x.
+        # 1M write-cached at $3/M * 1.25 + 1M read-cached at $3/M * 0.1
+        # + 1M output at $15/M = 3.75 + 0.30 + 15.0 = $19.05.
+        cost = estimate_cost_usd(
+            "claude-sonnet-4-6",
+            0,
+            1_000_000,
+            cache_read_input_tokens=1_000_000,
+            cache_creation_input_tokens=1_000_000,
+        )
+        self.assertAlmostEqual(cost, 19.05, places=4)
+
+    def test_cache_tokens_default_to_zero(self):
+        from runners.base import estimate_cost_usd
+
+        # Callers without cache telemetry (OpenAI/Ollama runners) are unchanged.
+        cost = estimate_cost_usd("claude-sonnet-4-6", 1_000_000, 1_000_000)
+        self.assertAlmostEqual(cost, 18.0, places=4)
+
 
 class TestResultOutputContainsCostFields(unittest.TestCase):
     """run_benchmark serializes cost_usd / tokens / wall_time at both the
@@ -129,10 +151,13 @@ class TestResultOutputContainsCostFields(unittest.TestCase):
             "wall_time_s",
             "cost_usd",
             "is_correct",
+            "answer_type",
         ):
             self.assertIn(field, pred, f"prediction missing {field}")
 
         self.assertIn("judge_model", output)
+        self.assertIn("judge_fallbacks", output)
+        self.assertIn("auto_rubric_errors", output)
         self.assertIn("prompt_version", output)
         self.assertIn("cost_metrics", output)
         self.assertIn("pass_rate_at_budget", output["cost_metrics"])

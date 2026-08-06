@@ -64,15 +64,27 @@ PRICING_PER_1M_USD: dict[str, dict[str, float]] = {
 }
 
 
+# Anthropic prompt-caching multipliers on the base input rate (5m TTL;
+# 1h-TTL writes bill at 2.0x — this table assumes the 5m default).
+CACHE_WRITE_INPUT_MULTIPLIER = 1.25
+CACHE_READ_INPUT_MULTIPLIER = 0.10
+
+
 def estimate_cost_usd(
     model_name: str,
     input_tokens: int,
     output_tokens: int,
+    cache_read_input_tokens: int = 0,
+    cache_creation_input_tokens: int = 0,
 ) -> Optional[float]:
     """Return USD cost estimate for a single call, or None if unknown.
 
     Lookup is substring-based so that versioned SKUs (e.g.
     ``claude-haiku-4-5-20251001``) match both exact and shortform entries.
+
+    ``input_tokens`` must be the provider's uncached input count (Anthropic's
+    ``usage.input_tokens`` already excludes cache reads/writes). Cache tokens
+    are billed at the input rate scaled by the read/write multipliers.
     """
     if not model_name:
         return None
@@ -86,8 +98,13 @@ def estimate_cost_usd(
                 break
     if pricing is None:
         return None
+    effective_input = (
+        input_tokens
+        + cache_creation_input_tokens * CACHE_WRITE_INPUT_MULTIPLIER
+        + cache_read_input_tokens * CACHE_READ_INPUT_MULTIPLIER
+    )
     return round(
-        input_tokens * pricing["input"] / 1_000_000
+        effective_input * pricing["input"] / 1_000_000
         + output_tokens * pricing["output"] / 1_000_000,
         6,
     )

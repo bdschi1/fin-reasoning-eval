@@ -347,16 +347,148 @@ class TestPromptPrefixCaching(unittest.TestCase):
         second_msgs = calls[1].kwargs["messages"]
 
         # Retry appends assistant + user turns; the original user message is
-        # byte-identical so the cached prefix survives the retry.
+        # byte-identical so the cached prefix survives the retry. Compare
+        # against freshly built content — the recorded messages share dict
+        # references across calls, so first==second alone would not catch
+        # in-place mutation.
+        expected_first = judge._build_messages(
+            question="Q", context="ctx", correct_answer="A", model_response="R"
+        )[0]
         self.assertEqual(len(first_msgs), 1)
         self.assertEqual(len(second_msgs), 3)
-        self.assertEqual(first_msgs[0], second_msgs[0])
+        self.assertEqual(first_msgs[0], expected_first)
+        self.assertEqual(second_msgs[0], expected_first)
         self.assertEqual(second_msgs[1]["role"], "assistant")
         self.assertEqual(second_msgs[2]["role"], "user")
         self.assertIn("Validation Error", second_msgs[2]["content"])
 
         # System blocks are identical across attempts.
         self.assertEqual(calls[0].kwargs["system"], calls[1].kwargs["system"])
+
+
+class TestCacheInjectionSuppression(unittest.TestCase):
+    """bd_cache=False when the stable prefix can't clear the model's cache
+    minimum (the wrapper's only effective breakpoint would be a per-call
+    cache write on the trailing user message that is never read back)."""
+
+    def _grade_call_kwargs(self, model: str) -> dict:
+        mock_client = MagicMock()
+        mock_client.messages.create.return_value = make_mock_tool_response(
+            _valid_judgments()
+        )
+        # Deterministic fakes so the test doesn't depend on bd_anthropic
+        # being installed: prefix estimates to 1400 tokens.
+        with patch(
+            "evaluation.ai_judge._bd_make_client", lambda **kw: mock_client
+        ), patch(
+            "evaluation.ai_judge._bd_min_cache_tokens",
+            lambda m: 4096 if "haiku" in m else 512,
+        ), patch(
+            "evaluation.ai_judge._bd_estimate_tokens", lambda payload: 700
+        ):
+            judge = FinancialReasoningJudge(model=model, api_key="test-key")
+            judge.grade(
+                question="Q",
+                context="ctx",
+                correct_answer="A",
+                model_response="R",
+                criteria=_make_criteria(),
+            )
+        return mock_client.messages.create.call_args.kwargs
+
+    def test_bd_cache_disabled_below_threshold(self):
+        kwargs = self._grade_call_kwargs("claude-haiku-4-5-20251001")
+        self.assertIs(kwargs.get("bd_cache"), False)
+
+    def test_bd_cache_left_on_when_prefix_clears_threshold(self):
+        kwargs = self._grade_call_kwargs("claude-fable-5")
+        self.assertNotIn("bd_cache", kwargs)
+
+
+class TestApiErrorRetrySemantics(unittest.TestCase):
+    """API failures retry with unchanged messages; refusals are terminal."""
+
+    @patch("evaluation.ai_judge.time.sleep")
+    @patch("evaluation.ai_judge.anthropic.Anthropic")
+    def test_api_error_retries_with_unchanged_messages(
+        self, mock_anthropic_cls: MagicMock, mock_sleep: MagicMock
+    ) -> None:
+        mock_client = MagicMock()
+        mock_anthropic_cls.return_value = mock_client
+        mock_client.messages.create.side_effect = [
+            RuntimeError("overloaded_error"),
+            make_mock_tool_response(_valid_judgments()),
+        ]
+
+        judge = FinancialReasoningJudge(api_key="test-key")
+        result = judge.grade(
+            question="Q",
+            context="ctx",
+            correct_answer="A",
+            model_response="R",
+            criteria=_make_criteria(),
+        )
+
+        self.assertFalse(result.fallback_used)
+        calls = mock_client.messages.create.call_args_list
+        self.assertEqual(len(calls), 2)
+        # No fabricated validation-error turns for an API failure — the model
+        # never saw the first request.
+        self.assertEqual(calls[0].kwargs["messages"], calls[1].kwargs["messages"])
+        self.assertEqual(len(calls[1].kwargs["messages"]), 1)
+        mock_sleep.assert_called_once()
+
+    @patch("evaluation.ai_judge.time.sleep")
+    @patch("evaluation.ai_judge.anthropic.Anthropic")
+    def test_refusal_exception_is_terminal(
+        self, mock_anthropic_cls: MagicMock, mock_sleep: MagicMock
+    ) -> None:
+        # bd_anthropic raises RefusalError on stop_reason == "refusal";
+        # matched by class name, so mirror that here.
+        RefusalError = type("RefusalError", (Exception,), {})
+
+        mock_client = MagicMock()
+        mock_anthropic_cls.return_value = mock_client
+        mock_client.messages.create.side_effect = RefusalError("refused")
+
+        judge = FinancialReasoningJudge(api_key="test-key")
+        result = judge.grade(
+            question="Q",
+            context="ctx",
+            correct_answer="A",
+            model_response="R",
+            criteria=_make_criteria(),
+        )
+
+        self.assertTrue(result.fallback_used)
+        self.assertEqual(mock_client.messages.create.call_count, 1)
+        mock_sleep.assert_not_called()
+
+    @patch("evaluation.ai_judge.time.sleep")
+    @patch("evaluation.ai_judge.anthropic.Anthropic")
+    def test_refusal_stop_reason_is_terminal_on_raw_client(
+        self, mock_anthropic_cls: MagicMock, mock_sleep: MagicMock
+    ) -> None:
+        refusal_response = MagicMock()
+        refusal_response.stop_reason = "refusal"
+        refusal_response.content = []
+
+        mock_client = MagicMock()
+        mock_anthropic_cls.return_value = mock_client
+        mock_client.messages.create.return_value = refusal_response
+
+        judge = FinancialReasoningJudge(api_key="test-key")
+        result = judge.grade(
+            question="Q",
+            context="ctx",
+            correct_answer="A",
+            model_response="R",
+            criteria=_make_criteria(),
+        )
+
+        self.assertTrue(result.fallback_used)
+        self.assertEqual(mock_client.messages.create.call_count, 1)
+        mock_sleep.assert_not_called()
 
 
 if __name__ == "__main__":
