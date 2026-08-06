@@ -178,7 +178,7 @@ class FinancialReasoningJudge:
 
     def __init__(
         self,
-        model: str = "claude-opus-4-20250514",
+        model: str = "claude-haiku-4-5-20251001",
         api_key: Optional[str] = None,
         thinking_budget: Optional[int] = None,
     ) -> None:

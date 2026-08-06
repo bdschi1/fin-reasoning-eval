@@ -123,7 +123,7 @@ class FinancialReasoningMetrics:
         latency_ms: Optional[float] = None,
         answer_type: str = "multiple_choice",
         tolerance: Optional[float] = None,
-    ):
+    ) -> "PredictionResult":
         """
         Add a single prediction for evaluation.
 
@@ -138,6 +138,9 @@ class FinancialReasoningMetrics:
             latency_ms: Optional inference latency in milliseconds
             answer_type: Type of answer (multiple_choice, numeric, boolean)
             tolerance: Tolerance for numeric answers
+
+        Returns:
+            The recorded PredictionResult (includes the is_correct verdict).
         """
         is_correct = self._check_correctness(
             predicted, reference, answer_type, tolerance
@@ -155,6 +158,7 @@ class FinancialReasoningMetrics:
             latency_ms=latency_ms,
         )
         self._predictions.append(result)
+        return result
 
     def add_batch(
         self,

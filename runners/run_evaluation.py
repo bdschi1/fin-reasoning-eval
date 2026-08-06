@@ -196,11 +196,14 @@ def run_benchmark(
     """
     os.makedirs(output_dir, exist_ok=True)
 
+    # Judge model resolved once so the grader and the recorded metadata agree.
+    judge_model = os.environ.get("JUDGE_MODEL", "claude-haiku-4-5-20251001")
+
     # Set up auto-rubric grader if requested.
     auto_grader = None
     if auto_rubric:
         from evaluation.rubric_auto_grader import RubricAutoGrader
-        auto_grader = RubricAutoGrader()
+        auto_grader = RubricAutoGrader(model=judge_model)
         logging.getLogger(__name__).info("RubricAutoGrader enabled for this run.")
 
     # Set up contamination checker if requested.
@@ -262,6 +265,8 @@ def run_benchmark(
             "tokens_used": response.tokens_used,
             "input_tokens": getattr(response, "input_tokens", 0),
             "output_tokens": getattr(response, "output_tokens", 0),
+            "cache_read_input_tokens": getattr(response, "cache_read_input_tokens", 0),
+            "cache_creation_input_tokens": getattr(response, "cache_creation_input_tokens", 0),
             "wall_time_s": getattr(response, "wall_time_s", response.latency_ms / 1000.0),
             "cost_usd": getattr(response, "cost_usd", None),
             "success": response.success,
@@ -305,7 +310,7 @@ def run_benchmark(
         predictions.append(prediction)
 
         # Add to metrics
-        metrics.add_prediction(
+        record = metrics.add_prediction(
             problem_id=example.id,
             predicted=response.answer,
             reference=example.correct_answer,
@@ -315,6 +320,7 @@ def run_benchmark(
             latency_ms=response.latency_ms,
             answer_type=example.answer_type,
         )
+        prediction["is_correct"] = record.is_correct
 
     print("\n" + "-" * 60)
 
@@ -326,6 +332,8 @@ def run_benchmark(
     # Aggregate cost and token totals
     total_input_tokens = sum(p.get("input_tokens", 0) or 0 for p in predictions)
     total_output_tokens = sum(p.get("output_tokens", 0) or 0 for p in predictions)
+    total_cache_read = sum(p.get("cache_read_input_tokens", 0) or 0 for p in predictions)
+    total_cache_creation = sum(p.get("cache_creation_input_tokens", 0) or 0 for p in predictions)
     total_wall_time_s = sum(p.get("wall_time_s", 0.0) or 0.0 for p in predictions)
     cost_vals = [p.get("cost_usd") for p in predictions if p.get("cost_usd") is not None]
     total_cost_usd = round(sum(cost_vals), 4) if cost_vals else None
@@ -341,11 +349,13 @@ def run_benchmark(
             "temperature": runner.config.temperature,
             "max_tokens": runner.config.max_tokens,
         },
-        "judge_model": os.environ.get("JUDGE_MODEL", "claude-haiku-4-5-20251001"),
+        "judge_model": judge_model,
         "prompt_version": os.environ.get("PROMPT_VERSION", "v1.2.0"),
         "totals": {
             "input_tokens": total_input_tokens,
             "output_tokens": total_output_tokens,
+            "cache_read_input_tokens": total_cache_read,
+            "cache_creation_input_tokens": total_cache_creation,
             "wall_time_s": round(total_wall_time_s, 2),
             "cost_usd": total_cost_usd,
         },

@@ -132,9 +132,17 @@ class AnthropicRunner(BaseRunner):
             tokens_used = 0
             input_tokens = 0
             output_tokens = 0
+            cache_read_tokens = 0
+            cache_creation_tokens = 0
             if response.usage:
                 input_tokens = int(getattr(response.usage, "input_tokens", 0) or 0)
                 output_tokens = int(getattr(response.usage, "output_tokens", 0) or 0)
+                cache_read_tokens = int(
+                    getattr(response.usage, "cache_read_input_tokens", 0) or 0
+                )
+                cache_creation_tokens = int(
+                    getattr(response.usage, "cache_creation_input_tokens", 0) or 0
+                )
                 tokens_used = input_tokens + output_tokens
 
             cost_usd = estimate_cost_usd(self.model, input_tokens, output_tokens)
@@ -149,6 +157,8 @@ class AnthropicRunner(BaseRunner):
                 tokens_used=tokens_used,
                 input_tokens=input_tokens,
                 output_tokens=output_tokens,
+                cache_read_input_tokens=cache_read_tokens,
+                cache_creation_input_tokens=cache_creation_tokens,
                 wall_time_s=wall_time_s,
                 cost_usd=cost_usd,
                 success=True,
@@ -220,9 +230,17 @@ class AnthropicRunner(BaseRunner):
             tokens_used = 0
             input_tokens = 0
             output_tokens = 0
+            cache_read_tokens = 0
+            cache_creation_tokens = 0
             if response.usage:
                 input_tokens = int(getattr(response.usage, "input_tokens", 0) or 0)
                 output_tokens = int(getattr(response.usage, "output_tokens", 0) or 0)
+                cache_read_tokens = int(
+                    getattr(response.usage, "cache_read_input_tokens", 0) or 0
+                )
+                cache_creation_tokens = int(
+                    getattr(response.usage, "cache_creation_input_tokens", 0) or 0
+                )
                 tokens_used = input_tokens + output_tokens
 
             cost_usd = estimate_cost_usd(self.model, input_tokens, output_tokens)
@@ -237,6 +255,8 @@ class AnthropicRunner(BaseRunner):
                 tokens_used=tokens_used,
                 input_tokens=input_tokens,
                 output_tokens=output_tokens,
+                cache_read_input_tokens=cache_read_tokens,
+                cache_creation_input_tokens=cache_creation_tokens,
                 wall_time_s=wall_time_s,
                 cost_usd=cost_usd,
                 success=True,

@@ -64,7 +64,7 @@ class RubricAutoGrader:
     def __init__(
         self,
         judge: Optional[FinancialReasoningJudge] = None,
-        model: str = "claude-opus-4-20250514",
+        model: str = "claude-haiku-4-5-20251001",
         api_key: Optional[str] = None,
     ) -> None:
         """Initialise the auto-grader.
