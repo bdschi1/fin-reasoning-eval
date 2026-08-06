@@ -644,6 +644,81 @@ def compute_accuracy(predictions: list[str], references: list[str]) -> float:
     return results.overall_accuracy
 
 
+DEFAULT_TOKEN_BUDGETS: tuple[int, ...] = (256, 512, 1024, 2048, 4096)
+
+
+def compute_cost_metrics(
+    predictions: list[dict],
+    budgets: tuple[int, ...] = DEFAULT_TOKEN_BUDGETS,
+) -> dict:
+    """Compute cost-aware quality metrics from recorded prediction dicts.
+
+    Score-only: nothing here enforces a budget at run time. Metrics are
+    derived post-hoc from fields already persisted per prediction
+    (``is_correct``, ``output_tokens``, ``predicted``, ``success``), so they
+    can be recomputed for past runs without re-calling any model.
+
+    Args:
+        predictions: Prediction dicts as written by run_benchmark.
+        budgets: Output-token ceilings for budget-conditioned pass rates.
+            Tiers bracket the repo defaults (max_tokens 1024 CLI /
+            4096 leaderboard).
+
+    Returns:
+        Dict with:
+        - pass_rate_at_budget: {budget: pass rate where a response is a pass
+          only if correct AND within the output-token budget; over-budget
+          correct answers count as failures at that budget}
+        - quality_per_1m_output_tokens: correct answers per 1M output tokens
+          (None when no output tokens were recorded)
+        - tokens_to_correct_answer: total output tokens / correct answers —
+          deliberately charges tokens spent on wrong answers (None when
+          nothing was correct)
+        - wasted_token_failures: count of predictions that burned output
+          tokens but produced no parseable answer
+    """
+    total = len(predictions)
+    if total == 0:
+        return {
+            "pass_rate_at_budget": {str(b): 0.0 for b in budgets},
+            "quality_per_1m_output_tokens": None,
+            "tokens_to_correct_answer": None,
+            "wasted_token_failures": 0,
+        }
+
+    correct_count = sum(1 for p in predictions if p.get("is_correct"))
+    total_output_tokens = sum(p.get("output_tokens", 0) or 0 for p in predictions)
+
+    pass_rate_at_budget = {}
+    for budget in budgets:
+        passes = sum(
+            1
+            for p in predictions
+            if p.get("is_correct") and (p.get("output_tokens", 0) or 0) <= budget
+        )
+        pass_rate_at_budget[str(budget)] = round(passes / total, 4)
+
+    wasted_token_failures = sum(
+        1
+        for p in predictions
+        if (p.get("output_tokens", 0) or 0) > 0
+        and (not (p.get("predicted") or "").strip() or not p.get("success", True))
+    )
+
+    return {
+        "pass_rate_at_budget": pass_rate_at_budget,
+        "quality_per_1m_output_tokens": (
+            round(correct_count / total_output_tokens * 1_000_000, 2)
+            if total_output_tokens > 0
+            else None
+        ),
+        "tokens_to_correct_answer": (
+            round(total_output_tokens / correct_count, 1) if correct_count > 0 else None
+        ),
+        "wasted_token_failures": wasted_token_failures,
+    }
+
+
 def compute_category_accuracy(
     predictions: list[dict],
     references: list[dict],

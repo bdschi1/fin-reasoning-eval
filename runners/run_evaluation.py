@@ -33,6 +33,7 @@ except ImportError:
 from evaluation import (
     FinancialReasoningDataset,
     FinancialReasoningMetrics,
+    compute_cost_metrics,
     load_benchmark,
 )
 from runners.base import BaseRunner, RunnerConfig
@@ -329,6 +330,8 @@ def run_benchmark(
     print("\nResults:")
     print(results.summary())
 
+    cost_metrics = compute_cost_metrics(predictions)
+
     # Aggregate cost and token totals
     total_input_tokens = sum(p.get("input_tokens", 0) or 0 for p in predictions)
     total_output_tokens = sum(p.get("output_tokens", 0) or 0 for p in predictions)
@@ -351,6 +354,7 @@ def run_benchmark(
         },
         "judge_model": judge_model,
         "prompt_version": os.environ.get("PROMPT_VERSION", "v1.2.0"),
+        "cost_metrics": cost_metrics,
         "totals": {
             "input_tokens": total_input_tokens,
             "output_tokens": total_output_tokens,

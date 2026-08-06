@@ -121,15 +121,27 @@ class TestResultOutputContainsCostFields(unittest.TestCase):
 
         self.assertEqual(len(predictions), 1)
         pred = predictions[0]
-        for field in ("input_tokens", "output_tokens", "wall_time_s", "cost_usd"):
+        for field in (
+            "input_tokens",
+            "output_tokens",
+            "cache_read_input_tokens",
+            "cache_creation_input_tokens",
+            "wall_time_s",
+            "cost_usd",
+            "is_correct",
+        ):
             self.assertIn(field, pred, f"prediction missing {field}")
 
         self.assertIn("judge_model", output)
         self.assertIn("prompt_version", output)
+        self.assertIn("cost_metrics", output)
+        self.assertIn("pass_rate_at_budget", output["cost_metrics"])
         self.assertIn("totals", output)
         totals = output["totals"]
         self.assertEqual(totals["input_tokens"], 300)
         self.assertEqual(totals["output_tokens"], 100)
+        self.assertIn("cache_read_input_tokens", totals)
+        self.assertIn("cache_creation_input_tokens", totals)
         self.assertAlmostEqual(totals["wall_time_s"], 1.23, places=2)
         self.assertAlmostEqual(totals["cost_usd"], 0.00345, places=3)
 

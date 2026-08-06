@@ -4,6 +4,7 @@ from .metrics import (
     FinancialReasoningMetrics,
     compute_accuracy,
     compute_category_accuracy,
+    compute_cost_metrics,
     compute_difficulty_accuracy,
     compute_reasoning_quality,
 )
@@ -33,6 +34,7 @@ __all__ = [
     'load_benchmark',
     'compute_accuracy',
     'compute_category_accuracy',
+    'compute_cost_metrics',
     'compute_difficulty_accuracy',
     'compute_reasoning_quality',
     'generate_narrative_summary',

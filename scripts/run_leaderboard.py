@@ -208,6 +208,13 @@ def run_model(
         entry["status"] = "completed"
         entry["overall_accuracy"] = results.get("metrics", {}).get("overall_accuracy")
         entry["total_cost_usd"] = results.get("totals", {}).get("cost_usd")
+        cost_metrics = results.get("cost_metrics", {}) or {}
+        entry["quality_per_1m_output_tokens"] = cost_metrics.get(
+            "quality_per_1m_output_tokens"
+        )
+        entry["pass_rate_at_1024"] = (
+            cost_metrics.get("pass_rate_at_budget", {}) or {}
+        ).get("1024")
     except KeyboardInterrupt:
         entry["status"] = "interrupted"
         raise
